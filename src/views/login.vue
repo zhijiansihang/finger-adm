@@ -19,16 +19,16 @@
           </Form-item>
 
           <!--<Form-item prop="remember">-->
-            <!--<Checkbox-group v-model="formValidate.remember">-->
-              <!--<Checkbox label="记住我"></Checkbox>-->
-            <!--</Checkbox-group>-->
+          <!--<Checkbox-group v-model="formValidate.remember">-->
+          <!--<Checkbox label="记住我"></Checkbox>-->
+          <!--</Checkbox-group>-->
           <!--</Form-item>-->
 
           <!--<div class="login-loading" v-show="login_loading">-->
-            <!--<Spin fix class="spin">-->
-              <!--<Icon type="load-c" size=18   class="spin-icon-load"></Icon>-->
-              <!--<div>登陆中...</div>-->
-            <!--</Spin>-->
+          <!--<Spin fix class="spin">-->
+          <!--<Icon type="load-c" size=18   class="spin-icon-load"></Icon>-->
+          <!--<div>登陆中...</div>-->
+          <!--</Spin>-->
           <!--</div>-->
 
           <Form-item>
@@ -46,9 +46,10 @@
   </div>
 </template>
 <script>
-//  import {canvas} from '&/canvas/star';
   import {login} from '../util/interface';
   import Cookies from 'js-cookie';
+  import * as mainConst from '../util/const';
+  import {canvas} from '../../static/canvas/star.js';
   export default {
     name: 'login',
     data() {
@@ -99,10 +100,9 @@
       };
     },
     beforeCreate: function () {
-//      document.getElementsByTagName('body')[0].className = 'login_body';
-//      // 计算屏幕高度宽度 让其自适应
-//      document.getElementsByTagName('body')[0].style.width = window.innerWidth + 'px';
-//      document.getElementsByTagName('body')[0].style.height = window.innerHeight + 'px';
+      if (window !== top) {
+        top.location.href = this.$store.state.app.loginUrl;
+      }
     },
     methods: {
       handleSubmit(name) { // login
@@ -113,40 +113,32 @@
             let response = await login({
               username: this.formValidate.username,
               password: this.formValidate.password
-            });
+            }, this.$store.state.app.baseUrl);
             if (response && response.header) {
               if (response.header.code === '0') {
                 this.$Message.success('登录成功!');
-                Cookies.set('sessionId', response.body);
-                this.$router.push('/index');
+                Cookies.set(mainConst.ADM_SESSION_ID, response.body);
+                let refer = Cookies.get(mainConst.ADM_REFER);
+                if (refer && refer !== '/') {
+                  this.$router.push(Cookies.get(mainConst.ADM_REFER));
+                } else {
+                  this.$router.push(mainConst.ADM_INDEX);
+                }
               }
             }
           } else {
             this.$Message.error('表单验证失败!');
-              this.$Notice.warning({
-                title: '登录提示',
-                desc: '用户名/密码 输入有误.'
-              });
+            this.$Notice.warning({
+              title: '登录提示',
+              desc: '用户名/密码 输入有误.'
+            });
           }
           this.login_loading = false;
-//          setTimeout(() => {
-//            this.login_loading = false;
-//            if (valid) {
-//              this.$Message.success('登录成功!');
-//              this.$router.push('/');
-//            } else {
-//              this.$Message.error('表单验证失败!');
-//              this.$Notice.warning({
-//                title: '登录提示',
-//                desc: '用户名/密码 随意输入...'
-//              });
-//            }
-//          }, 2000);
         });
       }
     },
     mounted() {
-//      canvas();
+      canvas();
     }
   };
 </script>
@@ -160,7 +152,7 @@
     height: 100%;
     overflow: hidden;
     position: relative;
-    background-image: url(../assets/img/lg-bg.jpg);
+    /*background-image: url('../../static/img/lg-bg.jpg');*/
     background-position: center center;
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -168,7 +160,7 @@
       position: absolute;
       top:28%;
       left:7%;
-      background-image: url(../assets/img/lg-txt-pic.png);
+      /*background-image: url('../../static/img/lg-txt-pic.png');*/
       background-position: 22% 48%;
       background-repeat: no-repeat;
       background-size:40% 20%;
