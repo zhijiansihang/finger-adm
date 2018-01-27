@@ -2,96 +2,120 @@
   <Card id="public">
     <p slot="title">
       <Icon type="ios-film-outline"></Icon>
-      编辑banner
+      新增banner
     </p>
 
-    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="150">
-      <FormItem label="标题" prop="name">
+    <Form ref="banner" :model="banner" :rules="ruleValidate" :label-width="150">
+      <FormItem label="标题" prop="title">
         <Row>
           <iCol span="11">
-            <Input v-model="formValidate.name" placeholder="请输入banner标题"></Input>
+            <Input v-model="banner.title" placeholder="请输入banner标题"></Input>
           </iCol>
         </Row>
       </FormItem>
-      <FormItem label="链接" prop="name">
+      <FormItem label="链接" prop="hrefLink">
         <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="formValidate.name" placeholder="请输入banner链接"></Input>
+            <Input v-model="banner.hrefLink" placeholder="请输入banner链接"></Input>
           </iCol>
         </Row>
       </FormItem>
 
-      <FormItem label="上传海报" prop="desc">
+      <FormItem label="上传海报" prop="imagePath">
         <Row>
-          <iCol span="11">
-            <Upload
-              multiple
-              action="//jsonplaceholder.typicode.com/posts/">
-              <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
+          <iCol span="12">
+            <template v-if="banner.imagePath !== ''">
+              <div class="demo-upload-list">
+                <img :src="banner.imagePath" style="height: 200px;">
+              </div>
+            </template>
+            <Upload :on-success="handleSuccess" :max-size="1024" :on-exceeded-size="handleMaxSize"
+                    :on-format-error="handleFormatError" :format="['jpg','jpeg','gif','png']" :show-upload-list="false"
+                    :action="uploadUrl">
+              <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
             </Upload>
           </iCol>
         </Row>
       </FormItem>
 
       <FormItem>
-        <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
+        <Button type="primary" @click="handleSubmit('banner')">提交</Button>
       </FormItem>
     </Form>
   </Card>
 </template>
 <script>
+  import {updateCms, getCms} from '../../util/interface';
+  import {commonDataStr} from '../../util/fetch';
+  import {baseUrl} from '../../util/env';
+
   export default {
     data() {
       return {
-        formValidate: {
-          name: '',
-          mail: '',
-          city: '',
-          gender: '',
-          interest: [],
-          date: '',
-          time: '',
-          desc: ''
+        banner: {
+          typeCode: '1',
+          typeName: 'banner',
+          title: '',
+          hrefLink: '',
+          imagePath: '',
+          isFrontDisplay: '1'
         },
+        uploadUrl: baseUrl + '/cms/banner/upload?' + commonDataStr(),
         ruleValidate: {
-          name: [
-            {required: true, message: 'The name cannot be empty', trigger: 'blur'}
+          title: [
+            {required: true, message: '标题不能为空', trigger: 'blur'}
           ],
-          mail: [
-            {required: true, message: 'Mailbox cannot be empty', trigger: 'blur'},
-            {type: 'email', message: 'Incorrect email format', trigger: 'blur'}
+          hrefLink: [
+            {required: true, message: '链接不能为空', trigger: 'blur'}
           ],
-          city: [
-            {required: true, message: 'Please select the city', trigger: 'change'}
-          ],
-          gender: [
-            {required: true, message: 'Please select gender', trigger: 'change'}
-          ],
-          interest: [
-            {required: true, type: 'array', min: 1, message: 'Choose at least one hobby', trigger: 'change'},
-            {type: 'array', max: 2, message: 'Choose two hobbies at best', trigger: 'change'}
-          ],
-          date: [
-            {required: true, type: 'date', message: 'Please select the date', trigger: 'change'}
-          ],
-          time: [
-            {required: true, type: 'date', message: 'Please select time', trigger: 'change'}
-          ],
-          desc: [
-            {required: true, message: 'Please enter a personal introduction', trigger: 'blur'},
-            {type: 'string', min: 20, message: 'Introduce no less than 20 words', trigger: 'blur'}
+          imagePath: [
+            {required: true, message: '海报不能为空', trigger: 'blur'}
           ]
         }
       };
     },
+    mounted: function() {
+      this.init();
+    },
     methods: {
+      init: async function() {
+        await getCms({'id': this.$route.query.id}).then(r => {
+          this.banner = r.body;
+        });
+      },
       handleSubmit(name) {
-        this.$refs[name].validate((valid) => {
+        this.$refs[name].validate(async (valid) => {
           if (valid) {
-            this.$Message.success('Success!');
+            await updateCms(this.banner).then(r => {
+              if (r.header.code === '0') {
+                this.$Message.success('修改成功!');
+                this.$router.push('/banner');
+              } else {
+                this.$Message.error(r.header.message);
+              }
+            });
           } else {
-            this.$Message.error('Fail!');
+            this.$Message.error('修改失败!');
           }
+        });
+      },
+      handleSuccess(res) {
+        if (res.header.code === '0') {
+          this.banner.imagePath = res.body;
+        } else {
+          this.$Message.error('Banner图片上传失败！');
+        }
+      },
+      handleFormatError(file) {
+        this.$Notice.warning({
+          title: '文件格式不正确!',
+          desc: '文件 ' + file.name + ' 格式不正确, 请选择JPG、PNG、JPEG、GIF格式'
+        });
+      },
+      handleMaxSize(file) {
+        this.$Notice.warning({
+          title: '文件大小超限!',
+          desc: '文件 ' + file.name + ' 大小超限，最大512k'
         });
       },
       handleReset(name) {
@@ -102,35 +126,4 @@
 </script>
 
 <style>
-  .example-header {
-    display: block;
-    font-weight: 500;
-    margin: 30px 0 30px;
-    position: relative;
-  }
-
-  .example-header span {
-    display: inline-block;
-    background: #fff;
-    padding: 0 5px 0 18px;
-    position: relative;
-    margin-left: 30px;
-    font-size: 14px;
-  }
-
-  .example-header:before {
-    box-sizing: border-box;
-    content: "";
-    display: block;
-    width: 100%;
-    height: 1px;
-    background: #eee;
-    position: absolute;
-    top: 10px;
-    left: 0;
-  }
-
-  #public .ivu-table .ivu-table-row .ivu-table-cell .ivu-btn {
-    padding: 0;
-  }
 </style>

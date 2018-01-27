@@ -5,82 +5,53 @@
       公告详情
     </p>
 
-    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="150">
-      <FormItem label="标题" prop="name">
+    <Form ref="notice" :model="notice" :rules="ruleValidate" :label-width="150">
+      <FormItem label="标题" prop="title">
         <Row>
           <iCol span="11">
-            <Input v-model="formValidate.name" placeholder="请输入banner标题"></Input>
+            <Input v-model="notice.title" placeholder="请输入公告标题" disabled></Input>
           </iCol>
         </Row>
       </FormItem>
-      <FormItem label="内容" prop="desc">
-        <Row>
+      <FormItem label="内容" prop="content">
+        <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                   placeholder="请输入内容"></Input>
+            <Input v-model="notice.content" type="textarea" :autosize="{minRows: 4,maxRows: 8}" placeholder="请输入公告链接" disabled></Input>
           </iCol>
         </Row>
-      </FormItem>
-
-      <FormItem>
-        <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
       </FormItem>
     </Form>
   </Card>
 </template>
 <script>
+  import {getCms} from '../../util/interface';
   export default {
     data() {
       return {
-        formValidate: {
-          name: '',
-          mail: '',
-          city: '',
-          gender: '',
-          interest: [],
-          date: '',
-          time: '',
-          desc: ''
+        notice: {
+          typeCode: '2',
+          typeName: 'notice',
+          title: '',
+          content: '',
+          isFrontDisplay: '1'
         },
         ruleValidate: {
-          name: [
-            {required: true, message: 'The name cannot be empty', trigger: 'blur'}
+          title: [
+            {required: true, message: '标题不能为空', trigger: 'blur'}
           ],
-          mail: [
-            {required: true, message: 'Mailbox cannot be empty', trigger: 'blur'},
-            {type: 'email', message: 'Incorrect email format', trigger: 'blur'}
-          ],
-          city: [
-            {required: true, message: 'Please select the city', trigger: 'change'}
-          ],
-          gender: [
-            {required: true, message: 'Please select gender', trigger: 'change'}
-          ],
-          interest: [
-            {required: true, type: 'array', min: 1, message: 'Choose at least one hobby', trigger: 'change'},
-            {type: 'array', max: 2, message: 'Choose two hobbies at best', trigger: 'change'}
-          ],
-          date: [
-            {required: true, type: 'date', message: 'Please select the date', trigger: 'change'}
-          ],
-          time: [
-            {required: true, type: 'date', message: 'Please select time', trigger: 'change'}
-          ],
-          desc: [
-            {required: true, message: 'Please enter a personal introduction', trigger: 'blur'},
-            {type: 'string', min: 20, message: 'Introduce no less than 20 words', trigger: 'blur'}
+          content: [
+            {required: true, message: '内容不能为空', trigger: 'blur'}
           ]
         }
       };
     },
+    mounted: function() {
+      this.init();
+    },
     methods: {
-      handleSubmit(name) {
-        this.$refs[name].validate((valid) => {
-          if (valid) {
-            this.$Message.success('Success!');
-          } else {
-            this.$Message.error('Fail!');
-          }
+      init: async function() {
+        await getCms({'id': this.$route.query.id}).then(r => {
+          this.notice = r.body;
         });
       },
       handleReset(name) {
@@ -91,35 +62,4 @@
 </script>
 
 <style>
-  .example-header {
-    display: block;
-    font-weight: 500;
-    margin: 30px 0 30px;
-    position: relative;
-  }
-
-  .example-header span {
-    display: inline-block;
-    background: #fff;
-    padding: 0 5px 0 18px;
-    position: relative;
-    margin-left: 30px;
-    font-size: 14px;
-  }
-
-  .example-header:before {
-    box-sizing: border-box;
-    content: "";
-    display: block;
-    width: 100%;
-    height: 1px;
-    background: #eee;
-    position: absolute;
-    top: 10px;
-    left: 0;
-  }
-
-  #public .ivu-table .ivu-table-row .ivu-table-cell .ivu-btn {
-    padding: 0;
-  }
 </style>

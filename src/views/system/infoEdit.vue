@@ -2,21 +2,21 @@
   <Card id="public">
     <p slot="title">
       <Icon type="ios-film-outline"></Icon>
-      新增banner
+      编辑资讯
     </p>
 
-    <Form ref="banner" :model="banner" :rules="ruleValidate" :label-width="150">
+    <Form ref="information" :model="information" :rules="ruleValidate" :label-width="150">
       <FormItem label="标题" prop="title">
         <Row>
           <iCol span="11">
-            <Input v-model="banner.title" placeholder="请输入banner标题"></Input>
+            <Input v-model="information.title" placeholder="请输入资讯标题"></Input>
           </iCol>
         </Row>
       </FormItem>
       <FormItem label="链接" prop="hrefLink">
         <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="banner.hrefLink" placeholder="请输入banner链接"></Input>
+            <Input v-model="information.hrefLink" placeholder="请输入资讯链接"></Input>
           </iCol>
         </Row>
       </FormItem>
@@ -24,40 +24,43 @@
       <FormItem label="上传海报" prop="imagePath">
         <Row>
           <iCol span="12">
-              <template v-if="banner.imagePath !== ''">
-                <div class="demo-upload-list"  >
-                  <img :src="banner.imagePath" style="height: 200px;">
-                </div>
-              </template>
-                <Upload :on-success="handleSuccess" :max-size="1024" :on-exceeded-size="handleMaxSize" :on-format-error="handleFormatError" :format="['jpg','jpeg','gif','png']" :show-upload-list="false" :action="uploadUrl">
-                <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
-              </Upload>
+            <template v-if="information.imagePath !== ''">
+              <div class="demo-upload-list">
+                <img :src="information.imagePath" style="height: 200px;">
+              </div>
+            </template>
+            <Upload :on-success="handleSuccess" :max-size="1024" :on-exceeded-size="handleMaxSize"
+                    :on-format-error="handleFormatError" :format="['jpg','jpeg','gif','png']" :show-upload-list="false"
+                    :action="uploadUrl">
+              <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
+            </Upload>
           </iCol>
         </Row>
       </FormItem>
 
       <FormItem>
-        <Button type="primary" @click="handleSubmit('banner')">提交</Button>
+        <Button type="primary" @click="handleSubmit('information')">提交</Button>
       </FormItem>
     </Form>
   </Card>
 </template>
 <script>
-  import {saveCms} from '../../util/interface';
+  import {updateCms, getCms} from '../../util/interface';
   import {commonDataStr} from '../../util/fetch';
   import {baseUrl} from '../../util/env';
+
   export default {
     data() {
       return {
-        banner: {
+        information: {
           typeCode: '1',
-          typeName: 'banner',
+          typeName: 'information',
           title: '',
           hrefLink: '',
           imagePath: '',
           isFrontDisplay: '1'
         },
-        uploadUrl: baseUrl + '/cms/banner/upload?' + commonDataStr(),
+        uploadUrl: baseUrl + '/cms/information/upload?' + commonDataStr(),
         ruleValidate: {
           title: [
             {required: true, message: '标题不能为空', trigger: 'blur'}
@@ -71,38 +74,45 @@
         }
       };
     },
+    mounted: function() {
+      this.init();
+    },
     methods: {
+      init: async function() {
+        await getCms({'id': this.$route.query.id}).then(r => {
+          this.information = r.body;
+        });
+      },
       handleSubmit(name) {
         this.$refs[name].validate(async (valid) => {
           if (valid) {
-            await saveCms(this.banner).then(r => {
-              let resultCode = r.header.code;
-              if (resultCode === '0') {
-                this.$Message.success('Banner添加成功!');
-                this.$router.push('/banner');
+            await updateCms(this.information).then(r => {
+              if (r.header.code === '0') {
+                this.$Message.success('修改成功!');
+                this.$router.push('/info');
               } else {
                 this.$Message.error(r.header.message);
               }
             });
           } else {
-            this.$Message.error('添加失败!');
+            this.$Message.error('修改失败!');
           }
         });
       },
-      handleSuccess (res) {
+      handleSuccess(res) {
         if (res.header.code === '0') {
-          this.banner.imagePath = res.body;
+          this.information.imagePath = res.body;
         } else {
-          this.$Message.error('Banner图片上传失败！');
+          this.$Message.error('图片上传失败！');
         }
       },
-      handleFormatError (file) {
+      handleFormatError(file) {
         this.$Notice.warning({
           title: '文件格式不正确!',
           desc: '文件 ' + file.name + ' 格式不正确, 请选择JPG、PNG、JPEG、GIF格式'
         });
       },
-      handleMaxSize (file) {
+      handleMaxSize(file) {
         this.$Notice.warning({
           title: '文件大小超限!',
           desc: '文件 ' + file.name + ' 大小超限，最大512k'

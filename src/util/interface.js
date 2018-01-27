@@ -2,7 +2,7 @@
  * Created by Shawn on 2017/6/23.
  */
 
-// const PLATFORM_GATEWAY = 'platform-gateway';
+const FINGER = '';
 
 import {fetch} from './fetch';
 
@@ -12,7 +12,22 @@ export const login = (data, codeEvents) => fetch('/login', {
   codeEvents: codeEvents
 }, 'POST');
 
-// export const userList = (data, body) => fetch(PLATFORM_SYS + '/user/page', {
-//   reqParams: data,
-//   reqBody: body
-// }, 'POST');
+export const cmsPage = (body) => fetch(FINGER + '/cms/page', {
+  reqBody: body
+}, 'POST');
+
+export const getCms = (body) => fetch(FINGER + '/cms/get', {
+  reqBody: body
+}, 'POST');
+
+export const saveCms = (body) => fetch(FINGER + '/cms/save', {
+  reqBody: body
+}, 'POST');
+
+export const updateCms = (body) => fetch(FINGER + '/cms/update', {
+  reqBody: body
+}, 'POST');
+
+export const delCms = (body) => fetch(FINGER + '/cms/delete', {
+  reqBody: body
+}, 'POST');

@@ -23,6 +23,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {cmsPage, updateCms, delCms} from '../../util/interface';
   export default {
     data() {
       return {
@@ -31,52 +32,24 @@
           phone: '',
           gender: ''
         },
-        data: [{
-          id: '201709091',
-          nickname: '小张',
-          mobile: '15090987656',
-          registerTime: '2017-09-09  12:23:45',
-          appointment: '10',
-          amount: '10'
-        }, {
-          id: '201709091',
-          nickname: '小张',
-          mobile: '15090987656',
-          registerTime: '2017-09-09  12:23:45',
-          appointment: '10',
-          amount: '10'
-        }, {
-          id: '201709091',
-          nickname: '小张',
-          mobile: '15090987656',
-          registerTime: '2017-09-09  12:23:45',
-          appointment: '10',
-          amount: '10'
-        }, {
-          id: '201709091',
-          nickname: '小张',
-          mobile: '15090987656',
-          registerTime: '2017-09-09  12:23:45',
-          appointment: '10',
-          amount: '10'
-        }],
+        data: [],
         columns7: [
           {
             title: '标题',
-            key: 'index',
+            key: 'title',
             align: 'center',
             render: (h, params) => {
               return h('div', [
-                h('strong', this.data[params.index].id)
+                h('strong', this.data[params.index].title)
               ]);
             }
           },
           {
             title: '发布时间',
-            key: 'name',
+            key: 'createTime',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].nickname;
+              return this.data[params.index].createTime;
             }
           },
           {
@@ -85,93 +58,73 @@
             key: 'roles',
             align: 'center',
             render: (h, params) => {
-//              let roles = '';
-//              let length = this.data6[params.index].roles.length;
-//              for (var i = 0; i < length; i++) {
-//                roles += this.data6[params.index].roles[i].name + ',';
-//              };
-              return this.data[params.index].appointment;
+              return this.data[params.index].isFrontDisplay === 1 ? '显示' : '不显示';
             }
           },
           {
             title: '操作',
             key: 'action',
-            width: 380,
+            width: 300,
             align: 'center',
             fixed: 'right',
             render: (h, params) => {
               return h('div', [
                 h('Button', {
                   props: {
-                    type: 'info',
-                    size: 'small',
-                    icon: 'eye'
+                    type: 'success',
+                    size: 'small'
+//                    icon: 'eye'
                   },
                   style: {
                     marginRight: '5px'
                   },
                   on: {
                     click: () => {
-//                      let authSet = this.data6[params.index].userAuths;
-//                      this.data1 = authSet;
-//                      this.userId = this.data6[params.index].id;
-//                      this.modalManager = true;
-                      this.$router.push({path: 'noticeDetail'});
+                      this.$router.push({path: 'noticeDetail', query: {'id': this.data[params.index].id}});
                     }
                   }
                 }, '详情'),
                 h('Button', {
                   props: {
-                    type: 'success',
-                    size: 'small',
-                    icon: 'eye'
+                    type: 'info',
+                    size: 'small'
+//                    icon: 'eye'
                   },
                   style: {
                     marginRight: '5px'
                   },
                   on: {
                     click: () => {
-//                      let authSet = this.data6[params.index].userAuths;
-//                      this.data1 = authSet;
-//                      this.userId = this.data6[params.index].id;
-//                      this.modalManager = true;
-                      this.$router.push({path: 'noticeEdit'});
+                      this.$router.push({path: 'noticeEdit', query: {'id': this.data[params.index].id}});
                     }
                   }
                 }, '编辑'),
                 h('Button', {
                   props: {
-                    type: 'error',
-                    size: 'small',
-                    icon: 'edit'
+                    type: this.data[params.index].isFrontDisplay === 1 ? 'warning' : 'ghost',
+                    size: 'small'
                   },
                   style: {
                     marginRight: '5px'
                   },
                   on: {
                     click: () => {
-//                      let authSet = this.data6[params.index].userAuths;
-//                      this.data1 = authSet;
-//                      this.userId = this.data6[params.index].id;
-//                      this.modalManager = true;
+                      this.frontShow(this.data[params.index].id, this.data[params.index].isFrontDisplay === 1 ? 0 : 1);
                     }
                   }
-                }, '下线'),
+                }, this.data[params.index].isFrontDisplay === 1 ? '下线' : '上线'),
                 h('Button', {
                   props: {
-                    type: 'warning',
-                    size: 'small',
-                    icon: 'trash-a'
+                    type: 'error',
+                    size: 'small'
+//                    icon: 'trash-a'
                   },
                   style: {
                     marginRight: '5px'
                   },
                   on: {
                     click: () => {
-//                      let authSet = this.data6[params.index].userAuths;
-//                      this.data1 = authSet;
-//                      this.userId = this.data6[params.index].id;
-//                      this.modalManager = true;
+                      this.del(this.data[params.index].id);
                     }
                   }
                 }, '删除')
@@ -181,11 +134,17 @@
         ],
         pageSizeOpts: [1, 2, 5, 10, 20, 50],
         totalCount: null,
-        pageSize: 5,
+        pageSize: 10,
         pageNumber: 1
       };
     },
     methods: {
+      init: async function () {
+        await cmsPage({'currentPage': this.pageNumber, 'pageSize': this.pageSize, 'typeCode': '2'}).then(r => {
+          this.data = r.body.results;
+          this.totalCount = r.body.recordCount;
+        });
+      },
       pageNumChange: function (pageNum) {
         this.pageNumber = pageNum;
         this.init();
@@ -193,7 +152,38 @@
       pageSizeChange: function (pageSize) {
         this.pageSize = pageSize;
         this.init();
+      },
+      frontShow: async function (id, isFrontDisplay) {
+        let self = this;
+        await updateCms({ 'id': id, 'isFrontDisplay': isFrontDisplay }).then(r => {
+          if (r.header.code === '0') {
+            this.$Message.success('成功');
+            self.init();
+          } else {
+            this.$Message.error(r.header.message);
+          }
+        });
+      },
+      del: function (id) {
+        let self = this;
+        this.$Modal.confirm({
+          title: 'Title',
+          content: '<p>确定要删除内容么？</p>',
+          onOk: async () => {
+            await delCms({ 'id': id }).then(r => {
+              if (r.header.code === '0') {
+                this.$Message.success('删除成功！');
+                self.init();
+              } else {
+                this.$Message.error(r.header.message);
+              }
+            });
+          }
+        });
       }
+    },
+    mounted() {
+      this.init();
     }
   };
 </script>

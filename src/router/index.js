@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import store from '../store/index';
 import Cookies from 'js-cookie';
 import * as portal from 'adm-portal';
-import * as myconst from '../util/const';
+import * as mainConst from '../util/const';
 
 Vue.use(Router);
 
@@ -181,29 +181,29 @@ const router = new Router({
     },
     component: (resolve) => require(['../views/system/noticeDetail.vue'], resolve)
   }, {
-    path: '/recommend',
-    name: '贴心推荐',
+    path: '/info',
+    name: '行业资讯',
     meta: {
       prevLevelName: '系统管理',
-      title: '贴心推荐'
+      title: '行业资讯'
     },
-    component: (resolve) => require(['../views/system/recommend.vue'], resolve)
+    component: (resolve) => require(['../views/system/info.vue'], resolve)
   }, {
-    path: '/recommendAdd',
-    name: '发布推荐',
+    path: '/infoAdd',
+    name: '发布资讯',
     meta: {
       prevLevelName: '系统管理',
-      title: '发布推荐'
+      title: '发布资讯'
     },
-    component: (resolve) => require(['../views/system/recommendAdd.vue'], resolve)
+    component: (resolve) => require(['../views/system/infoAdd.vue'], resolve)
   }, {
-    path: '/recommendEdit',
-    name: '编辑推荐',
+    path: '/infoEdit',
+    name: '编辑资讯',
     meta: {
       prevLevelName: '系统管理',
-      title: '编辑推荐'
+      title: '编辑资讯'
     },
-    component: (resolve) => require(['../views/system/recommendEdit.vue'], resolve)
+    component: (resolve) => require(['../views/system/infoEdit.vue'], resolve)
   }, {
     path: '/fp',
     name: '理财师管理',
@@ -258,7 +258,7 @@ router.beforeEach((to, from, next) => {
   let sessionId = Cookies.get('sessionId');
   if (sessionId) { // 如果是登陆状态
     store.dispatch('addTab', to);
-    (to.path === '/' || to.path === '/login') ? next({path: '/index'}) : next();
+    (to.path === '/' || to.path === '/login') ? next({path: mainConst.ADM_INDEX}) : next();
   } else { // 不是登陆状态
     to.path !== '/login' ? next({path: '/login'}) : next();
   }
