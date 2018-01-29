@@ -12,6 +12,7 @@ export const login = (data, codeEvents) => fetch('/login', {
   codeEvents: codeEvents
 }, 'POST');
 
+// cms模块
 export const cmsPage = (body) => fetch(FINGER + '/cms/page', {
   reqBody: body
 }, 'POST');
@@ -29,5 +30,14 @@ export const updateCms = (body) => fetch(FINGER + '/cms/update', {
 }, 'POST');
 
 export const delCms = (body) => fetch(FINGER + '/cms/delete', {
+  reqBody: body
+}, 'POST');
+
+// 用户模块
+export const userPage = (body) => fetch(FINGER + '/user/page', {
+  reqBody: body
+}, 'POST');
+
+export const getUser = (body) => fetch(FINGER + '/user/get', {
   reqBody: body
 }, 'POST');

@@ -8,22 +8,22 @@
       <span>基本信息</span>
     </div>
     <Row className="text-row">
-      <iCol span="6">用户ID：201709091</iCol>
-      <iCol span="6">用户手机号：150102289721</iCol>
-      <iCol span="6">注册时间：2017-09-09  12:23:45</iCol>
-      <iCol span="6">用户类型：投资人</iCol>
+      <iCol span="6">用户ID：{{user.userId}}</iCol>
+      <iCol span="6">用户手机号：{{user.mobile}}</iCol>
+      <iCol span="6">注册时间：{{user.createTime}}</iCol>
+      <iCol span="6">用户类型：{{user.roles}}</iCol>
     </Row>
     <Row  className="text-row">
-      <iCol span="6">所属机构：—</iCol>
+      <iCol span="6">所属机构：{{user.institutionUserId}}</iCol>
     </Row>
 
     <div class="example-header">
       <span>合格投资者认证信息</span>
     </div>
     <Row className="text-row">
-      <iCol span="6">真实姓名：张三</iCol>
+      <iCol span="6">真实姓名：{{user.realName}}</iCol>
       <iCol span="6">证件类型：身份证</iCol>
-      <iCol span="6">证件号码：1410341998090987651</iCol>
+      <iCol span="6">证件号码：{{user.idCard}}</iCol>
       <iCol span="6">上传照片：<a>查看照片</a></iCol>
     </Row>
 
@@ -36,19 +36,11 @@
   </Card>
 </template>
 <script>
+  import {getUser} from '../../util/interface';
   export default {
     data() {
       return {
-        formValidate: {
-          name: '',
-          mail: '',
-          city: '',
-          gender: '',
-          interest: [],
-          date: '',
-          time: '',
-          desc: ''
-        },
+        user: {},
         columns4: [
           {
             title: '需求编号',
@@ -102,6 +94,11 @@
       };
     },
     methods: {
+      init: async function() {
+        await getUser({'userId': this.$route.query.userId}).then(r => {
+          this.user = r.body;
+        });
+      },
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
@@ -114,6 +111,9 @@
       handleReset(name) {
         this.$refs[name].resetFields();
       }
+    },
+    mounted() {
+      this.init();
     }
   };
 </script>
