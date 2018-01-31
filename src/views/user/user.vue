@@ -157,7 +157,7 @@
             key: 'institutionUserId',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].institutionUserId;
+              return this.data[params.index].institutionName;
             }
           },
           {

@@ -48,40 +48,40 @@
 
 
     <Modal v-model="modalAdd" title="用户添加" width="730"
-           @on-ok="handleSubmit('formValidate')"  @on-cancel="hideModal('modalAdd')">
-      <Form :model="user" ref="formValidate" :label-width="80" :rules="ruleValidate">
+           @on-ok="handleSubmit('institutionAdd')"  @on-cancel="hideModal('modalAdd')">
+      <Form :model="institution" ref="institutionAdd" :label-width="80" :rules="ruleValidate">
         <Row :gutter="60">
           <i-col span="18">
-            <Form-item label="机构名称" prop="realName">
-              <Input v-model="user.phone" @on-enter="handleSubmit('formValidate')" placeholder="请输入"></Input>
+            <Form-item label="机构名称" prop="nickName">
+              <Input v-model="institution.nickName" @on-enter="handleSubmit('institutionAdd')" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
             <Form-item label="机构联系人" prop="realName">
-              <Input v-model="user.phone" @on-enter="handleSubmit('formValidate')" placeholder="请输入"></Input>
+              <Input v-model="institution.realName" @on-enter="handleSubmit('institutionAdd')" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
-            <Form-item label="联系方式" prop="realName">
-              <Input v-model="user.phone" @on-enter="handleSubmit('formValidate')" placeholder="请输入"></Input>
+            <Form-item label="联系方式" prop="mobile">
+              <Input v-model="institution.mobile" @on-enter="handleSubmit('institutionAdd')" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
-            <Form-item label="后台账号" prop="realName">
-              <Input v-model="user.phone" @on-enter="handleSubmit('formValidate')" placeholder="请输入"></Input>
+            <Form-item label="后台账号" prop="authId">
+              <Input v-model="institution.authId" @on-enter="handleSubmit('institutionAdd')" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
-            <Form-item label="密码" prop="realName">
-              <Input v-model="user.phone" @on-enter="handleSubmit('formValidate')" placeholder="请输入"></Input>
+            <Form-item label="密码" prop="authPass">
+              <Input v-model="institution.authPass" @on-enter="handleSubmit('institutionAdd')" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
@@ -89,56 +89,56 @@
       </Form>
 
       <div slot="footer">
-        <Button type="info" size="large"  @click="handleSubmit('formValidate')">确认添加</Button>
+        <Button type="info" size="large"  @click="handleSubmit('institutionAdd')">确认添加</Button>
         <Button type="info" size="large" v-on:click="hideModal('modalAdd')">关闭</Button>
       </div>
 
     </Modal>
 
 
-    <Modal v-model="modalEdit" title="用户添加" width="730"
-           @on-ok="handleSubmit('formValidate')"  @on-cancel="hideModal('modalEdit')">
-      <Form :model="user" ref="formValidate" :label-width="80" :rules="ruleValidate">
+    <Modal v-model="modalEdit" title="用户修改" width="730"
+           @on-ok="handleSubmit('institutionEdit')"  @on-cancel="hideModal('modalEdit')">
+      <Form :model="institution" ref="institutionEdit" :label-width="80" :rules="ruleValidate">
         <Row :gutter="60">
           <i-col span="18">
-            <Form-item label="机构名称" prop="realName">
-              <Input v-model="user.phone" @on-enter="handleSubmit('formValidate')" placeholder="请输入"></Input>
+            <Form-item label="机构名称" prop="nickName">
+              <Input v-model="institution.nickName" @on-enter="handleSubmit('institutionEdit')" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
             <Form-item label="机构联系人" prop="realName">
-              <Input v-model="user.phone" @on-enter="handleSubmit('formValidate')" placeholder="请输入"></Input>
+              <Input v-model="institution.realName" @on-enter="handleSubmit('institutionEdit')" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
-            <Form-item label="联系方式" prop="realName">
-              <Input v-model="user.phone" @on-enter="handleSubmit('formValidate')" placeholder="请输入"></Input>
+            <Form-item label="联系方式" prop="mobile">
+              <Input v-model="institution.mobile" @on-enter="handleSubmit('institutionEdit')" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
-            <Form-item label="后台账号" prop="realName">
-              <Input v-model="user.phone" @on-enter="handleSubmit('formValidate')" placeholder="请输入"></Input>
+            <Form-item label="后台账号" prop="authId">
+              <Input v-model="institution.authId" @on-enter="handleSubmit('institutionEdit')" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
-            <Form-item label="密码" prop="realName">
-              <Input v-model="user.phone" @on-enter="handleSubmit('formValidate')" placeholder="请输入"></Input>
+            <Form-item label="密码" prop="authPass">
+              <Input v-model="institution.authPass" @on-enter="handleSubmit('institutionEdit')" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
       </Form>
 
       <div slot="footer">
-        <Button type="info" size="large"  @click="handleSubmit('formValidate')">添加为理财师</Button>
-        <Button type="info" size="large" v-on:click="hideModal('modalAdd')">关闭</Button>
+        <Button type="info" size="large"  @click="handleSubmit('institutionEdit')">提交修改</Button>
+        <Button type="info" size="large" v-on:click="hideModal('modalEdit')">关闭</Button>
       </div>
 
     </Modal>
@@ -162,47 +162,39 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {institutionPage, institutionGet, addAuth, deleteAuth} from '../../util/interface';
+
   export default {
     data() {
       return {
-        user: {
-          id: '',
-          phone: '',
-          gender: ''
+        ruleValidate: {
+          institutionUserId: [
+            {required: true, message: '机构不能为空', trigger: 'blur'}
+          ]
         },
         modalAdd: false,
         modalEdit: false,
         modalDel: false,
         modal_loading: false,
-        data: [{
-          id: '201709091',
-          nickname: '小张',
-          mobile: '15090987656',
-          registerTime: '2017-09-09  12:23:45',
-          appointment: '10',
-          amount: '10'
-        }, {
-          id: '201709091',
-          nickname: '小张',
-          mobile: '15090987656',
-          registerTime: '2017-09-09  12:23:45',
-          appointment: '10',
-          amount: '10'
-        }, {
-          id: '201709091',
-          nickname: '小张',
-          mobile: '15090987656',
-          registerTime: '2017-09-09  12:23:45',
-          appointment: '10',
-          amount: '10'
-        }, {
-          id: '201709091',
-          nickname: '小张',
-          mobile: '15090987656',
-          registerTime: '2017-09-09  12:23:45',
-          appointment: '10',
-          amount: '10'
-        }],
+        user: {
+          userId: '',
+          mobile: '',
+          pageSize: 10,
+          currentPage: 1
+        },
+        institution: {
+          nickName: '',
+          userId: '',
+          mobile: '',
+          isFrozen: '0',
+          isNameAuth: '0',
+          isRegisterJg: '0',
+          roles: '2',
+          source: '1',
+          authId: '',
+          authPass: ''
+        },
+        data: [],
         columns7: [
           {
             title: '机构ID',
@@ -210,60 +202,49 @@
             align: 'center',
             render: (h, params) => {
               return h('div', [
-                h('strong', this.data[params.index].id)
+                h('strong', this.data[params.index].userId)
               ]);
             }
           },
           {
             title: '机构名称',
-            key: 'name',
+            key: 'nickName',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].nickname;
+              return this.data[params.index].nickName;
             }
           },
           {
             title: '理财师（人）',
-            key: 'gender',
+            key: 'fps',
             align: 'center',
             render: (h, params) => {
-//              let gender = this.data6[params.index].gender === '0' ? '男' : '女';
-              return this.data[params.index].mobile;
+              return this.data[params.index].fps;
             }
           },
           {
             title: '产品数量',
-            key: 'phone',
-            align: 'center',
-            render: (h, params) => {
-              return this.data[params.index].registerTime;
-            }
-          },
-          {
-            title: '机构联系人',
             width: 85,
             key: 'roles',
             align: 'center',
             render: (h, params) => {
-//              let roles = '';
-//              let length = this.data6[params.index].roles.length;
-//              for (var i = 0; i < length; i++) {
-//                roles += this.data6[params.index].roles[i].name + ',';
-//              };
               return this.data[params.index].appointment;
             }
           },
           {
-            title: '联系方式',
-            key: 'roles',
+            title: '机构联系人',
+            key: 'realName',
             align: 'center',
             render: (h, params) => {
-//              let roles = '';
-//              let length = this.data6[params.index].roles.length;
-//              for (var i = 0; i < length; i++) {
-//                roles += this.data6[params.index].roles[i].name + ',';
-//              };
-              return this.data[params.index].amount;
+              return this.data[params.index].realName;
+            }
+          },
+          {
+            title: '联系方式',
+            key: 'mobile',
+            align: 'center',
+            render: (h, params) => {
+              return this.data[params.index].mobile;
             }
           },
           {
@@ -285,11 +266,8 @@
                   },
                   on: {
                     click: () => {
-//                      let authSet = this.data6[params.index].userAuths;
-//                      this.data1 = authSet;
-//                      this.userId = this.data6[params.index].id;
-//                      this.modalManager = true;
                       this.modalEdit = true;
+                      this.get();
                     }
                   }
                 }, '编辑'),
@@ -304,11 +282,8 @@
                   },
                   on: {
                     click: () => {
-//                      let authSet = this.data6[params.index].userAuths;
-//                      this.data1 = authSet;
-//                      this.userId = this.data6[params.index].id;
-//                      this.modalManager = true;
                       this.modalDel = true;
+                      this.user.userId = this.data[params.index].userId;
                     }
                   }
                 }, '删除')
@@ -323,14 +298,70 @@
       };
     },
     methods: {
+      init: async function () {
+        await institutionPage(this.user).then(r => {
+          this.data = r.body.results;
+          this.totalCount = r.body.recordCount;
+        });
+      },
+      get: async function () {
+        this.fb.mobile = this.mobile;
+        let self = this;
+        await institutionGet(this.fb).then(r => {
+          self.fb = r.body;
+        });
+      },
+      query: async function () {
+        this.init();
+      },
+      del: async function () {
+        let self = this;
+        await deleteAuth(this.user).then(r => {
+          if (r.header.code === '0') {
+            self.init();
+            this.$Message.success('删除成功!');
+          }
+//          self.hideModal();
+        });
+      },
+      handleSubmit(name) {
+        let self = this;
+        this.$refs[name].validate(async (valid) => {
+          if (valid) {
+            await addAuth(this.institution).then(r => {
+              if (r.header.code === '0') {
+                self.init();
+                this.$Message.success('添加成功!');
+              }
+            });
+            self.hideModal();
+          }
+        });
+      },
+      hideModal() {
+        this.user = {};
+        this.mobile = '';
+        this.modalAdd = false;
+        this.modalDel = false;
+      },
+      watchId(val) {
+        if (val.length === 1) {
+          this.user.userId = val.replace(/[^1-9]/g, '');
+        } else {
+          this.user.userId = val.replace(/\D/g, '');
+        }
+      },
       pageNumChange: function (pageNum) {
-        this.pageNumber = pageNum;
+        this.user.currentPage = pageNum;
         this.init();
       },
       pageSizeChange: function (pageSize) {
-        this.pageSize = pageSize;
+        this.user.pageSize = pageSize;
         this.init();
       }
+    },
+    mounted() {
+      this.init();
     }
   };
 </script>

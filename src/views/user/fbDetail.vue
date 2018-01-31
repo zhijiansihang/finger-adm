@@ -8,25 +8,25 @@
       <span>基本信息</span>
     </div>
     <Row className="text-row">
-      <iCol span="6">用户ID：201709091</iCol>
-      <iCol span="6">昵称：张经理</iCol>
-      <iCol span="6">职位：客户经理</iCol>
-      <iCol span="6">服务方向：期货 私募</iCol>
+      <iCol span="6">用户ID：{{user.user.userId}}</iCol>
+      <iCol span="6">昵称：{{user.user.nickName}}</iCol>
+      <iCol span="6">职位：{{user.user.userId}}</iCol>
+      <iCol span="6">服务方向：{{user.user.userId}}</iCol>
     </Row>
     <Row  className="text-row">
-      <iCol span="6">毕业院校：北京大学</iCol>
-      <iCol span="6">文化程度：硕士</iCol>
-      <iCol span="6">从业年限：10年</iCol>
-      <iCol span="6">关注度：65</iCol>
+      <iCol span="6">毕业院校：{{user.user.userId}}</iCol>
+      <iCol span="6">文化程度：{{user.user.userId}}</iCol>
+      <iCol span="6">从业年限：{{user.user.userId}}</iCol>
+      <iCol span="6">关注度：{{user.user.userId}}</iCol>
     </Row>
     <Row  className="text-row">
-      <iCol span="6">粉丝数：20</iCol>
+      <iCol span="6">粉丝数：{{user.user.userId}}</iCol>
     </Row>
     <Row  className="text-row">
-      <iCol span="24">从业经历：10年银行投顾工作经历使我能为客户提供更专业的理财服务</iCol>
+      <iCol span="24">从业经历：{{user.user.userId}}</iCol>
     </Row>
     <Row  className="text-row">
-      <iCol span="24">个人简介：10年银行投顾工作经历使我能为客户提供更专业的理财服务</iCol>
+      <iCol span="24">个人简介：{{user.user.userId}}</iCol>
     </Row>
 
     <div class="example-header">
@@ -34,121 +34,54 @@
     </div>
 
     <Row  className="text-row" style="padding-bottom: 30px;">
-      <iCol span="6">当前销售产品数：3</iCol>
-      <iCol span="6">销售过的产品数：5</iCol>
-      <iCol span="6">已服务过客户数：15</iCol>
-      <iCol span="6">预约单数：17</iCol>
+      <iCol span="6">当前销售产品数：{{user.user.userId}}</iCol>
+      <iCol span="6">销售过的产品数：{{user.user.userId}}</iCol>
+      <iCol span="6">已服务过客户数：{{user.user.userId}}</iCol>
+      <iCol span="6">预约单数：{{user.user.userId}}</iCol>
     </Row>
   </Card>
 </template>
 <script>
+  import {fbGet} from '../../util/interface';
   export default {
     data() {
       return {
-        formValidate: {
-          name: '',
-          mail: '',
-          city: '',
-          gender: '',
-          interest: [],
-          date: '',
-          time: '',
-          desc: ''
-        },
+        user: {},
         columns4: [
           {
-            title: '投资金额（起）',
+            title: '需求编号',
             key: 'name'
           },
           {
-            title: '投资金额（终）',
+            title: '创建日期',
             key: 'age'
           },
           {
-            title: '预期年化收益（%）',
+            title: '期望期限',
             width: 145,
             key: 'address'
           },
           {
-            title: '是否加浮动',
+            title: '我的资金',
             key: 'age'
           },
           {
-            title: '添加',
-            key: 'action',
-            width: 60,
-            align: 'center',
-            fixed: 'right',
-            renderHeader: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'ghost',
-                    shape: 'circle',
-                    size: 'small',
-                    icon: 'plus'
-                  },
-                  style: {
-      //                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.data1.push({
-                        name: 'Jim Green',
-                        age: 24,
-                        address: 'London ',
-                        date: '2016-10-01'
-                      });
-                    }
-                  }
-                })
-              ]);
-            },
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'ghost',
-                    shape: 'circle',
-                    size: 'small',
-                    icon: 'minus-round'
-                  },
-                  style: {
-//                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.data1.splice(params.index, 1);
-                    }
-                  }
-                })
-              ]);
-            }
+            title: '期望类型',
+            key: 'age'
+          },
+          {
+            title: '资金闲置时间',
+            key: 'age'
+          },
+          {
+            title: '需求状态',
+            key: 'age'
+          },
+          {
+            title: '补充说明',
+            key: 'age'
           }
-        ],
-        columns5: [
-          {
-            title: '用户ID',
-            key: 'name'
-          },
-          {
-            title: '名称',
-            key: 'age'
-          },
-          {
-            title: '手机号',
-            width: 145,
-            key: 'address'
-          },
-          {
-            title: '当前产品数量',
-            key: 'age'
-          },
-          {
-            type: 'selection',
-            width: 60,
-            align: 'center'
-          }
+
         ],
         data1: [
           {
@@ -163,53 +96,15 @@
             address: 'London ',
             date: '2016-10-01'
           }
-        ],
-        data2: [
-          {
-            name: 'John Brown',
-            age: 18,
-            address: 'New York',
-            date: '2016-10-03'
-          },
-          {
-            name: 'Jim Green',
-            age: 24,
-            address: 'London ',
-            date: '2016-10-01'
-          }
-        ],
-        ruleValidate: {
-          name: [
-            {required: true, message: 'The name cannot be empty', trigger: 'blur'}
-          ],
-          mail: [
-            {required: true, message: 'Mailbox cannot be empty', trigger: 'blur'},
-            {type: 'email', message: 'Incorrect email format', trigger: 'blur'}
-          ],
-          city: [
-            {required: true, message: 'Please select the city', trigger: 'change'}
-          ],
-          gender: [
-            {required: true, message: 'Please select gender', trigger: 'change'}
-          ],
-          interest: [
-            {required: true, type: 'array', min: 1, message: 'Choose at least one hobby', trigger: 'change'},
-            {type: 'array', max: 2, message: 'Choose two hobbies at best', trigger: 'change'}
-          ],
-          date: [
-            {required: true, type: 'date', message: 'Please select the date', trigger: 'change'}
-          ],
-          time: [
-            {required: true, type: 'date', message: 'Please select time', trigger: 'change'}
-          ],
-          desc: [
-            {required: true, message: 'Please enter a personal introduction', trigger: 'blur'},
-            {type: 'string', min: 20, message: 'Introduce no less than 20 words', trigger: 'blur'}
-          ]
-        }
+        ]
       };
     },
     methods: {
+      init: async function() {
+        await fbGet({'userId': this.$route.query.userId}).then(r => {
+          this.user = r.body;
+        });
+      },
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
@@ -222,6 +117,9 @@
       handleReset(name) {
         this.$refs[name].resetFields();
       }
+    },
+    mounted() {
+      this.init();
     }
   };
 </script>
