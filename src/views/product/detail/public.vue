@@ -61,7 +61,7 @@
       <FormItem label="认购金额及年化收益" prop="earningDesc">
         <Row>
           <iCol span="14">
-            <Table border ref="selection" :columns="columns4" :data="JSON.parse(loan.earningDesc)"></Table>
+            <Table border ref="selection" :columns="columns4" :data="loan.earningDesc?JSON.parse(loan.earningDesc):[]"></Table>
           </iCol>
         </Row>
       </FormItem>
@@ -79,7 +79,7 @@
           <iCol span="11">
             <Select v-model="loan.servicingWay" placeholder="请选择付息方式">
               <Option :value=1>按月付息</Option>
-              <Option :value=2>:按季付息</Option>
+              <Option :value=2>按季付息</Option>
               <Option :value=3>半年付息</Option>
               <Option :value=4>按年付息</Option>
               <Option :value=5>到期付息</Option>
@@ -174,7 +174,7 @@
       <FormItem label="项目文件" prop="productDescFiles">
         <Row>
           <iCol span="14">
-            <Table border ref="selection" :columns="columns5" :data="JSON.parse(loan.productDescFiles)"></Table>
+            <Table border ref="selection" :columns="columns5" :data="loan.productDescFiles?JSON.parse(loan.productDescFiles):[]"></Table>
           </iCol>
         </Row>
       </FormItem>
@@ -185,8 +185,11 @@
           </iCol>
         </Row>
       </FormItem>
-      <FormItem>
-        <Button type="primary" @click="modalReview = true">审核</Button>
+      <FormItem v-if="type === 'review'">
+        <Button type="primary" @click="modalShow()">审核</Button>
+      </FormItem>
+      <FormItem v-if="type === 'publish'">
+        <Button type="primary" @click="modalShow()">发标</Button>
       </FormItem>
     </Form>
 
@@ -198,7 +201,7 @@
       <div style="text-align:center">
         <p>&nbsp;</p>
         <p>&nbsp;</p>
-        <p>确定提交审核信息吗?</p>
+        <p>{{modalStr}}</p>
         <p>&nbsp;</p>
       </div>
       <div slot="footer">
@@ -214,15 +217,15 @@
 </template>
 <script>
   import {loanPublicGet, loanReview} from '../../../util/interface';
-  //  import {baseUrl} from '../../util/env';
   export default {
     data() {
       return {
         loan: {},
+        type: '',
         preImgSrc: '',
         modalReview: false,
+        modalStr: '',
         visible: false,
-//        uploadUrl: baseUrl + '/cms/banner/upload?' + commonDataStr(),
         columns4: [
           {
             title: '投资金额（起）',
@@ -407,6 +410,7 @@
     },
     methods: {
       init: async function () {
+        this.type = this.$route.query.type;
         await loanPublicGet({'loanId': this.$route.query.loanId}).then(r => {
           this.loan = r.body;
         });
@@ -415,14 +419,34 @@
         this.preImgSrc = name;
         this.visible = true;
       },
+      modalShow() {
+        this.modalReview = true;
+        if (this.type === 'review') {
+          this.modalStr = '确定提交审核信息吗?';
+        }
+        if (this.type === 'publish') {
+          this.modalStr = '确定将该产品发布到前端吗?';
+        }
+      },
       handleReview: async function () {
-        await loanReview({
-          'loanId': this.$route.query.loanId,
-          'loanStatus': '200'
-        }).then(r => {
-          this.$Message.success('审核成功!');
-          this.$router.push({path: 'review'});
-        });
+        if (this.type === 'review') {
+          await loanReview({
+            'loanId': this.$route.query.loanId,
+            'loanStatus': '150'
+          }).then(r => {
+            this.$Message.success('审核成功!');
+            this.$router.push({path: '/review'});
+          });
+        }
+        if (this.type === 'publish') {
+          await loanReview({
+            'loanId': this.$route.query.loanId,
+            'loanStatus': '200'
+          }).then(r => {
+            this.$Message.success('发标成功!');
+            this.$router.push({path: '/published'});
+          });
+        }
       }
     },
     mounted() {

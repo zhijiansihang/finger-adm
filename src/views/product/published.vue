@@ -67,7 +67,7 @@
     </iCol>
 
     <iCol span="24" class="top-30 inner-right">
-      <Page :total="totalCount" :page-size="pageSize" :page-size-opts="pageSizeOpts"
+      <Page :total="totalCount" :page-size="loan.pageSize" :page-size-opts="pageSizeOpts"
             show-sizer show-total @on-change="pageNumChange" @on-page-size-change="pageSizeChange"></Page>
     </iCol>
 
@@ -89,7 +89,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {loanPage, loanDelete} from '../../util/interface';
+  import {loanPage, loanEnd} from '../../util/interface';
   export default {
     data() {
       return {
@@ -98,7 +98,7 @@
           title: '',
           productType: '',
           institutionUserId: '',
-          loanStatus: '200',
+          status: [200, 300],
           pageSize: 10,
           currentPage: 1
         },
@@ -164,9 +164,9 @@
             render: (h, params) => {
               let loanType = this.data[params.index].loanType;
               if (loanType === 2) {
-                return this.data[params.index].investmentDeadline + '个月';
-              } else {
                 return this.data[params.index].adaptationDeadline + '年';
+              } else {
+                return this.data[params.index].investmentDeadline + '个月';
               }
             }
           },
@@ -251,17 +251,20 @@
                     }
                   }
                 }, '详情'),
-                h('Button', {
+                  h('Button', {
                   props: {
                     type: 'success',
                     size: 'small',
                     icon: 'edit'
                   },
                   style: {
-                    marginRight: '5px'
+                    marginRight: '5px',
+                    display: this.data[params.index].loanStatus === 200 ? 'inline' : 'none'
                   },
                   on: {
-                    click: () => {}
+                    click: () => {
+                      this.endLoan(this.data[params.index].loanId);
+                    }
                   }
                 }, '结标')
               ]);
@@ -284,14 +287,13 @@
       query: async function () {
         this.init();
       },
-      del: async function () {
-        let self = this;
-        await loanDelete(this.loan).then(r => {
-          if (r.header.code === '0') {
-            self.init();
-            this.$Message.success('删除成功!');
-          }
-//          self.hideModal();
+      endLoan: async function (loanId) {
+        await loanEnd({
+          'loanId': loanId,
+          'loanStatus': '300'
+        }).then(r => {
+          this.$Message.success('结标成功!');
+          this.init();
         });
       },
       pageNumChange: function (pageNum) {

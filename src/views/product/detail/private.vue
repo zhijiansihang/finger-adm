@@ -17,111 +17,100 @@
           </iCol>
         </Row>
       </FormItem>
-      <FormItem label="产品类型" prop="productType">
-        <Row>
+      <FormItem label="起投金额" prop="beginAmount">
+        <Row :gutter="30">
           <iCol span="11">
-            <Select v-model="loan.productType" placeholder="请选择产品类型">
-              <Option :value=1>信托</Option>
-              <Option :value=2>资管</Option>
-              <Option :value=3>其他资产</Option>
-              <Option :value=4>私募</Option>
-            </Select>
-          </iCol>
-        </Row>
-      </FormItem>
-      <FormItem label="产品方向" prop="city">
-        <Row>
-          <iCol span="11">
-            <Select v-model="loan.productDirection" placeholder="请选择产品方向">
-              <Option value="1">工商企业</Option>
-              <Option value="2">金融市场</Option>
-              <Option value="3">基础设施</Option>
-              <Option value="4">房地产</Option>
-              <Option value="5">资金池</Option>
-              <Option value="6">其他</Option>
-            </Select>
-          </iCol>
-        </Row>
-      </FormItem>
-      <FormItem label="发行机构" prop="issuer">
-        <Row>
-          <iCol span="11">
-            <Input v-model="loan.issuer" placeholder="请输入发行机构"></Input>
-          </iCol>
-        </Row>
-      </FormItem>
-      <FormItem label="融资规模" prop="amount">
-        <Row :gutter="60">
-          <iCol span="8">
-            <Input v-model="loan.amount" placeholder="请输入融资规模"></Input>
+            <Input v-model="loan.beginAmount" placeholder="请输入起投金额"></Input>
           </iCol>
           <iCol span="3">万元</iCol>
         </Row>
       </FormItem>
-      <FormItem label="认购金额及年化收益" prop="earningDesc">
+      <FormItem label="投资方向" prop="productDirection">
         <Row>
-          <iCol span="14">
-            <Table border ref="selection" :columns="columns4" :data="JSON.parse(loan.earningDesc)"></Table>
+          <iCol span="11">
+            <Input v-model="loan.productDirection" placeholder="请输入投资方向"></Input>
           </iCol>
         </Row>
       </FormItem>
-
-      <FormItem label="投资期限" prop="adaptationDeadline">
+      <FormItem label="基金类型" prop="fundType">
         <Row>
-          <iCol span="8">
-            <Input v-model="loan.adaptationDeadline" placeholder="请输入投资期限"></Input>
+          <iCol span="11">
+            <Select v-model="loan.fundType" placeholder="请选择基金类型">
+              <Option value=1>本土</Option>
+              <Option value=2>合资</Option>
+              <Option value=3>外资</Option>
+              <Option value=4>其他</Option>
+            </Select>
+          </iCol>
+        </Row>
+      </FormItem>
+      <FormItem label="融资规模" prop="amount">
+        <Row :gutter="30">
+          <iCol span="11">
+            <Input v-model="loan.amount" placeholder="请输入融资金额"></Input>
+          </iCol>
+          <iCol span="3">万元</iCol>
+        </Row>
+      </FormItem>
+      <FormItem label="存续年限" prop="adaptationDeadline">
+        <Row :gutter="30">
+          <iCol span="11">
+            <Input v-model="loan.adaptationDeadline" placeholder="请输入存续年限，例如：1+0.5+0.5"></Input>
           </iCol>
           <iCol span="3">年</iCol>
         </Row>
       </FormItem>
-      <FormItem label="付息方式" prop="servicingWay">
+      <FormItem label="资本类型" prop="capitalType">
         <Row>
           <iCol span="11">
-            <Select v-model="loan.servicingWay" placeholder="请选择付息方式">
-              <Option :value=1>按月付息</Option>
-              <Option :value=2>:按季付息</Option>
-              <Option :value=3>半年付息</Option>
-              <Option :value=4>按年付息</Option>
-              <Option :value=5>到期付息</Option>
-              <Option :value=6>其他</Option>
+            <Select v-model="loan.capitalType" placeholder="请选择资本类型">
+              <Option value="1">天使基金</Option>
+              <Option value="2">创业基金</Option>
+              <Option value="3">成长基金</Option>
+              <Option value="4">FOF基金</Option>
+              <Option value="5">并购基金</Option>
+              <Option value="6">政府引导基金</Option>
+              <Option value="7">基础设施基金</Option>
+              <Option value="8">房地产基金</Option>
+              <Option value="9">其他</Option>
             </Select>
           </iCol>
         </Row>
       </FormItem>
-      <FormItem label="大小配比" prop="ratioType">
+      <FormItem label="组织形式" prop="organizeForm">
         <Row>
           <iCol span="11">
-            <Select v-model="loan.ratioType" placeholder="请选择大小配比">
-              <Option :value=1>小额畅打</Option>
-              <Option :value=2>已配出小额</Option>
-              <Option :value=3>严格配比</Option>
-              <Option :value=4>全大额</Option>
+            <Select v-model="loan.organizeForm" placeholder="请选择组织形式">
+              <Option value="1">公司形式</Option>
+              <Option value="2">信托制</Option>
+              <Option value="3">有限合伙制</Option>
+              <Option value="4">虚拟式</Option>
+              <Option value="5">组合式</Option>
+              <Option value="6">契约式</Option>
+              <Option value="7">其他</Option>
             </Select>
           </iCol>
         </Row>
       </FormItem>
-      <FormItem label="发行地区" prop="distributionRegion">
-        <Row>
+
+      <FormItem label="管理费率" prop="manageRate">
+        <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="loan.distributionRegion" placeholder="请输入发行地区"></Input>
+            <Input v-model="loan.manageRate" placeholder="请输入管理费率"></Input>
           </iCol>
-        </Row>
-      </FormItem>
-      <FormItem label="保障方式" prop="safeguardWay">
-        <Row>
-          <iCol span="11">
-            <Input v-model="loan.safeguardWay" placeholder="例如：财政承诺、土地质押"></Input>
-          </iCol>
+          <iCol span="3">%/每年</iCol>
         </Row>
       </FormItem>
 
-    </Form>
+      <FormItem label="产品优势" prop="productDesc">
+        <Row :gutter="30">
+          <iCol span="11">
+            <Input v-model="loan.productDesc" placeholder="请输入产品优势"></Input>
+          </iCol>
+          <iCol span="8">优势简介，建议不超过20个字</iCol>
+        </Row>
+      </FormItem>
 
-    <div class="example-header">
-      <span>更多信息</span>
-    </div>
-
-    <Form ref="loan" :model="loan" :rules="ruleValidate" :label-width="150">
       <FormItem label="产品卖点" prop="brightSpot">
         <Row>
           <iCol span="11">
@@ -131,62 +120,32 @@
         </Row>
       </FormItem>
 
-      <FormItem label="融资方介绍" prop="financeIntroduce">
-        <Row>
-          <iCol span="11">
-            <Input v-model="loan.financeIntroduce" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                   placeholder="请输入融资方介绍"></Input>
-          </iCol>
-        </Row>
-      </FormItem>
-      <FormItem label="资金用途" prop="moneyUse">
-        <Row>
-          <iCol span="11">
-            <Input v-model="loan.moneyUse" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                   placeholder="请输入资金用途"></Input>
-          </iCol>
-        </Row>
-      </FormItem>
-      <FormItem label="还款来源" prop="repaySource">
-        <Row>
-          <iCol span="11">
-            <Input v-model="loan.repaySource" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                   placeholder="请输入还款来源"></Input>
-          </iCol>
-        </Row>
-      </FormItem>
-      <FormItem label="风险控制" prop="riskControl">
-        <Row>
-          <iCol span="11">
-            <Input v-model="loan.riskControl" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                   placeholder="请输入风险控制"></Input>
-          </iCol>
-        </Row>
-      </FormItem>
-      <FormItem label="项目说明" prop="productDesc">
-        <Row>
-          <iCol span="11">
-            <Input v-model="loan.productDesc" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                   placeholder="请输入项目说明"></Input>
-          </iCol>
-        </Row>
-      </FormItem>
-      <FormItem label="项目文件" prop="productDescFiles">
+
+      <FormItem label="基金经理" prop="desc">
         <Row>
           <iCol span="14">
-            <Table border ref="selection" :columns="columns5" :data="JSON.parse(loan.productDescFiles)"></Table>
+            <Table border ref="selection" :columns="columns5" :data="data2"></Table>
           </iCol>
         </Row>
       </FormItem>
-      <FormItem label="理财师" prop="desc">
+
+      <FormItem label="上传logo" prop="desc">
         <Row>
-          <iCol span="14">
-            <Table border ref="selection" :columns="columns6" :data="data3"></Table>
+          <iCol span="11">
+            <Upload
+              multiple
+              action="//jsonplaceholder.typicode.com/posts/">
+              <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
+            </Upload>
           </iCol>
         </Row>
       </FormItem>
-      <FormItem>
-        <Button type="primary" @click="modalReview = true">审核</Button>
+
+      <FormItem v-if="type === 'review'">
+        <Button type="primary" @click="modalShow()">审核</Button>
+      </FormItem>
+      <FormItem v-if="type === 'publish'">
+        <Button type="primary" @click="modalShow()">发标</Button>
       </FormItem>
     </Form>
 
@@ -198,7 +157,7 @@
       <div style="text-align:center">
         <p>&nbsp;</p>
         <p>&nbsp;</p>
-        <p>确定提交审核信息吗?</p>
+        <p>{{modalStr}}</p>
         <p>&nbsp;</p>
       </div>
       <div slot="footer">
@@ -219,8 +178,10 @@
     data() {
       return {
         loan: {},
+        type: '',
         preImgSrc: '',
         modalReview: false,
+        modalStr: '',
         visible: false,
 //        uploadUrl: baseUrl + '/cms/banner/upload?' + commonDataStr(),
         columns4: [
@@ -407,6 +368,7 @@
     },
     methods: {
       init: async function () {
+        this.type = this.$route.query.type;
         await loanPublicGet({'loanId': this.$route.query.loanId}).then(r => {
           this.loan = r.body;
         });
@@ -415,14 +377,34 @@
         this.preImgSrc = name;
         this.visible = true;
       },
+      modalShow() {
+        this.modalReview = true;
+        if (this.type === 'review') {
+          this.modalStr = '确定提交审核信息吗?';
+        }
+        if (this.type === 'publish') {
+          this.modalStr = '确定将该产品发布到前端吗?';
+        }
+      },
       handleReview: async function () {
-        await loanReview({
-          'loanId': this.$route.query.loanId,
-          'loanStatus': '200'
-        }).then(r => {
-          this.$Message.success('审核成功!');
-          this.$router.push({path: 'review'});
-        });
+        if (this.type === 'review') {
+          await loanReview({
+            'loanId': this.$route.query.loanId,
+            'loanStatus': '150'
+          }).then(r => {
+            this.$Message.success('审核成功!');
+            this.$router.push({path: '/review'});
+          });
+        }
+        if (this.type === 'publish') {
+          await loanReview({
+            'loanId': this.$route.query.loanId,
+            'loanStatus': '200'
+          }).then(r => {
+            this.$Message.success('发标成功!');
+            this.$router.push({path: '/published'});
+          });
+        }
       }
     },
     mounted() {

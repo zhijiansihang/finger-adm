@@ -9,33 +9,33 @@
       <span>基本信息</span>
     </div>
 
-    <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="150">
-      <FormItem label="产品名称" prop="name">
+    <Form ref="formValidate" :model="loan" :rules="ruleValidate" :label-width="150">
+      <FormItem label="产品名称" prop="title">
         <Row>
           <iCol span="11">
-            <Input v-model="formValidate.name" placeholder="请输入产品名称"></Input>
+            <Input v-model="loan.title" placeholder="请输入产品名称"></Input>
           </iCol>
         </Row>
       </FormItem>
-      <FormItem label="起投金额" prop="name">
+      <FormItem label="起投金额" prop="beginAmount">
         <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="formValidate.name" placeholder="请输入起投金额"></Input>
+            <Input v-model="loan.beginAmount" placeholder="请输入起投金额"></Input>
           </iCol>
           <iCol span="3">万元</iCol>
         </Row>
       </FormItem>
-      <FormItem label="投资方向" prop="name">
+      <FormItem label="投资方向" prop="productDirection">
         <Row>
           <iCol span="11">
-            <Input v-model="formValidate.name" placeholder="请输入投资方向"></Input>
+            <Input v-model="loan.productDirection" placeholder="请输入投资方向"></Input>
           </iCol>
         </Row>
       </FormItem>
-      <FormItem label="基金类型" prop="mail">
+      <FormItem label="基金类型" prop="fundType">
         <Row>
           <iCol span="11">
-            <Select v-model="formValidate.city" placeholder="请选择基金类型">
+            <Select v-model="loan.fundType" placeholder="请选择基金类型">
               <Option value="1">本土</Option>
               <Option value="2">合资</Option>
               <Option value="3">外资</Option>
@@ -44,77 +44,77 @@
           </iCol>
         </Row>
       </FormItem>
-      <FormItem label="融资规模" prop="gender">
+      <FormItem label="融资规模" prop="amount">
         <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="formValidate.mail" placeholder="请输入融资金额"></Input>
+            <Input v-model="loan.amount" placeholder="请输入融资金额"></Input>
           </iCol>
           <iCol span="3">万元</iCol>
         </Row>
       </FormItem>
-      <FormItem label="存续年限" prop="gender">
+      <FormItem label="存续年限" prop="adaptationDeadline">
         <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="formValidate.mail" placeholder="请输入存续年限，例如：1+0.5+0.5"></Input>
+            <Input v-model="loan.adaptationDeadline" placeholder="请输入存续年限，例如：1+0.5+0.5"></Input>
           </iCol>
-          <iCol span="3">天</iCol>
+          <iCol span="3">年</iCol>
         </Row>
       </FormItem>
-      <FormItem label="资本类型" prop="city">
+      <FormItem label="资本类型" prop="capitalType">
         <Row>
           <iCol span="11">
-            <Select v-model="formValidate.city" placeholder="请选择资本类型">
-              <Option value="beijing">天使基金</Option>
-              <Option value="shanghai">创业基金</Option>
-              <Option value="shenzhen">成长基金</Option>
-              <Option value="shenzhen">FOF基金</Option>
-              <Option value="shenzhen">并购基金</Option>
-              <Option value="shenzhen">政府引导基金</Option>
-              <Option value="shenzhen">基础设施基金</Option>
-              <Option value="shenzhen">房地产基金</Option>
-              <Option value="shenzhen">其他</Option>
+            <Select v-model="loan.capitalType" placeholder="请选择资本类型">
+              <Option value="1">天使基金</Option>
+              <Option value="2">创业基金</Option>
+              <Option value="3">成长基金</Option>
+              <Option value="4">FOF基金</Option>
+              <Option value="5">并购基金</Option>
+              <Option value="6">政府引导基金</Option>
+              <Option value="7">基础设施基金</Option>
+              <Option value="8">房地产基金</Option>
+              <Option value="9">其他</Option>
             </Select>
           </iCol>
         </Row>
       </FormItem>
-      <FormItem label="组织形式" prop="city">
+      <FormItem label="组织形式" prop="organizeForm">
         <Row>
           <iCol span="11">
-            <Select v-model="formValidate.city" placeholder="请选择组织形式">
-              <Option value="beijing">公司形式</Option>
-              <Option value="shanghai">信托制</Option>
-              <Option value="shenzhen">有限合伙制</Option>
-              <Option value="shenzhen">虚拟式</Option>
-              <Option value="shenzhen">组合式</Option>
-              <Option value="shenzhen">契约式</Option>
-              <Option value="shenzhen">其他</Option>
+            <Select v-model="loan.organizeForm" placeholder="请选择组织形式">
+              <Option value="1">公司形式</Option>
+              <Option value="2">信托制</Option>
+              <Option value="3">有限合伙制</Option>
+              <Option value="4">虚拟式</Option>
+              <Option value="5">组合式</Option>
+              <Option value="6">契约式</Option>
+              <Option value="7">其他</Option>
             </Select>
           </iCol>
         </Row>
       </FormItem>
 
-      <FormItem label="管理费率" prop="interest">
+      <FormItem label="管理费率" prop="manageRate">
         <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="formValidate.mail" placeholder="请输入管理费率"></Input>
+            <Input v-model="loan.manageRate" placeholder="请输入管理费率"></Input>
           </iCol>
           <iCol span="3">%/每年</iCol>
         </Row>
       </FormItem>
 
-      <FormItem label="产品优势" prop="interest">
+      <FormItem label="产品优势" prop="productDesc">
         <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="formValidate.mail" placeholder="请输入产品优势"></Input>
+            <Input v-model="loan.productDesc" placeholder="请输入产品优势"></Input>
           </iCol>
           <iCol span="8">优势简介，建议不超过20个字</iCol>
         </Row>
       </FormItem>
 
-      <FormItem label="产品卖点" prop="desc">
+      <FormItem label="产品卖点" prop="brightSpot">
         <Row>
           <iCol span="11">
-            <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+            <Input v-model="loan.brightSpot" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
                    placeholder="请输入产品卖点"></Input>
           </iCol>
         </Row>
@@ -148,36 +148,28 @@
   </Card>
 </template>
 <script>
+  import {loanPrivateAdd} from '../../../util/interface';
   export default {
     data() {
       return {
-        formValidate: {
-          name: '',
-          mail: '',
-          city: '',
-          gender: '',
-          interest: [],
-          date: '',
-          time: '',
-          desc: ''
-        },
+        loan: {},
         columns5: [
           {
             title: '用户ID',
-            key: 'name'
+            key: 'userId'
           },
           {
             title: '名称',
-            key: 'age'
+            key: 'name'
           },
           {
             title: '手机号',
             width: 145,
-            key: 'address'
+            key: 'mobile'
           },
           {
             title: '当前产品数量',
-            key: 'age'
+            key: 'number'
           },
           {
             type: 'selection',
@@ -187,56 +179,59 @@
         ],
         data2: [
           {
-            name: 'John Brown',
-            age: 18,
-            address: 'New York',
-            date: '2016-10-03'
+            userId: 101,
+            name: '王经理',
+            mobile: '13111111111',
+            number: '10'
           },
           {
-            name: 'Jim Green',
-            age: 24,
-            address: 'London ',
-            date: '2016-10-01'
+            userId: 102,
+            name: '王经理',
+            mobile: '13111111111',
+            number: '10'
           }
         ],
         ruleValidate: {
-          name: [
-            {required: true, message: 'The name cannot be empty', trigger: 'blur'}
-          ],
-          mail: [
-            {required: true, message: 'Mailbox cannot be empty', trigger: 'blur'},
-            {type: 'email', message: 'Incorrect email format', trigger: 'blur'}
-          ],
-          city: [
-            {required: true, message: 'Please select the city', trigger: 'change'}
-          ],
-          gender: [
-            {required: true, message: 'Please select gender', trigger: 'change'}
-          ],
-          interest: [
-            {required: true, type: 'array', min: 1, message: 'Choose at least one hobby', trigger: 'change'},
-            {type: 'array', max: 2, message: 'Choose two hobbies at best', trigger: 'change'}
-          ],
-          date: [
-            {required: true, type: 'date', message: 'Please select the date', trigger: 'change'}
-          ],
-          time: [
-            {required: true, type: 'date', message: 'Please select time', trigger: 'change'}
-          ],
-          desc: [
-            {required: true, message: 'Please enter a personal introduction', trigger: 'blur'},
-            {type: 'string', min: 20, message: 'Introduce no less than 20 words', trigger: 'blur'}
-          ]
+//          name: [
+//            {required: true, message: 'The name cannot be empty', trigger: 'blur'}
+//          ],
+//          mail: [
+//            {required: true, message: 'Mailbox cannot be empty', trigger: 'blur'},
+//            {type: 'email', message: 'Incorrect email format', trigger: 'blur'}
+//          ],
+//          city: [
+//            {required: true, message: 'Please select the city', trigger: 'change'}
+//          ],
+//          gender: [
+//            {required: true, message: 'Please select gender', trigger: 'change'}
+//          ],
+//          interest: [
+//            {required: true, type: 'array', min: 1, message: 'Choose at least one hobby', trigger: 'change'},
+//            {type: 'array', max: 2, message: 'Choose two hobbies at best', trigger: 'change'}
+//          ],
+//          date: [
+//            {required: true, type: 'date', message: 'Please select the date', trigger: 'change'}
+//          ],
+//          time: [
+//            {required: true, type: 'date', message: 'Please select time', trigger: 'change'}
+//          ],
+//          desc: [
+//            {required: true, message: 'Please enter a personal introduction', trigger: 'blur'},
+//            {type: 'string', min: 20, message: 'Introduce no less than 20 words', trigger: 'blur'}
+//          ]
         }
       };
     },
     methods: {
       handleSubmit(name) {
-        this.$refs[name].validate((valid) => {
+        this.$refs[name].validate(async (valid) => {
           if (valid) {
-            this.$Message.success('Success!');
+            await loanPrivateAdd(this.loan).then(r => {
+              this.$Message.success('添加成功!');
+              this.$router.push({path: 'review'});
+            });
           } else {
-            this.$Message.error('Fail!');
+            this.$Message.error('添加失败!');
           }
         });
       },
@@ -248,35 +243,4 @@
 </script>
 
 <style>
-  .example-header {
-    display: block;
-    font-weight: 500;
-    margin: 30px 0 30px;
-    position: relative;
-  }
-
-  .example-header span {
-    display: inline-block;
-    background: #fff;
-    padding: 0 5px 0 18px;
-    position: relative;
-    margin-left: 30px;
-    font-size: 14px;
-  }
-
-  .example-header:before {
-    box-sizing: border-box;
-    content: "";
-    display: block;
-    width: 100%;
-    height: 1px;
-    background: #eee;
-    position: absolute;
-    top: 10px;
-    left: 0;
-  }
-
-  #public .ivu-table .ivu-table-row .ivu-table-cell .ivu-btn {
-    padding: 0;
-  }
 </style>

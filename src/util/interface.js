@@ -95,6 +95,10 @@ export const loanReview = (body) => fetch(FINGER + '/loan/review', {
   reqBody: body
 }, 'POST');
 
+export const loanEnd = (body) => fetch(FINGER + '/loan/end', {
+  reqBody: body
+}, 'POST');
+
 export const loanPublish = (body) => fetch(FINGER + '/loan/publish', {
   reqBody: body
 }, 'POST');

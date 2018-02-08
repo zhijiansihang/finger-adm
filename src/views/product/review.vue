@@ -98,10 +98,11 @@
           title: '',
           productType: '',
           institutionUserId: '',
-          loanStatus: '100',
+          status: [100],
           pageSize: 10,
           currentPage: 1
         },
+        loanId: '',
         modal_loading: false,
         modalDel: false,
         data: [],
@@ -165,9 +166,9 @@
             render: (h, params) => {
               let loanType = this.data[params.index].loanType;
               if (loanType === 2) {
-                return this.data[params.index].investmentDeadline + '个月';
-              } else {
                 return this.data[params.index].adaptationDeadline + '年';
+              } else {
+                return this.data[params.index].investmentDeadline + '个月';
               }
             }
           },
@@ -245,28 +246,28 @@
                   on: {
                     click: () => {
                       if (this.data[params.index].loanType === 1) {
-                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId}});
+                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId, 'type': 'review'}});
                       } else {
-                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId}});
+                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId, 'type': 'review'}});
                       }
                     }
                   }
                 }, '详情'),
-                h('Button', {
-                  props: {
-                    type: 'success',
-                    size: 'small',
-                    icon: 'edit'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.$router.push({path: 'reviewEdit'});
-                    }
-                  }
-                }, '编辑'),
+//                h('Button', {
+//                  props: {
+//                    type: 'success',
+//                    size: 'small',
+//                    icon: 'edit'
+//                  },
+//                  style: {
+//                    marginRight: '5px'
+//                  },
+//                  on: {
+//                    click: () => {
+//                      this.$router.push({path: 'reviewEdit'});
+//                    }
+//                  }
+//                }, '编辑'),
                 h('Button', {
                   props: {
                     type: 'warning',
@@ -279,6 +280,7 @@
                   on: {
                     click: () => {
                       this.modalDel = true;
+                      this.loanId = this.data[params.index].loanId;
                     }
                   }
                 }, '删除')
@@ -303,11 +305,11 @@
         this.init();
       },
       del: async function () {
-        let self = this;
-        await loanDelete(this.loan).then(r => {
+        await loanDelete({'loanId': this.loanId}).then(r => {
           if (r.header.code === '0') {
-            self.init();
             this.$Message.success('删除成功!');
+            this.modalDel = false;
+            this.init();
           }
 //          self.hideModal();
         });

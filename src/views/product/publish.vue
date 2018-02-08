@@ -98,7 +98,7 @@
           title: '',
           productType: '',
           institutionUserId: '',
-          loanStatus: '150',
+          status: [150],
           pageSize: 10,
           currentPage: 1
         },
@@ -164,9 +164,9 @@
             render: (h, params) => {
               let loanType = this.data[params.index].loanType;
               if (loanType === 2) {
-                return this.data[params.index].investmentDeadline + '个月';
-              } else {
                 return this.data[params.index].adaptationDeadline + '年';
+              } else {
+                return this.data[params.index].investmentDeadline + '个月';
               }
             }
           },
@@ -215,6 +215,8 @@
               let loanStatus = this.data[params.index].loanStatus;
               if (loanStatus === 100) {
                 return '审核中';
+              } else if (loanStatus === 150) {
+                return '待发布';
               } else if (loanStatus === 200) {
                 return '募集中';
               } else if (loanStatus === 300) {
@@ -227,7 +229,7 @@
           {
             title: '操作',
             key: 'action',
-            width: 295,
+            width: 130,
             align: 'center',
             fixed: 'right',
             render: (h, params) => {
@@ -244,26 +246,13 @@
                   on: {
                     click: () => {
                       if (this.data[params.index].loanType === 1) {
-                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId}});
+                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId, 'type': 'publish'}});
                       } else {
-                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId}});
+                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId, 'type': 'publish'}});
                       }
                     }
                   }
-                }, '详情'),
-                h('Button', {
-                  props: {
-                    type: 'success',
-                    size: 'small',
-                    icon: 'edit'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {}
-                  }
-                }, '结标')
+                }, '审核')
               ]);
             }
           }
