@@ -10,34 +10,34 @@
           <Button type="info" shape="circle" v-on:click="query()" icon="ios-search">查询</Button>
           <Button type="ghost" shape="circle" v-on:click="reset()" icon="refresh">重置</Button>
         </a>
-        <Form :model="user"  :label-width="80">
+        <Form :model="loan"  :label-width="80">
           <Row :gutter="60">
             <i-col span="12">
               <Form-item label="产品ID">
-                <Input v-model="user.id" @on-keyup="watchId(user.id)" placeholder="请输入"></Input>
+                <Input v-model="loan.loanId" @on-keyup="watchId(loan.loanId)" placeholder="请输入"></Input>
               </Form-item>
             </i-col>
             <i-col span="12">
               <Form-item label="产品名称">
-                <Input v-model="user.phone"  placeholder="请输入"></Input>
+                <Input v-model="loan.title"  placeholder="请输入"></Input>
               </Form-item>
             </i-col>
           </Row>
           <Row :gutter="60">
             <i-col span="12">
               <Form-item label="产品类型">
-                <Select v-model="user.gender" placeholder="请选择">
+                <Select v-model="loan.productType" placeholder="请选择">
                   <Option value="">全部</Option>
-                  <Option value="0">信托</Option>
-                  <Option value="1">资管</Option>
-                  <Option value="2">私募股权</Option>
+                  <Option value="1">信托</Option>
+                  <Option value="2">资管</Option>
+                  <Option value="4">私募</Option>
                   <Option value="3">其他</Option>
                 </Select>
               </Form-item>
             </i-col>
             <i-col span="12">
               <Form-item label="所属机构">
-                <Select v-model="user.gender" placeholder="请选择">
+                <Select v-model="loan.institutionUserId" placeholder="请选择">
                   <Option value="">全部</Option>
                   <Option value="0">国民信托</Option>
                   <Option value="1">中融</Option>
@@ -89,44 +89,22 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import {loanPage, loanDelete} from '../../util/interface';
   export default {
     data() {
       return {
-        user: {
-          id: '',
-          phone: '',
-          gender: ''
+        loan: {
+          loanId: '',
+          title: '',
+          productType: '',
+          institutionUserId: '',
+          loanStatus: '100',
+          pageSize: 10,
+          currentPage: 1
         },
+        modal_loading: false,
         modalDel: false,
-        data: [{
-          id: '201709091',
-          nickname: '小张',
-          mobile: '15090987656',
-          registerTime: '2017-09-09  12:23:45',
-          appointment: '10',
-          amount: '10'
-        }, {
-          id: '201709091',
-          nickname: '小张',
-          mobile: '15090987656',
-          registerTime: '2017-09-09  12:23:45',
-          appointment: '10',
-          amount: '10'
-        }, {
-          id: '201709091',
-          nickname: '小张',
-          mobile: '15090987656',
-          registerTime: '2017-09-09  12:23:45',
-          appointment: '10',
-          amount: '10'
-        }, {
-          id: '201709091',
-          nickname: '小张',
-          mobile: '15090987656',
-          registerTime: '2017-09-09  12:23:45',
-          appointment: '10',
-          amount: '10'
-        }],
+        data: [],
         columns7: [
           {
             title: '产品ID',
@@ -134,60 +112,63 @@
             align: 'center',
             render: (h, params) => {
               return h('div', [
-                h('strong', this.data[params.index].id)
+                h('strong', this.data[params.index].loanId)
               ]);
             }
           },
           {
             title: '产品名称',
-            key: 'name',
+            key: 'title',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].nickname;
+              return this.data[params.index].title;
             }
           },
           {
             title: '理财师（人）',
-            key: 'gender',
+            key: 'loanId',
             align: 'center',
             render: (h, params) => {
-//              let gender = this.data6[params.index].gender === '0' ? '男' : '女';
-              return this.data[params.index].mobile;
+//              let loanId = this.data6[params.index].loanId === '0' ? '男' : '女';
+              return this.data[params.index].loanId;
             }
           },
           {
             title: '产品类型',
-            key: 'phone',
+            key: 'productType',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].registerTime;
+              let productType = this.data[params.index].productType;
+              if (productType === 1) {
+                return '信托';
+              } else if (productType === 2) {
+                return '资管';
+              } else if (productType === 4) {
+                return '私募';
+              } else {
+                return '其他资产';
+              }
             }
           },
           {
             title: '产品方向',
             width: 85,
-            key: 'roles',
+            key: 'productDirection',
             align: 'center',
             render: (h, params) => {
-//              let roles = '';
-//              let length = this.data6[params.index].roles.length;
-//              for (var i = 0; i < length; i++) {
-//                roles += this.data6[params.index].roles[i].name + ',';
-//              };
-              return this.data[params.index].appointment;
+              return this.data[params.index].productDirection;
             }
           },
           {
             title: '产品期限',
-            key: 'roles',
             align: 'center',
             render: (h, params) => {
-//              let roles = '';
-//              let length = this.data6[params.index].roles.length;
-//              for (var i = 0; i < length; i++) {
-//                roles += this.data6[params.index].roles[i].name + ',';
-//              };
-              return this.data[params.index].amount;
+              let loanType = this.data[params.index].loanType;
+              if (loanType === 2) {
+                return this.data[params.index].investmentDeadline + '个月';
+              } else {
+                return this.data[params.index].adaptationDeadline + '年';
+              }
             }
           },
           {
@@ -195,51 +176,53 @@
             key: 'roles',
             align: 'center',
             render: (h, params) => {
-//              let roles = '';
-//              let length = this.data6[params.index].roles.length;
-//              for (var i = 0; i < length; i++) {
-//                roles += this.data6[params.index].roles[i].name + ',';
-//              };
-              return this.data[params.index].nickname;
+              let servicingWay = this.data[params.index].servicingWay;
+              if (servicingWay === 1) {
+                return '按月付息';
+              } else if (servicingWay === 2) {
+                return '按季付息';
+              } else if (servicingWay === 3) {
+                return '半年付息';
+              } else if (servicingWay === 4) {
+                return '按年付息';
+              } else if (servicingWay === 5) {
+                return '到期付息';
+              } else {
+                return '其他';
+              }
             }
           },
           {
             title: '起投金额（万元）',
-            key: 'roles',
+            key: 'beginAmount',
             align: 'center',
             render: (h, params) => {
-//              let roles = '';
-//              let length = this.data6[params.index].roles.length;
-//              for (var i = 0; i < length; i++) {
-//                roles += this.data6[params.index].roles[i].name + ',';
-//              };
-              return this.data[params.index].nickname;
+              return this.data[params.index].beginAmount;
             }
           },
           {
             title: '所属机构',
-            key: 'roles',
+            key: 'issuer',
             align: 'center',
             render: (h, params) => {
-//              let roles = '';
-//              let length = this.data6[params.index].roles.length;
-//              for (var i = 0; i < length; i++) {
-//                roles += this.data6[params.index].roles[i].name + ',';
-//              };
-              return this.data[params.index].nickname;
+              return this.data[params.index].issuer;
             }
           },
           {
             title: '状态',
-            key: 'roles',
+            key: 'loanStatus',
             align: 'center',
             render: (h, params) => {
-//              let roles = '';
-//              let length = this.data6[params.index].roles.length;
-//              for (var i = 0; i < length; i++) {
-//                roles += this.data6[params.index].roles[i].name + ',';
-//              };
-              return this.data[params.index].nickname;
+              let loanStatus = this.data[params.index].loanStatus;
+              if (loanStatus === 100) {
+                return '审核中';
+              } else if (loanStatus === 200) {
+                return '募集中';
+              } else if (loanStatus === 300) {
+                return '结束';
+              } else if (loanStatus === 400) {
+                return '已删除';
+              }
             }
           },
           {
@@ -261,11 +244,11 @@
                   },
                   on: {
                     click: () => {
-//                      let authSet = this.data6[params.index].userAuths;
-//                      this.data1 = authSet;
-//                      this.userId = this.data6[params.index].id;
-//                      this.modalManager = true;
-                      this.$router.push({path: 'reviewDetail'});
+                      if (this.data[params.index].loanType === 1) {
+                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId}});
+                      } else {
+                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId}});
+                      }
                     }
                   }
                 }, '详情'),
@@ -280,10 +263,6 @@
                   },
                   on: {
                     click: () => {
-//                      let authSet = this.data6[params.index].userAuths;
-//                      this.data1 = authSet;
-//                      this.userId = this.data6[params.index].id;
-//                      this.modalManager = true;
                       this.$router.push({path: 'reviewEdit'});
                     }
                   }
@@ -299,9 +278,6 @@
                   },
                   on: {
                     click: () => {
-//                      let authSet = this.data6[params.index].userAuths;
-//                      this.data1 = authSet;
-//                      this.userId = this.data6[params.index].id;
                       this.modalDel = true;
                     }
                   }
@@ -317,17 +293,39 @@
       };
     },
     methods: {
+      init: async function () {
+        await loanPage(this.loan).then(r => {
+          this.data = r.body.results;
+          this.totalCount = r.body.recordCount;
+        });
+      },
+      query: async function () {
+        this.init();
+      },
+      del: async function () {
+        let self = this;
+        await loanDelete(this.loan).then(r => {
+          if (r.header.code === '0') {
+            self.init();
+            this.$Message.success('删除成功!');
+          }
+//          self.hideModal();
+        });
+      },
       pageNumChange: function (pageNum) {
-        this.pageNumber = pageNum;
+        this.loan.currentPage = pageNum;
         this.init();
       },
       pageSizeChange: function (pageSize) {
-        this.pageSize = pageSize;
+        this.loan.pageSize = pageSize;
         this.init();
       },
       hideModal(modal) {
         this.modalDel = false;
       }
+    },
+    mounted() {
+      this.init();
     }
   };
 </script>

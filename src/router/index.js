@@ -83,7 +83,7 @@ const router = new Router({
       prevLevelName: '产品管理',
       title: '发布私募产品'
     },
-    component: (resolve) => require(['../views/product/private.vue'], resolve)
+    component: (resolve) => require(['../views/product/add/private.vue'], resolve)
   }, {
     path: '/public',
     name: '发布公募产品',
@@ -91,7 +91,7 @@ const router = new Router({
       prevLevelName: '产品管理',
       title: '发布公募产品'
     },
-    component: (resolve) => require(['../views/product/public.vue'], resolve)
+    component: (resolve) => require(['../views/product/add/public.vue'], resolve)
   }, {
     path: '/published',
     name: '已发布产品',
@@ -101,6 +101,14 @@ const router = new Router({
     },
     component: (resolve) => require(['../views/product/published.vue'], resolve)
   }, {
+    path: '/publish',
+    name: '已发布产品',
+    meta: {
+      prevLevelName: '产品管理',
+      title: '已发布产品'
+    },
+    component: (resolve) => require(['../views/product/publish.vue'], resolve)
+  }, {
     path: '/review',
     name: '待审核产品',
     meta: {
@@ -109,21 +117,37 @@ const router = new Router({
     },
     component: (resolve) => require(['../views/product/review.vue'], resolve)
   }, {
-    path: '/reviewEdit',
-    name: '待审核产品',
+    path: '/product/edit/private',
+    name: '编辑私募产品',
     meta: {
-      prevLevelName: '产品编辑',
-      title: '待审核产品'
+      prevLevelName: '产品管理',
+      title: '编辑私募产品'
     },
-    component: (resolve) => require(['../views/product/reviewEdit.vue'], resolve)
+    component: (resolve) => require(['../views/product/edit/private.vue'], resolve)
   }, {
-    path: '/reviewDetail',
+    path: '/product/edit/public',
+    name: '编辑公募产品',
+    meta: {
+      prevLevelName: '产品管理',
+      title: '编辑公募产品'
+    },
+    component: (resolve) => require(['../views/product/edit/public.vue'], resolve)
+  }, {
+    path: '/product/detail/private',
     name: '待审核产品',
     meta: {
-      prevLevelName: '产品详情',
+      prevLevelName: '产品管理',
       title: '待审核产品'
     },
-    component: (resolve) => require(['../views/product/reviewDetail.vue'], resolve)
+    component: (resolve) => require(['../views/product/detail/private.vue'], resolve)
+  }, {
+    path: '/product/detail/public',
+    name: '待审核产品',
+    meta: {
+      prevLevelName: '产品管理',
+      title: '待审核产品'
+    },
+    component: (resolve) => require(['../views/product/detail/public.vue'], resolve)
   }, {
     path: '/banner',
     name: '首页banner',
@@ -251,14 +275,22 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   Cookies.set('refer', from.fullPath);
-
+  if (from.fullPath === '/') {
+    Cookies.set(mainConst.ADM_REFER, mainConst.ADM_INDEX);
+  } else {
+    Cookies.set(mainConst.ADM_REFER, from.fullPath);
+  }
   if (to.query.sessionId) { // 存入sessionId
     Cookies.set('sessionId', to.query.sessionId);
   }
   let sessionId = Cookies.get('sessionId');
   if (sessionId) { // 如果是登陆状态
     store.dispatch('addTab', to);
-    (to.path === '/' || to.path === '/login') ? next({path: mainConst.ADM_INDEX}) : next();
+    if (window !== top) {
+      (to.path === '/' || to.path === '/login') ? next({path: '/login'}) : next();
+    } else {
+      (to.path === '/' || to.path === '/login') ? next({path: mainConst.ADM_INDEX}) : next();
+    }
   } else { // 不是登陆状态
     to.path !== '/login' ? next({path: '/login'}) : next();
   }

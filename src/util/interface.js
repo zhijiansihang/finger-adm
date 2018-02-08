@@ -12,7 +12,7 @@ export const login = (data, codeEvents) => fetch('/login', {
   codeEvents: codeEvents
 }, 'POST');
 
-// cms模块
+/* *************系统管理模块-start*********** */
 export const cmsPage = (body) => fetch(FINGER + '/cms/page', {
   reqBody: body
 }, 'POST');
@@ -32,8 +32,9 @@ export const updateCms = (body) => fetch(FINGER + '/cms/update', {
 export const delCms = (body) => fetch(FINGER + '/cms/delete', {
   reqBody: body
 }, 'POST');
+/* *************系统管理模块-end*********** */
 
-// 用户模块
+/* *************用户模块-start*********** */
 export const userPage = (body) => fetch(FINGER + '/user/page', {
   reqBody: body
 }, 'POST');
@@ -75,4 +76,38 @@ export const addAuth = (body) => fetch(FINGER + '/user/institution/add', {
 export const deleteAuth = (body) => fetch(FINGER + '/user/institution/delete', {
   reqBody: body
 }, 'POST');
+/* *************用户模块-end*********** */
 
+/* *************标的管理模块-start*********** */
+export const loanPage = (body) => fetch(FINGER + '/loan/page', {
+  reqBody: body
+}, 'POST');
+
+export const loanPublicGet = (body) => fetch(FINGER + '/loan/public/get', {
+  reqBody: body
+}, 'POST');
+
+export const loanPrivateGet = (body) => fetch(FINGER + '/loan/private/get', {
+  reqBody: body
+}, 'POST');
+
+export const loanReview = (body) => fetch(FINGER + '/loan/review', {
+  reqBody: body
+}, 'POST');
+
+export const loanPublish = (body) => fetch(FINGER + '/loan/publish', {
+  reqBody: body
+}, 'POST');
+
+export const loanPublicAdd = (body) => fetch(FINGER + '/loan/public/add', {
+  reqBody: body
+}, 'POST');
+
+export const loanPrivateAdd = (body) => fetch(FINGER + '/loan/private/add', {
+  reqBody: body
+}, 'POST');
+
+export const loanDelete = (body) => fetch(FINGER + '/loan/delete', {
+  reqBody: body
+}, 'POST');
+/* *************标的管理模块-end*********** */

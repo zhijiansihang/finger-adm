@@ -98,7 +98,7 @@
           title: '',
           productType: '',
           institutionUserId: '',
-          loanStatus: '200',
+          loanStatus: '150',
           pageSize: 10,
           currentPage: 1
         },

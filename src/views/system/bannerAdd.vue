@@ -29,7 +29,7 @@
                   <img :src="banner.imagePath" style="height: 200px;">
                 </div>
               </template>
-                <Upload :on-success="handleSuccess" :max-size="1024" :on-exceeded-size="handleMaxSize" :on-format-error="handleFormatError" :format="['jpg','jpeg','gif','png']" :show-upload-list="false" :action="uploadUrl">
+              <Upload :on-success="handleSuccess" :max-size="1024" :on-exceeded-size="handleMaxSize" :on-format-error="handleFormatError" :format="['jpg','jpeg','gif','png']" :show-upload-list="false" :action="uploadUrl">
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
               </Upload>
           </iCol>

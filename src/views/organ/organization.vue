@@ -48,40 +48,40 @@
 
 
     <Modal v-model="modalAdd" title="用户添加" width="730"
-           @on-ok="handleSubmit('institutionAdd')"  @on-cancel="hideModal('modalAdd')">
+           @on-ok="handleSubmit()"  @on-cancel="hideModal('modalAdd')">
       <Form :model="institution" ref="institutionAdd" :label-width="80" :rules="ruleValidate">
         <Row :gutter="60">
           <i-col span="18">
             <Form-item label="机构名称" prop="nickName">
-              <Input v-model="institution.nickName" @on-enter="handleSubmit('institutionAdd')" placeholder="请输入"></Input>
+              <Input v-model="institution.nickName" @on-enter="handleSubmit()" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
             <Form-item label="机构联系人" prop="realName">
-              <Input v-model="institution.realName" @on-enter="handleSubmit('institutionAdd')" placeholder="请输入"></Input>
+              <Input v-model="institution.realName" @on-enter="handleSubmit()" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
             <Form-item label="联系方式" prop="mobile">
-              <Input v-model="institution.mobile" @on-enter="handleSubmit('institutionAdd')" placeholder="请输入"></Input>
+              <Input v-model="institution.mobile" @on-enter="handleSubmit()" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
             <Form-item label="后台账号" prop="authId">
-              <Input v-model="institution.authId" @on-enter="handleSubmit('institutionAdd')" placeholder="请输入"></Input>
+              <Input v-model="institution.authId" @on-enter="handleSubmit()" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
             <Form-item label="密码" prop="authPass">
-              <Input v-model="institution.authPass" @on-enter="handleSubmit('institutionAdd')" placeholder="请输入"></Input>
+              <Input v-model="institution.authPass" @on-enter="handleSubmit()" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
@@ -89,56 +89,56 @@
       </Form>
 
       <div slot="footer">
-        <Button type="info" size="large"  @click="handleSubmit('institutionAdd')">确认添加</Button>
-        <Button type="info" size="large" v-on:click="hideModal('modalAdd')">关闭</Button>
+        <Button type="info" size="large"  @click="handleSubmit()">确认添加</Button>
+        <Button type="info" size="large" v-on:click="hideModal()">关闭</Button>
       </div>
 
     </Modal>
 
 
     <Modal v-model="modalEdit" title="用户修改" width="730"
-           @on-ok="handleSubmit('institutionEdit')"  @on-cancel="hideModal('modalEdit')">
+           @on-ok="handleSubmit()"  @on-cancel="hideModal('modalEdit')">
       <Form :model="institution" ref="institutionEdit" :label-width="80" :rules="ruleValidate">
         <Row :gutter="60">
           <i-col span="18">
             <Form-item label="机构名称" prop="nickName">
-              <Input v-model="institution.nickName" @on-enter="handleSubmit('institutionEdit')" placeholder="请输入"></Input>
+              <Input v-model="institution.nickName" @on-enter="handleSubmit()" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
             <Form-item label="机构联系人" prop="realName">
-              <Input v-model="institution.realName" @on-enter="handleSubmit('institutionEdit')" placeholder="请输入"></Input>
+              <Input v-model="institution.realName" @on-enter="handleSubmit()" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
             <Form-item label="联系方式" prop="mobile">
-              <Input v-model="institution.mobile" @on-enter="handleSubmit('institutionEdit')" placeholder="请输入"></Input>
+              <Input v-model="institution.mobile" @on-enter="handleSubmit()" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
             <Form-item label="后台账号" prop="authId">
-              <Input v-model="institution.authId" @on-enter="handleSubmit('institutionEdit')" placeholder="请输入"></Input>
+              <Input v-model="institution.authId" @on-enter="handleSubmit()" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
         <Row :gutter="60">
           <i-col span="18">
             <Form-item label="密码" prop="authPass">
-              <Input v-model="institution.authPass" @on-enter="handleSubmit('institutionEdit')" placeholder="请输入"></Input>
+              <Input v-model="institution.authPass" @on-enter="handleSubmit()" placeholder="请输入"></Input>
             </Form-item>
           </i-col>
         </Row>
       </Form>
 
       <div slot="footer">
-        <Button type="info" size="large"  @click="handleSubmit('institutionEdit')">提交修改</Button>
-        <Button type="info" size="large" v-on:click="hideModal('modalEdit')">关闭</Button>
+        <Button type="info" size="large"  @click="handleSubmit()">提交修改</Button>
+        <Button type="info" size="large" v-on:click="hideModal()">关闭</Button>
       </div>
 
     </Modal>
@@ -154,7 +154,7 @@
       </div>
       <div slot="footer">
         <Button type="error" size="large" :loading="modal_loading" @click="del">确定删除</Button>
-        <Button type="info" size="large" v-on:click="hideModal('modalDel')">取消</Button>
+        <Button type="info" size="large" v-on:click="hideModal()">取消</Button>
       </div>
     </Modal>
 
@@ -266,7 +266,7 @@
                   },
                   on: {
                     click: () => {
-                      this.modalEdit = true;
+                      this.institution.userId = this.data[params.index].userId;
                       this.get();
                     }
                   }
@@ -305,10 +305,10 @@
         });
       },
       get: async function () {
-        this.fb.mobile = this.mobile;
         let self = this;
-        await institutionGet(this.fb).then(r => {
-          self.fb = r.body;
+        this.modalEdit = true;
+        await institutionGet(this.institution).then(r => {
+          self.institution = r.body;
         });
       },
       query: async function () {
@@ -341,7 +341,9 @@
       hideModal() {
         this.user = {};
         this.mobile = '';
+        this.institution = {};
         this.modalAdd = false;
+        this.modalEdit = false;
         this.modalDel = false;
       },
       watchId(val) {

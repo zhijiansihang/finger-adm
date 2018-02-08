@@ -2,7 +2,7 @@
   <Card id="public">
     <p slot="title">
       <Icon type="ios-film-outline"></Icon>
-      产品审核
+      产品编辑
     </p>
 
     <div class="example-header">
