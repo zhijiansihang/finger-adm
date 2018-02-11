@@ -105,7 +105,7 @@
       handleMaxSize (file) {
         this.$Notice.warning({
           title: '文件大小超限!',
-          desc: '文件 ' + file.name + ' 大小超限，最大512k'
+          desc: '文件 ' + file.name + ' 大小超限，最大1024k'
         });
       },
       handleReset(name) {

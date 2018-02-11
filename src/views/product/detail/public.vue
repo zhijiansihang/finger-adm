@@ -66,12 +66,12 @@
         </Row>
       </FormItem>
 
-      <FormItem label="投资期限" prop="adaptationDeadline">
+      <FormItem label="投资期限" prop="investmentDeadline">
         <Row>
           <iCol span="8">
-            <Input v-model="loan.adaptationDeadline" placeholder="请输入投资期限"></Input>
+            <Input v-model="loan.investmentDeadline" placeholder="请输入投资期限"></Input>
           </iCol>
-          <iCol span="3">年</iCol>
+          <iCol span="3">月</iCol>
         </Row>
       </FormItem>
       <FormItem label="付息方式" prop="servicingWay">
@@ -216,7 +216,7 @@
   </Card>
 </template>
 <script>
-  import {loanPublicGet, loanReview} from '../../../util/interface';
+  import {loanPublicGet, loanReview, fbGetByUserIds} from '../../../util/interface';
   export default {
     data() {
       return {
@@ -242,7 +242,17 @@
           },
           {
             title: '是否加浮动',
-            key: 'isFloating'
+//            key: 'isFloating',
+            render: (h, params) => {
+              return h('div', [
+                h('Checkbox', {
+                  attrs: {
+                    id: 'is-floating-' + params.index,
+                    value: params.row.isFloating
+                  }
+                }, [h('span', '加浮动收益')])
+              ]);
+            }
           }
 //          {
 //            title: '添加',
@@ -413,6 +423,9 @@
         this.type = this.$route.query.type;
         await loanPublicGet({'loanId': this.$route.query.loanId}).then(r => {
           this.loan = r.body;
+        });
+        await fbGetByUserIds({'userIds': this.loan.userIds}).then(r => {
+          this.data3 = r.body;
         });
       },
       handleView(name) {

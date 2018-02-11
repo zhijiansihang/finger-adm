@@ -259,7 +259,7 @@
         ],
         pageSizeOpts: [1, 2, 5, 10, 20, 50],
         totalCount: null,
-        pageSize: 5,
+        pageSize: 10,
         pageNumber: 1
       };
     },

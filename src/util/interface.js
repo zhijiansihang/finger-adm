@@ -51,8 +51,16 @@ export const getUserByMobile = (body) => fetch(FINGER + '/user/get/mobile', {
 export const fbPage = (body) => fetch(FINGER + '/user/fb/page', {
   reqBody: body
 }, 'POST');
+// 理财师 分页
+export const fbList = (body) => fetch(FINGER + '/user/fb/list', {
+  reqBody: body
+}, 'POST');
 // 理财师 根据Id获取
 export const fbGet = (body) => fetch(FINGER + '/user/fb/get', {
+  reqBody: body
+}, 'POST');
+// 理财师 根据Id获取
+export const fbGetByUserIds = (body) => fetch(FINGER + '/user/fb/get/users', {
   reqBody: body
 }, 'POST');
 // 理财师 添加

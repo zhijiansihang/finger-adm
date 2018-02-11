@@ -29,7 +29,7 @@
           </iCol>
         </Row>
       </FormItem>
-      <FormItem label="产品方向" prop="city">
+      <FormItem label="产品方向" prop="productDirection">
         <Row>
           <iCol span="11">
             <Select v-model="loan.productDirection" placeholder="请选择产品方向">
@@ -61,7 +61,15 @@
       <FormItem label="认购金额及年化收益" prop="earningDesc">
         <Row>
           <iCol span="14">
-            <Table border ref="selection" :columns="columns4" :data="loan.earningDesc?JSON.parse(loan.earningDesc):[]"></Table>
+            <Input v-model="loan.earningDesc" v-show="false"></Input>
+          </iCol>
+        </Row>
+      </FormItem>
+
+      <FormItem label="" style="margin-top: -40px">
+        <Row>
+          <iCol span="14">
+            <Table border :columns="columns4" :data="earningDesc"></Table>
           </iCol>
         </Row>
       </FormItem>
@@ -115,18 +123,16 @@
         </Row>
       </FormItem>
 
-    </Form>
 
-    <div class="example-header">
-      <span>更多信息</span>
-    </div>
+      <div class="example-header">
+        <span>更多信息</span>
+      </div>
 
-    <Form ref="loan" :model="loan" :rules="ruleValidate" :label-width="150">
-      <FormItem label="产品卖点" prop="brightSpot">
+      <FormItem label="产品优势" prop="brightSpot">
         <Row>
           <iCol span="11">
             <Input v-model="loan.brightSpot" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                   placeholder="请输入产品卖点"></Input>
+                   placeholder="请输入产品优势"></Input>
           </iCol>
         </Row>
       </FormItem>
@@ -174,14 +180,21 @@
       <FormItem label="项目文件" prop="productDescFiles">
         <Row>
           <iCol span="14">
-            <Table border ref="selection" :columns="columns5" :data="loan.productDescFiles?JSON.parse(loan.productDescFiles) : []"></Table>
+            <Upload :on-success="handleSuccess" :max-size="1024" :on-exceeded-size="handleMaxSize" :on-format-error="handleFormatError" :format="['jpg','jpeg','gif','png']" :show-upload-list="false" :action="uploadUrl">
+              <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
+            </Upload>
+            <br>
+          </iCol>
+          <iCol span="14">
+            <Table border ref="selection" :columns="columns5"
+                   :data="productDescFiles"></Table>
           </iCol>
         </Row>
       </FormItem>
       <FormItem label="理财师" prop="desc">
         <Row>
           <iCol span="14">
-            <Table border ref="selection" :columns="columns6" :data="data3"></Table>
+            <Table border ref="selection" @on-select="onSelect" @on-select-all="onSelectAll" :columns="columns6" :data="data3"></Table>
           </iCol>
         </Row>
       </FormItem>
@@ -213,87 +226,131 @@
   </Card>
 </template>
 <script>
-  import {loanPublicAdd} from '../../../util/interface';
+  import {loanPublicAdd, fbList} from '../../../util/interface';
   import {commonDataStr} from '../../../util/fetch';
   import {baseUrl} from '../../../util/env';
+
   export default {
     data() {
       return {
         loan: {},
         preImgSrc: '',
-        uploadUrl: baseUrl + '/cms/banner/upload?' + commonDataStr(),
+        uploadUrl: baseUrl + '/loan/file/upload?' + commonDataStr(),
         modalReview: false,
         visible: false,
         columns4: [
           {
             title: '投资金额（起）',
-            key: 'startAmount'
+            key: 'startAmount',
+            render: (h, params) => {
+              return h('div', [
+                h('i-input', {
+                  attrs: {
+                    id: 'start-amount-' + params.index,
+                    value: params.row.startAmount
+                  }
+                })
+              ]);
+            }
           },
           {
             title: '投资金额（终）',
-            key: 'endAmount'
+            key: 'endAmount',
+            render: (h, params) => {
+              return h('div', [
+                h('i-input', {
+                  attrs: {
+                    id: 'end-amount-' + params.index,
+                    value: params.row.endAmount
+                  }
+                })
+              ]);
+            }
           },
           {
             title: '预期年化收益（%）',
             width: 145,
-            key: 'basisInterest'
+            key: 'basisInterest',
+            render: (h, params) => {
+              return h('div', [
+                h('i-input', {
+                  attrs: {
+                    id: 'basis-interest-' + params.index,
+                    value: params.row.basisInterest
+                  }
+                })
+              ]);
+            }
           },
           {
             title: '是否加浮动',
-            key: 'isFloating'
+            key: 'isFloating',
+            render: (h, params) => {
+              return h('div', [
+                h('Checkbox', {
+                  attrs: {
+                    id: 'is-floating-' + params.index,
+                    value: params.row.isFloating
+                  }
+                }, [h('span', '加浮动收益')])
+              ]);
+            }
+          },
+          {
+            title: '添加',
+            key: 'action',
+            width: 60,
+            align: 'center',
+            fixed: 'right',
+            renderHeader: (h, params) => {
+              let self = this;
+              return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'ghost',
+                    shape: 'circle',
+                    size: 'small',
+                    icon: 'plus'
+                  },
+                  style: {
+                    //                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.mergeEarningDesc();
+                      self.earningDesc.push({
+                        startAmount: '',
+                        endAmount: '',
+                        basisInterest: '',
+                        isFloating: false
+                      });
+                    }
+                  }
+                })
+              ]);
+            },
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'ghost',
+                    shape: 'circle',
+                    size: 'small',
+                    icon: 'minus-round'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.mergeEarningDesc();
+                      this.earningDesc.splice(params.index, 1);
+                    }
+                  }
+                })
+              ]);
+            }
           }
-//          {
-//            title: '添加',
-//            key: 'action',
-//            width: 60,
-//            align: 'center',
-//            fixed: 'right',
-//            renderHeader: (h, params) => {
-//              return h('div', [
-//                h('Button', {
-//                  props: {
-//                    type: 'ghost',
-//                    shape: 'circle',
-//                    size: 'small',
-//                    icon: 'plus'
-//                  },
-//                  style: {
-//      //                    marginRight: '5px'
-//                  },
-//                  on: {
-//                    click: () => {
-//                      this.data1.push({
-//                        name: 'Jim Green',
-//                        age: 24,
-//                        address: 'London ',
-//                        date: '2016-10-01'
-//                      });
-//                    }
-//                  }
-//                })
-//              ]);
-//            },
-//            render: (h, params) => {
-//              return h('div', [
-//                h('Button', {
-//                  props: {
-//                    type: 'ghost',
-//                    shape: 'circle',
-//                    size: 'small',
-//                    icon: 'minus-round'
-//                  },
-//                  style: {
-//                    marginRight: '5px'
-//                  },
-//                  on: {
-//                    click: () => {
-//                      this.data1.splice(params.index, 1);
-//                    }
-//                  }
-//                })
-//              ]);
-//            }
-//          }
         ],
         columns5: [
           {
@@ -306,9 +363,24 @@
           },
           {
             title: '操作',
-            width: 150,
+            width: 200,
             render: (h, params) => {
               return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'info',
+                    size: 'small',
+                    icon: 'ios-search'
+                  },
+                  style: {
+                    padding: '2px 8px'
+                  },
+                  on: {
+                    click: () => {
+                      this.handleView(this.productDescFiles[params.index].src);
+                    }
+                  }
+                }, '预览'),
                 h('Button', {
                   props: {
                     type: 'warning',
@@ -316,14 +388,15 @@
                     icon: 'trash-a'
                   },
                   style: {
-                    padding: '2px 8px'
+                    padding: '2px 8px',
+                    marginLeft: '15px'
                   },
                   on: {
                     click: () => {
-                      this.handleView(JSON.parse(this.loan.productDescFiles)[params.index].src);
+                      this.productDescFiles.splice(params.index, 1);
                     }
                   }
-                }, '预览')
+                }, '删除')
               ]);
             }
           }
@@ -345,44 +418,82 @@
           {
             title: '当前产品数量',
             key: 'count'
+          },
+          {
+            type: 'selection',
+            width: 60,
+            align: 'center'
           }
         ],
-        data1: [],
+        earningDesc: [],
+        productDescFiles: [],
         data2: [],
-        data3: [
-          {
-            userId: '201709091',
-            realName: '张经理',
-            mobile: '13093944029',
-            count: '5'
-          },
-          {
-            userId: '201709092',
-            realName: '王经理',
-            mobile: '13093944029',
-            count: '5'
-          },
-          {
-            userId: '201709093',
-            realName: '李经理',
-            mobile: '13093944029',
-            count: '5'
-          },
-          {
-            userId: '201709094',
-            realName: '赵经理',
-            mobile: '13093944029',
-            count: '5'
-          }
-        ],
+        data3: [],
         ruleValidate: {
-//          name: [
-//            {required: true, message: 'The name cannot be empty', trigger: 'blur'}
-//          ],
-//          mail: [
-//            {required: true, message: 'Mailbox cannot be empty', trigger: 'blur'},
-//            {type: 'email', message: 'Incorrect email format', trigger: 'blur'}
-//          ],
+          title: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          productDirection: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          productType: [
+            {type: 'number', required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          issuer: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          amount: [
+            {required: true, message: '不能为空', trigger: 'blur'},
+            {
+              type: 'number',
+              message: '类型错误',
+              trigger: 'blur',
+              transform(value) {
+                return Number(value);
+              }
+            }
+          ],
+          earningDesc: [
+            {required: true, message: '认购金额及年化收益', trigger: 'alert'}
+          ],
+          investmentDeadline: [
+            {required: true, message: '不能为空', trigger: 'blur'},
+            {
+              type: 'number',
+              message: '类型错误',
+              trigger: 'blur',
+              transform(value) {
+                return Number(value);
+              }
+            }
+          ],
+          servicingWay: [
+            {type: 'number', required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          ratioType: [
+            {type: 'number', required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          distributionRegion: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          brightSpot: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          financeIntroduce: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          moneyUse: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          repaySource: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          riskControl: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          productDesc: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ]
 //          city: [
 //            {required: true, message: 'Please select the city', trigger: 'change'}
 //          ],
@@ -407,11 +518,54 @@
       };
     },
     methods: {
+      init: async function () {
+        let self = this;
+        // 获取理财师列表
+        await fbList().then(r => {
+          self.data3 = r.body;
+        });
+        console.log(self.data3);
+      },
+      onSelect: function (selection, row) {
+        let userIds = [];
+        selection.forEach(item => {
+          userIds.push(item.userId);
+        });
+        this.loan.userIds = userIds;
+      },
+      onSelectAll: function (selection) {
+        let userIds = [];
+        selection.forEach(item => {
+          userIds.push(item.userId);
+        });
+        this.loan.userId = userIds;
+      },
+      handleSuccess (res) {
+        if (res.header.code === '0') {
+          this.productDescFiles.push(res.body);
+        } else {
+          this.$Message.error('Banner图片上传失败！');
+        }
+      },
+      handleFormatError (file) {
+        this.$Notice.warning({
+          title: '文件格式不正确!',
+          desc: '文件 ' + file.name + ' 格式不正确, 请选择JPG、PNG、JPEG、GIF格式'
+        });
+      },
+      handleMaxSize (file) {
+        this.$Notice.warning({
+          title: '文件大小超限!',
+          desc: '文件 ' + file.name + ' 大小超限，最大512k'
+        });
+      },
       handleView(name) {
         this.preImgSrc = name;
         this.visible = true;
       },
       handleSubmit: function (name) {
+        this.mergeEarningDesc();
+        this.mergeProductDescFiles();
         this.$refs[name].validate(async (valid) => {
           if (valid) {
             await loanPublicAdd(this.loan).then(r => {
@@ -419,16 +573,52 @@
               this.$router.push({path: 'review'});
             });
           } else {
-            this.$Message.error('添加失败!');
+            this.$Message.error('验证异常，添加失败!');
           }
         });
+      },
+      mergeEarningDesc: function () {
+//        let self = this;
+        if (this.earningDesc.length < 1) {
+          return;
+        }
+
+        this.earningDesc.forEach((item, index) => {
+          item.startAmount = document.getElementById('start-amount-' + index).getElementsByTagName('input')[0].value;
+          item.endAmount = document.getElementById('end-amount-' + index).getElementsByTagName('input')[0].value;
+          item.basisInterest = document.getElementById('basis-interest-' + index).getElementsByTagName('input')[0].value;
+          item.isFloating = document.getElementById('is-floating-' + index).getElementsByTagName('input')[0].checked;
+        });
+        this.loan.earningDesc = JSON.stringify(this.earningDesc);
+      },
+      mergeProductDescFiles: function () {
+        if (this.productDescFiles.length < 1) {
+          return;
+        }
+        this.loan.productDescFiles = JSON.stringify(this.productDescFiles);
       },
       handleReset(name) {
         this.$refs[name].resetFields();
       }
+    },
+    mounted() {
+      this.init();
     }
+//    watch: {
+//      earningDesc: {
+//        handler: function (val, oldval) {
+//          debugger;
+//          this.loan.earningDesc = JSON.stringify(val);
+//          console.log(this.loan.earningDesc);
+//        }
+//        deep: true // 对象内部的属性监听，也叫深度监听
+//      }
+//    }
   };
 </script>
 
 <style>
+  #public .ivu-table .ivu-table-row .ivu-table-cell .ivu-btn {
+    padding: 0;
+  }
 </style>
