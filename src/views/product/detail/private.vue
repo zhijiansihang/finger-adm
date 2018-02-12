@@ -36,10 +36,10 @@
         <Row>
           <iCol span="11">
             <Select v-model="loan.fundType" placeholder="请选择基金类型">
-              <Option value=1>本土</Option>
-              <Option value=2>合资</Option>
-              <Option value=3>外资</Option>
-              <Option value=4>其他</Option>
+              <Option :value=1>本土</Option>
+              <Option :value=2>合资</Option>
+              <Option :value=3>外资</Option>
+              <Option :value=4>其他</Option>
             </Select>
           </iCol>
         </Row>
@@ -124,19 +124,7 @@
       <FormItem label="基金经理" prop="desc">
         <Row>
           <iCol span="14">
-            <Table border ref="selection" :columns="columns5" :data="data2"></Table>
-          </iCol>
-        </Row>
-      </FormItem>
-
-      <FormItem label="上传logo" prop="desc">
-        <Row>
-          <iCol span="11">
-            <Upload
-              multiple
-              action="//jsonplaceholder.typicode.com/posts/">
-              <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
-            </Upload>
+            <Table border ref="selection" :columns="columns6" :data="data3"></Table>
           </iCol>
         </Row>
       </FormItem>
@@ -172,7 +160,7 @@
   </Card>
 </template>
 <script>
-  import {loanPublicGet, loanReview} from '../../../util/interface';
+  import {loanPublicGet, loanReview, fbGetByUserIds} from '../../../util/interface';
   //  import {baseUrl} from '../../util/env';
   export default {
     data() {
@@ -184,110 +172,6 @@
         modalStr: '',
         visible: false,
 //        uploadUrl: baseUrl + '/cms/banner/upload?' + commonDataStr(),
-        columns4: [
-          {
-            title: '投资金额（起）',
-            key: 'startAmount'
-          },
-          {
-            title: '投资金额（终）',
-            key: 'endAmount'
-          },
-          {
-            title: '预期年化收益（%）',
-            width: 145,
-            key: 'basisInterest'
-          },
-          {
-            title: '是否加浮动',
-            key: 'isFloating'
-          }
-//          {
-//            title: '添加',
-//            key: 'action',
-//            width: 60,
-//            align: 'center',
-//            fixed: 'right',
-//            renderHeader: (h, params) => {
-//              return h('div', [
-//                h('Button', {
-//                  props: {
-//                    type: 'ghost',
-//                    shape: 'circle',
-//                    size: 'small',
-//                    icon: 'plus'
-//                  },
-//                  style: {
-//      //                    marginRight: '5px'
-//                  },
-//                  on: {
-//                    click: () => {
-//                      this.data1.push({
-//                        name: 'Jim Green',
-//                        age: 24,
-//                        address: 'London ',
-//                        date: '2016-10-01'
-//                      });
-//                    }
-//                  }
-//                })
-//              ]);
-//            },
-//            render: (h, params) => {
-//              return h('div', [
-//                h('Button', {
-//                  props: {
-//                    type: 'ghost',
-//                    shape: 'circle',
-//                    size: 'small',
-//                    icon: 'minus-round'
-//                  },
-//                  style: {
-//                    marginRight: '5px'
-//                  },
-//                  on: {
-//                    click: () => {
-//                      this.data1.splice(params.index, 1);
-//                    }
-//                  }
-//                })
-//              ]);
-//            }
-//          }
-        ],
-        columns5: [
-          {
-            title: '文件名称',
-            key: 'name'
-          },
-          {
-            title: '状态',
-            key: 'status'
-          },
-          {
-            title: '操作',
-            width: 150,
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'warning',
-                    size: 'small',
-                    icon: 'trash-a'
-                  },
-                  style: {
-                    padding: '2px 8px'
-                  },
-                  on: {
-                    click: () => {
-                      this.handleView(JSON.parse(this.loan.productDescFiles)[params.index].src);
-                    }
-                  }
-                }, '预览')
-              ]);
-            }
-          }
-        ],
         columns6: [
           {
             title: '用户Id',
@@ -309,61 +193,8 @@
         ],
         data1: [],
         data2: [],
-        data3: [
-          {
-            userId: '201709091',
-            realName: '张经理',
-            mobile: '13093944029',
-            count: '5'
-          },
-          {
-            userId: '201709092',
-            realName: '王经理',
-            mobile: '13093944029',
-            count: '5'
-          },
-          {
-            userId: '201709093',
-            realName: '李经理',
-            mobile: '13093944029',
-            count: '5'
-          },
-          {
-            userId: '201709094',
-            realName: '赵经理',
-            mobile: '13093944029',
-            count: '5'
-          }
-        ],
-        ruleValidate: {
-//          name: [
-//            {required: true, message: 'The name cannot be empty', trigger: 'blur'}
-//          ],
-//          mail: [
-//            {required: true, message: 'Mailbox cannot be empty', trigger: 'blur'},
-//            {type: 'email', message: 'Incorrect email format', trigger: 'blur'}
-//          ],
-//          city: [
-//            {required: true, message: 'Please select the city', trigger: 'change'}
-//          ],
-//          gender: [
-//            {required: true, message: 'Please select gender', trigger: 'change'}
-//          ],
-//          interest: [
-//            {required: true, type: 'array', min: 1, message: 'Choose at least one hobby', trigger: 'change'},
-//            {type: 'array', max: 2, message: 'Choose two hobbies at best', trigger: 'change'}
-//          ],
-//          date: [
-//            {required: true, type: 'date', message: 'Please select the date', trigger: 'change'}
-//          ],
-//          time: [
-//            {required: true, type: 'date', message: 'Please select time', trigger: 'change'}
-//          ],
-//          desc: [
-//            {required: true, message: 'Please enter a personal introduction', trigger: 'blur'},
-//            {type: 'string', min: 20, message: 'Introduce no less than 20 words', trigger: 'blur'}
-//          ]
-        }
+        data3: [],
+        ruleValidate: {}
       };
     },
     methods: {
@@ -371,6 +202,10 @@
         this.type = this.$route.query.type;
         await loanPublicGet({'loanId': this.$route.query.loanId}).then(r => {
           this.loan = r.body;
+        });
+        await fbGetByUserIds({'userIds': this.loan.userIds}).then(r => {
+          debugger;
+          this.data3 = r.body;
         });
       },
       handleView(name) {

@@ -361,32 +361,7 @@
         ],
         data1: [],
         data2: [],
-        data3: [
-          {
-            userId: '201709091',
-            realName: '张经理',
-            mobile: '13093944029',
-            count: '5'
-          },
-          {
-            userId: '201709092',
-            realName: '王经理',
-            mobile: '13093944029',
-            count: '5'
-          },
-          {
-            userId: '201709093',
-            realName: '李经理',
-            mobile: '13093944029',
-            count: '5'
-          },
-          {
-            userId: '201709094',
-            realName: '赵经理',
-            mobile: '13093944029',
-            count: '5'
-          }
-        ],
+        data3: [],
         ruleValidate: {
 //          name: [
 //            {required: true, message: 'The name cannot be empty', trigger: 'blur'}

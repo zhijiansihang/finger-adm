@@ -102,41 +102,27 @@
         </Row>
       </FormItem>
 
+      <FormItem label="产品亮点" prop="brightSpot">
+        <Row>
+          <iCol span="11">
+            <Input v-model="loan.brightSpot" placeholder="请输入产品卖点"></Input>
+          </iCol>
+        </Row>
+      </FormItem>
+
       <FormItem label="产品优势" prop="productDesc">
         <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="loan.productDesc" placeholder="请输入产品优势"></Input>
+            <Input v-model="loan.productDesc" placeholder="请输入产品优势" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
           </iCol>
           <iCol span="8">优势简介，建议不超过20个字</iCol>
         </Row>
       </FormItem>
 
-      <FormItem label="产品卖点" prop="brightSpot">
-        <Row>
-          <iCol span="11">
-            <Input v-model="loan.brightSpot" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                   placeholder="请输入产品卖点"></Input>
-          </iCol>
-        </Row>
-      </FormItem>
-
-
       <FormItem label="基金经理" prop="desc">
         <Row>
           <iCol span="14">
-            <Table border ref="selection" :columns="columns5" :data="data2"></Table>
-          </iCol>
-        </Row>
-      </FormItem>
-
-      <FormItem label="上传logo" prop="desc">
-        <Row>
-          <iCol span="11">
-            <Upload
-              multiple
-              action="//jsonplaceholder.typicode.com/posts/">
-              <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
-            </Upload>
+            <Table border ref="selection" @on-select="onSelect" @on-select-all="onSelectAll" :columns="columns6" :data="data3"></Table>
           </iCol>
         </Row>
       </FormItem>
@@ -148,19 +134,19 @@
   </Card>
 </template>
 <script>
-  import {loanPrivateAdd} from '../../../util/interface';
+  import {loanPrivateAdd, fbList} from '../../../util/interface';
   export default {
     data() {
       return {
         loan: {},
-        columns5: [
+        columns6: [
           {
-            title: '用户ID',
+            title: '用户Id',
             key: 'userId'
           },
           {
             title: '名称',
-            key: 'name'
+            key: 'realName'
           },
           {
             title: '手机号',
@@ -169,7 +155,7 @@
           },
           {
             title: '当前产品数量',
-            key: 'number'
+            key: 'count'
           },
           {
             type: 'selection',
@@ -177,52 +163,113 @@
             align: 'center'
           }
         ],
-        data2: [
-          {
-            userId: 101,
-            name: '王经理',
-            mobile: '13111111111',
-            number: '10'
-          },
-          {
-            userId: 102,
-            name: '王经理',
-            mobile: '13111111111',
-            number: '10'
-          }
-        ],
+        data3: [],
         ruleValidate: {
-//          name: [
-//            {required: true, message: 'The name cannot be empty', trigger: 'blur'}
-//          ],
-//          mail: [
-//            {required: true, message: 'Mailbox cannot be empty', trigger: 'blur'},
-//            {type: 'email', message: 'Incorrect email format', trigger: 'blur'}
-//          ],
-//          city: [
-//            {required: true, message: 'Please select the city', trigger: 'change'}
-//          ],
-//          gender: [
-//            {required: true, message: 'Please select gender', trigger: 'change'}
-//          ],
-//          interest: [
-//            {required: true, type: 'array', min: 1, message: 'Choose at least one hobby', trigger: 'change'},
-//            {type: 'array', max: 2, message: 'Choose two hobbies at best', trigger: 'change'}
-//          ],
-//          date: [
-//            {required: true, type: 'date', message: 'Please select the date', trigger: 'change'}
-//          ],
-//          time: [
-//            {required: true, type: 'date', message: 'Please select time', trigger: 'change'}
-//          ],
-//          desc: [
-//            {required: true, message: 'Please enter a personal introduction', trigger: 'blur'},
-//            {type: 'string', min: 20, message: 'Introduce no less than 20 words', trigger: 'blur'}
-//          ]
+          title: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          beginAmount: [
+            {required: true, message: '不能为空', trigger: 'blur'},
+            {
+              type: 'number',
+              message: '类型错误',
+              trigger: 'blur',
+              transform(value) {
+                return Number(value);
+              }
+            }
+          ],
+          productDirection: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          fundType: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          amount: [
+            {required: true, message: '不能为空', trigger: 'blur'},
+            {
+              type: 'number',
+              message: '类型错误',
+              trigger: 'blur',
+              transform(value) {
+                return Number(value);
+              }
+            }
+          ],
+          adaptationDeadline: [
+            {required: true, message: '不能为空', trigger: 'blur'},
+            {
+              type: 'number',
+              message: '类型错误',
+              trigger: 'blur',
+              transform(value) {
+                return Number(value);
+              }
+            }
+          ],
+          capitalType: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          organizeForm: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          manageRate: [
+            {required: true, message: '不能为空', trigger: 'blur'},
+            {
+              type: 'number',
+              message: '类型错误',
+              trigger: 'blur',
+              transform(value) {
+                return Number(value);
+              }
+            }
+          ],
+          productDesc: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          distributionRegion: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          brightSpot: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          financeIntroduce: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          moneyUse: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          repaySource: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          riskControl: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ]
         }
       };
     },
     methods: {
+      init: async function () {
+        let self = this;
+        // 获取理财师列表
+        await fbList().then(r => {
+          self.data3 = r.body;
+        });
+      },
+      onSelect: function (selection, row) {
+        let userIds = [];
+        selection.forEach(item => {
+          userIds.push(item.userId);
+        });
+        this.loan.userIds = userIds;
+      },
+      onSelectAll: function (selection) {
+        let userIds = [];
+        selection.forEach(item => {
+          userIds.push(item.userId);
+        });
+        this.loan.userId = userIds;
+      },
       handleSubmit(name) {
         this.$refs[name].validate(async (valid) => {
           if (valid) {
@@ -238,6 +285,9 @@
       handleReset(name) {
         this.$refs[name].resetFields();
       }
+    },
+    mounted() {
+      this.init();
     }
   };
 </script>

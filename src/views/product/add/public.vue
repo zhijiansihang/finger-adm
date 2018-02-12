@@ -524,7 +524,6 @@
         await fbList().then(r => {
           self.data3 = r.body;
         });
-        console.log(self.data3);
       },
       onSelect: function (selection, row) {
         let userIds = [];

@@ -168,8 +168,20 @@
     data() {
       return {
         ruleValidate: {
-          institutionUserId: [
-            {required: true, message: '机构不能为空', trigger: 'blur'}
+          nickName: [
+            {required: true, message: '机构名称不能为空', trigger: 'blur'}
+          ],
+          realName: [
+            {required: true, message: '机构联系人不能为空', trigger: 'blur'}
+          ],
+          mobile: [
+            {required: true, message: '联系方式不能为空', trigger: 'blur'}
+          ],
+          authId: [
+            {required: true, message: '后台账号不能为空', trigger: 'blur'}
+          ],
+          authPass: [
+            {required: true, message: '密码不能为空', trigger: 'blur'}
           ]
         },
         modalAdd: false,
@@ -315,14 +327,13 @@
         this.init();
       },
       del: async function () {
-        let self = this;
         await deleteAuth(this.user).then(r => {
           if (r.header.code === '0') {
-            self.init();
             this.$Message.success('删除成功!');
           }
-//          self.hideModal();
+          this.hideModal();
         });
+        this.init();
       },
       handleSubmit(name) {
         let self = this;
