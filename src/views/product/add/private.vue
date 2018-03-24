@@ -135,6 +135,8 @@
 </template>
 <script>
   import {loanPrivateAdd, fbList} from '../../../util/interface';
+  import {portalTab} from '../../../util/utils';
+
   export default {
     data() {
       return {
@@ -275,7 +277,9 @@
           if (valid) {
             await loanPrivateAdd(this.loan).then(r => {
               this.$Message.success('添加成功!');
-              this.$router.push({path: 'review'});
+//              this.$router.push({path: 'review'});
+              portalTab('add', '待审核产品', '/review');
+              portalTab('close', '发布私募产品');
             });
           } else {
             this.$Message.error('添加失败!');

@@ -229,6 +229,7 @@
   import {loanPublicAdd, fbList} from '../../../util/interface';
   import {commonDataStr} from '../../../util/fetch';
   import {baseUrl} from '../../../util/env';
+  import {portalTab} from '../../../util/utils';
 
   export default {
     data() {
@@ -569,7 +570,9 @@
           if (valid) {
             await loanPublicAdd(this.loan).then(r => {
               this.$Message.success('添加成功!');
-              this.$router.push({path: 'review'});
+//              this.$router.push({path: 'review'});
+              portalTab('add', '待审核产品', '/review');
+              portalTab('close', '发布公募产品');
             });
           } else {
             this.$Message.error('验证异常，添加失败!');

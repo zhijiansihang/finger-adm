@@ -1,14 +1,14 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from '../store/index';
 import Cookies from 'js-cookie';
 import * as portal from 'adm-portal';
 import * as mainConst from '../util/const';
 
+import {LoadingBar} from 'iview';
+
 Vue.use(Router);
 
 const router = new Router({
-  // mode: 'history',
   routes: [{
     path: '/',
     meta: {
@@ -16,19 +16,18 @@ const router = new Router({
     },
     component: portal.layout,
     children: [{
-      path: '/iframe',
+      path: '/portal',
       meta: {
-        title: 'iframe'
+        title: 'portal'
       },
-      component: portal.iframe
+      component: portal.center
     }]
   }, {
     path: '/index',
     meta: {
       title: '首页'
     },
-    // component: index
-    component: (resolve) => require(['../views/test.vue'], resolve)
+    component: (resolve) => require(['../views/index.vue'], resolve)
   }, {
     path: '/sys/resource',
     name: '资源管理',
@@ -274,18 +273,14 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-  Cookies.set('refer', from.fullPath);
-  if (from.fullPath === '/') {
-    Cookies.set(mainConst.ADM_REFER, mainConst.ADM_INDEX);
-  } else {
-    Cookies.set(mainConst.ADM_REFER, from.fullPath);
-  }
+  LoadingBar.start();
+
   if (to.query.sessionId) { // 存入sessionId
     Cookies.set('sessionId', to.query.sessionId);
   }
   let sessionId = Cookies.get('sessionId');
   if (sessionId) { // 如果是登陆状态
-    store.dispatch('addTab', to);
+    // store.dispatch('addTab', to);
     if (window !== top) {
       (to.path === '/' || to.path === '/login') ? next({path: '/login'}) : next();
     } else {
@@ -297,6 +292,7 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach(() => {
+  LoadingBar.finish();
   window.scrollTo(0, 0);
 });
 

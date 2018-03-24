@@ -1,7 +1,7 @@
 import {domain} from './utils';
 
 // portal首页
-export const ADM_INDEX = '/iframe?name=%E9%A6%96%E9%A1%B5&path=' + domain() + '#/index';
+export const ADM_INDEX = '/portal?name=首页&path=' + domain() + '#/index';
 
 // refer
 export const ADM_REFER = 'refer';
