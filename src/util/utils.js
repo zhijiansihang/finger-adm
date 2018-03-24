@@ -7,7 +7,7 @@ export const portalTab = (type, name, url) => {
     'type': type, // 操作类型： add-打开tab页  close-关闭tab refresh-刷新tab
     'data': {
       'name': name,
-      'src': window.location.href.split('#')[0] + '/#' + url
+      'src': window.location.href.split('#')[0] + '#' + url
     }
   })}, '*');
 };
