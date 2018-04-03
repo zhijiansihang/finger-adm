@@ -24,11 +24,11 @@
             </i-col>
             <i-col span="8">
               <Form-item label="用户类型">
-                <Select v-model="user.rolesList" placeholder="请选择">
+                <Select v-model="user.rolesList[0]" placeholder="请选择">
                   <Option value="">全部</Option>
-                  <Option value="3">投资人</Option>
-                  <Option value="5">机构理财师</Option>
-                  <Option value="4">个人理财师</Option>
+                  <Option :value=3>投资人</Option>
+                  <Option :value=5>机构理财师</Option>
+                  <Option :value=4>个人理财师</Option>
                 </Select>
               </Form-item>
             </i-col>
@@ -69,7 +69,7 @@
         user: {
           userId: '',
           mobile: '',
-          roles: '',
+          rolesList: [],
           pageSize: 10,
           currentPage: 1
         },
@@ -212,6 +212,10 @@
         });
       },
       query: async function () {
+        this.init();
+      },
+      reset() {
+        this.user = {};
         this.init();
       },
       watchId(val) {

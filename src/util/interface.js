@@ -72,6 +72,8 @@ export const fbAdd = (body) => fetch(FINGER + '/user/fb/add', {
 export const institutionPage = (body) => fetch(FINGER + '/user/institution/page', {
   reqBody: body
 }, 'POST');
+// 机构 分页
+export const institutionList = () => fetch(FINGER + '/user/institution/list', {}, 'GET');
 // 机构 根据Id获取
 export const institutionGet = (body) => fetch(FINGER + '/user/institution/get', {
   reqBody: body

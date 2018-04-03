@@ -24,11 +24,8 @@
             </i-col>
             <i-col span="8">
               <Form-item label="所属机构">
-                <Select v-model="user.gender" placeholder="请选择">
-                  <Option value="">全部</Option>
-                  <Option value="0">投资人</Option>
-                  <Option value="1">机构理财师</Option>
-                  <Option value="1">个人理财师</Option>
+                <Select v-model="user.institutionUserId" placeholder="请选择">
+                  <Option v-for="item in institutions" :value="item.userId" :key="item.userId">{{ item.nickName }}</Option>
                 </Select>
               </Form-item>
             </i-col>
@@ -98,9 +95,7 @@
                 <Row>
                   <iCol span="24">
                     <Select v-model="fb.institutionUserId" placeholder="请选择机构">
-                      <Option value="1">宜信</Option>
-                      <Option value="2">广大</Option>
-                      <Option value="3">广发</Option>
+                      <Option v-for="item in institutions" :value="`${item.userId}`" :key="item.userId">{{ item.nickName }}</Option>
                     </Select>
                   </iCol>
                 </Row>
@@ -120,7 +115,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {fbPage, getUserByMobile, fbAdd} from '../../util/interface';
+  import {fbPage, getUserByMobile, fbAdd, institutionList} from '../../util/interface';
 
   export default {
     data() {
@@ -144,6 +139,7 @@
           pageSize: 10,
           currentPage: 1
         },
+        institutions: [],
         mobile: '',
         modalAdd: false,
         data: [],
@@ -247,6 +243,10 @@
           this.data = r.body.results;
           this.totalCount = r.body.recordCount;
         });
+
+        await institutionList().then(r => {
+          this.institutions = r.body;
+        });
       },
       getByMobile: async function () {
         this.fb.mobile = this.mobile;
@@ -261,7 +261,12 @@
       query: async function () {
         this.init();
       },
+      reset() {
+        this.user = {};
+        this.init();
+      },
       handleSubmit() {
+        console.log(this.fb);
         let self = this;
         this.$refs['fbAdd'].validate(async (valid) => {
           if (valid) {
@@ -269,6 +274,7 @@
               if (r.header.code === '0') {
                 self.hideModal();
                 this.$Message.success('添加成功!');
+                self.init();
               }
             });
           }
@@ -297,6 +303,16 @@
     },
     mounted() {
       this.init();
+    },
+    watch: {
+      'fb.institutionUserId': function (newValue, oldVale) {
+        let self = this;
+        this.institutions.forEach(item => {
+          if (newValue * 1 === item.userId) {
+            self.fb.institutionName = item.nickName;
+          }
+        });
+      }
     }
   };
 </script>
