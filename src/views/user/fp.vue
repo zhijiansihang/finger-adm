@@ -266,7 +266,6 @@
         this.init();
       },
       handleSubmit() {
-        console.log(this.fb);
         let self = this;
         this.$refs['fbAdd'].validate(async (valid) => {
           if (valid) {
