@@ -588,6 +588,9 @@
         this.earningDesc.forEach((item, index) => {
           item.startAmount = document.getElementById('start-amount-' + index).getElementsByTagName('input')[0].value;
           item.endAmount = document.getElementById('end-amount-' + index).getElementsByTagName('input')[0].value;
+//          if (startAmount){
+//            金额起点和终点至少输入一项
+//          }
           item.basisInterest = document.getElementById('basis-interest-' + index).getElementsByTagName('input')[0].value;
           item.isFloating = document.getElementById('is-floating-' + index).getElementsByTagName('input')[0].checked;
         });

@@ -90,6 +90,7 @@
 
 <script type="text/ecmascript-6">
   import {loanPage, loanEnd} from '../../util/interface';
+  import {portalTab} from '../../util/utils';
   export default {
     data() {
       return {
@@ -244,9 +245,11 @@
                   on: {
                     click: () => {
                       if (this.data[params.index].loanType === 1) {
-                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId}});
+                        portalTab('add', '已发布产品详情', '/product/detail/public?loanId=' + this.data[params.index].loanId);
+//                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId}});
                       } else {
-                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId}});
+                        portalTab('add', '已发布产品详情', '/product/detail/public?loanId=' + this.data[params.index].loanId);
+//                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId}});
                       }
                     }
                   }

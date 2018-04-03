@@ -255,6 +255,9 @@
           self.fb = r.body;
         });
       },
+      modalAdd: function () {
+
+      },
       query: async function () {
         this.init();
       },

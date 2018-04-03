@@ -24,7 +24,7 @@
             </i-col>
             <i-col span="8">
               <Form-item label="用户类型">
-                <Select v-model="user.roles" placeholder="请选择">
+                <Select v-model="user.rolesList" placeholder="请选择">
                   <Option value="">全部</Option>
                   <Option value="3">投资人</Option>
                   <Option value="5">机构理财师</Option>

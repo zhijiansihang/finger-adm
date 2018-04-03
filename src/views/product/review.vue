@@ -90,6 +90,7 @@
 
 <script type="text/ecmascript-6">
   import {loanPage, loanDelete} from '../../util/interface';
+  import {portalTab} from '../../util/utils';
   export default {
     data() {
       return {
@@ -246,9 +247,11 @@
                   on: {
                     click: () => {
                       if (this.data[params.index].loanType === 1) {
-                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId, 'type': 'review'}});
+                        portalTab('add', '审核产品', '/product/detail/public?loanId=' + this.data[params.index].loanId + '&type=review');
+//                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId, 'type': 'review'}});
                       } else {
-                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId, 'type': 'review'}});
+                        portalTab('add', '审核产品', '/product/detail/private?loanId=' + this.data[params.index].loanId + '&type=review');
+//                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId, 'type': 'review'}});
                       }
                     }
                   }
