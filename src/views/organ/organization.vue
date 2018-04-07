@@ -42,7 +42,7 @@
     </iCol>
 
     <iCol span="24" class="top-30 inner-right">
-      <Page :total="totalCount" :page-size="pageSize" :page-size-opts="pageSizeOpts"
+      <Page :total="totalCount" :page-size="user.pageSize" :page-size-opts="pageSizeOpts"
             show-sizer show-total @on-change="pageNumChange" @on-page-size-change="pageSizeChange"></Page>
     </iCol>
 
