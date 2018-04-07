@@ -13,14 +13,14 @@
       <FormItem label="产品名称" prop="title">
         <Row>
           <iCol span="11">
-            <Input v-model="loan.title" placeholder="请输入产品名称"></Input>
+            <Input v-model="loan.title" disabled placeholder="请输入产品名称"></Input>
           </iCol>
         </Row>
       </FormItem>
       <FormItem label="起投金额" prop="beginAmount">
         <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="loan.beginAmount" placeholder="请输入起投金额"></Input>
+            <Input v-model="loan.beginAmount" disabled placeholder="请输入起投金额"></Input>
           </iCol>
           <iCol span="3">万元</iCol>
         </Row>
@@ -28,14 +28,14 @@
       <FormItem label="投资方向" prop="productDirection">
         <Row>
           <iCol span="11">
-            <Input v-model="loan.productDirection" placeholder="请输入投资方向"></Input>
+            <Input v-model="loan.productDirection" disabled placeholder="请输入投资方向"></Input>
           </iCol>
         </Row>
       </FormItem>
       <FormItem label="基金类型" prop="fundType">
         <Row>
           <iCol span="11">
-            <Select v-model="loan.fundType" placeholder="请选择基金类型">
+            <Select v-model="loan.fundType" disabled placeholder="请选择基金类型">
               <Option :value=1>本土</Option>
               <Option :value=2>合资</Option>
               <Option :value=3>外资</Option>
@@ -47,7 +47,7 @@
       <FormItem label="融资规模" prop="amount">
         <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="loan.amount" placeholder="请输入融资金额"></Input>
+            <Input v-model="loan.amount" disabled placeholder="请输入融资金额"></Input>
           </iCol>
           <iCol span="3">万元</iCol>
         </Row>
@@ -55,7 +55,7 @@
       <FormItem label="存续年限" prop="adaptationDeadline">
         <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="loan.adaptationDeadline" placeholder="请输入存续年限，例如：1+0.5+0.5"></Input>
+            <Input v-model="loan.adaptationDeadline" disabled placeholder="请输入存续年限，例如：1+0.5+0.5"></Input>
           </iCol>
           <iCol span="3">年</iCol>
         </Row>
@@ -63,7 +63,7 @@
       <FormItem label="资本类型" prop="capitalType">
         <Row>
           <iCol span="11">
-            <Select v-model="loan.capitalType" placeholder="请选择资本类型">
+            <Select v-model="loan.capitalType" disabled placeholder="请选择资本类型">
               <Option value="1">天使基金</Option>
               <Option value="2">创业基金</Option>
               <Option value="3">成长基金</Option>
@@ -80,7 +80,7 @@
       <FormItem label="组织形式" prop="organizeForm">
         <Row>
           <iCol span="11">
-            <Select v-model="loan.organizeForm" placeholder="请选择组织形式">
+            <Select v-model="loan.organizeForm" disabled placeholder="请选择组织形式">
               <Option value="1">公司形式</Option>
               <Option value="2">信托制</Option>
               <Option value="3">有限合伙制</Option>
@@ -96,7 +96,7 @@
       <FormItem label="管理费率" prop="manageRate">
         <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="loan.manageRate" placeholder="请输入管理费率"></Input>
+            <Input v-model="loan.manageRate" disabled placeholder="请输入管理费率"></Input>
           </iCol>
           <iCol span="3">%/每年</iCol>
         </Row>
@@ -105,7 +105,7 @@
       <FormItem label="产品优势" prop="productDesc">
         <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="loan.productDesc" placeholder="请输入产品优势"></Input>
+            <Input v-model="loan.productDesc" disabled placeholder="请输入产品优势"></Input>
           </iCol>
           <iCol span="8">优势简介，建议不超过20个字</iCol>
         </Row>
@@ -115,7 +115,7 @@
         <Row>
           <iCol span="11">
             <Input v-model="loan.brightSpot" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                   placeholder="请输入产品卖点"></Input>
+                   disabled placeholder="请输入产品卖点"></Input>
           </iCol>
         </Row>
       </FormItem>

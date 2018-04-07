@@ -296,6 +296,18 @@
       },
       hideModal(modal) {
         this.modalDel = false;
+      },
+      reset() {
+        this.loan = {
+          loanId: '',
+          title: '',
+          productType: '',
+          institutionUserId: '',
+          status: [150],
+          pageSize: 10,
+          currentPage: 1
+        };
+        this.init();
       }
     },
     mounted() {

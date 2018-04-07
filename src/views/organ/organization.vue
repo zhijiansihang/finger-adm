@@ -14,12 +14,12 @@
           <Row :gutter="60">
             <i-col span="8">
               <Form-item label="机构ID">
-                <Input v-model="user.id" @on-keyup="watchId(user.id)" placeholder="请输入"></Input>
+                <Input v-model="user.userId" @on-keyup="watchId(user.userId)" placeholder="请输入"></Input>
               </Form-item>
             </i-col>
             <i-col span="8">
               <Form-item label="机构名称">
-                <Input v-model="user.phone"  placeholder="请输入"></Input>
+                <Input v-model="user.nickName"  placeholder="请输入"></Input>
               </Form-item>
             </i-col>
           </Row>
@@ -191,6 +191,7 @@
         user: {
           userId: '',
           mobile: '',
+          nickName: '',
           pageSize: 10,
           currentPage: 1
         },
@@ -381,6 +382,16 @@
       },
       pageSizeChange: function (pageSize) {
         this.user.pageSize = pageSize;
+        this.init();
+      },
+      reset() {
+        this.user = {
+          userId: '',
+          mobile: '',
+          nickName: '',
+          pageSize: 10,
+          currentPage: 1
+        };
         this.init();
       }
     },

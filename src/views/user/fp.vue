@@ -51,7 +51,7 @@
     </iCol>
 
     <iCol span="24" class="top-30 inner-right">
-      <Page :total="totalCount" :page-size="pageSize" :page-size-opts="pageSizeOpts"
+      <Page :total="totalCount" :page-size="user.pageSize" :page-size-opts="pageSizeOpts"
             show-sizer show-total @on-change="pageNumChange" @on-page-size-change="pageSizeChange"></Page>
     </iCol>
     <Modal v-model="modalAdd" title="用户添加" width="730" >
@@ -232,9 +232,7 @@
           }
         ],
         pageSizeOpts: [1, 2, 5, 10, 20, 50],
-        totalCount: null,
-        pageSize: 5,
-        pageNumber: 1
+        totalCount: null
       };
     },
     methods: {
@@ -252,7 +250,11 @@
         this.fb.mobile = this.mobile;
         let self = this;
         await getUserByMobile(this.fb).then(r => {
-          self.fb = r.body;
+          if (r.body.roles === 4) {
+            this.$Message.error('该用户已是理财师');
+          } else {
+            self.fb = r.body;
+          }
         });
       },
       modalAdd: function () {
@@ -262,7 +264,13 @@
         this.init();
       },
       reset() {
-        this.user = {};
+        this.user = {
+          userId: '',
+          mobile: '',
+          roles: '',
+          pageSize: 10,
+          currentPage: 1
+        };
         this.init();
       },
       handleSubmit() {

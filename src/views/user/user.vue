@@ -214,7 +214,13 @@
         this.init();
       },
       reset() {
-        this.user = {};
+        this.user = {
+          userId: '',
+          mobile: '',
+          rolesList: [],
+          pageSize: 10,
+          currentPage: 1
+        };
         this.init();
       },
       watchId(val) {
