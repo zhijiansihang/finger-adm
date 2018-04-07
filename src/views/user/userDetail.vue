@@ -11,10 +11,10 @@
       <iCol span="6">用户ID：{{user.userId}}</iCol>
       <iCol span="6">用户手机号：{{user.mobile}}</iCol>
       <iCol span="6">注册时间：{{user.createTime}}</iCol>
-      <iCol span="6">用户类型：{{user.roles}}</iCol>
+      <iCol span="6">用户类型：{{roleName}}</iCol>
     </Row>
     <Row  className="text-row">
-      <iCol span="6">所属机构：{{user.institutionUserId}}</iCol>
+      <iCol span="6">所属机构：{{user.institutionName}}</iCol>
     </Row>
 
     <div class="example-header">
@@ -24,7 +24,7 @@
       <iCol span="6">真实姓名：{{user.realName}}</iCol>
       <iCol span="6">证件类型：身份证</iCol>
       <iCol span="6">证件号码：{{user.idCard}}</iCol>
-      <iCol span="6">上传照片：<a>查看照片</a></iCol>
+      <iCol span="6">是否已风险测评：{{ifRiskAssessment}}</iCol>
     </Row>
 
     <div class="example-header">
@@ -110,6 +110,34 @@
       },
       handleReset(name) {
         this.$refs[name].resetFields();
+      }
+    },
+    computed: {
+      roleName() {
+        let roleName = '平台管理员';
+        if (this.user.roles === 1) {
+          roleName = '平台管理员';
+        }
+        if (this.user.roles === 2) {
+          roleName = '第三方机构';
+        }
+        if (this.user.roles === 3) {
+          roleName = '用户投资人';
+        }
+        if (this.user.roles === 4) {
+          roleName = '个人理财师';
+        }
+        if (this.user.roles === 5) {
+          roleName = '机构理财师';
+        }
+        return roleName;
+      },
+      ifRiskAssessment() {
+        if (this.user.riskAssessmentLevel) {
+          return '是';
+        } else {
+          return '否';
+        }
       }
     },
     mounted() {
