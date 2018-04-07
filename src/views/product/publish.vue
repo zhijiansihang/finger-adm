@@ -300,6 +300,11 @@
     },
     mounted() {
       this.init();
+    },
+    watch: {
+      '$route': function (newValue, oldVale) {
+        this.init();
+      }
     }
   };
 </script>
