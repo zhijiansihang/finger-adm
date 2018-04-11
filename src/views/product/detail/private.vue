@@ -238,7 +238,8 @@
         if (this.type === 'publish') {
           await loanReview({
             'loanId': this.$route.query.loanId,
-            'loanStatus': '200'
+            'loanStatus': '200',
+            'isDisplay': '1'
           }).then(r => {
             this.$Message.success('发标成功!');
 //            this.$router.push({path: '/published'});
