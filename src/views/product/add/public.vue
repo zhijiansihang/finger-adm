@@ -570,7 +570,6 @@
           if (valid) {
             await loanPublicAdd(this.loan).then(r => {
               this.$Message.success('添加成功!');
-//              this.$router.push({path: 'review'});
               portalTab('add', '待审核产品', '/review');
               portalTab('close', '发布公募产品');
             });
@@ -580,19 +579,33 @@
         });
       },
       mergeEarningDesc: function () {
-//        let self = this;
+        let self = this;
         if (this.earningDesc.length < 1) {
           return;
         }
-
+        self.loan.interestRate = 0;
+        self.loan.isRateFloating = 0;
+        self.loan.beginAmount = 0;
         this.earningDesc.forEach((item, index) => {
           item.startAmount = document.getElementById('start-amount-' + index).getElementsByTagName('input')[0].value;
+          if (self.loan.beginAmount === 0) {
+            self.loan.beginAmount = item.startAmount;
+          }
+          if (item.startAmount && (self.loan.beginAmount - item.startAmount > 0)) {
+            self.loan.beginAmount = item.startAmount;
+          }
           item.endAmount = document.getElementById('end-amount-' + index).getElementsByTagName('input')[0].value;
 //          if (startAmount){
 //            金额起点和终点至少输入一项
 //          }
           item.basisInterest = document.getElementById('basis-interest-' + index).getElementsByTagName('input')[0].value;
+          if (item.basisInterest - self.loan.interestRate > 0) { // 利率最大值
+            self.loan.interestRate = item.basisInterest;
+          }
           item.isFloating = document.getElementById('is-floating-' + index).getElementsByTagName('input')[0].checked;
+          if (item.isFloating) {
+            self.loan.isRateFloating = 1;
+          }
         });
         this.loan.earningDesc = JSON.stringify(this.earningDesc);
       },
