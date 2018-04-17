@@ -130,7 +130,7 @@
             key: 'loanId',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].loanId;
+              return this.data[params.index].countFinanceUser;
             }
           },
           {

@@ -37,11 +37,8 @@
             </i-col>
             <i-col span="12">
               <Form-item label="所属机构">
-                <Select v-model="loan.institutionUserId" placeholder="请选择">
-                  <Option value="">全部</Option>
-                  <Option value="0">国民信托</Option>
-                  <Option value="1">中融</Option>
-                  <Option value="1">光大</Option>
+                <Select v-model="loan.institutionUserId" placeholder="请选择机构">
+                  <Option v-for="item in institutions" :value="`${item.userId}`" :key="item.userId">{{ item.nickName }}</Option>
                 </Select>
               </Form-item>
             </i-col>
@@ -89,7 +86,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {loanPage, loanDelete} from '../../util/interface';
+  import {loanPage, loanDelete, institutionList} from '../../util/interface';
   import {portalTab} from '../../util/utils';
   export default {
     data() {
@@ -107,6 +104,7 @@
         modal_loading: false,
         modalDel: false,
         data: [],
+        institutions: [],
         columns7: [
           {
             title: '产品ID',
@@ -132,7 +130,7 @@
             align: 'center',
             render: (h, params) => {
 //              let loanId = this.data6[params.index].loanId === '0' ? '男' : '女';
-              return this.data[params.index].loanId;
+              return this.data[params.index].countFinanceUser;
             }
           },
           {
@@ -302,6 +300,10 @@
         await loanPage(this.loan).then(r => {
           this.data = r.body.results;
           this.totalCount = r.body.recordCount;
+        });
+
+        await institutionList().then(r => {
+          this.institutions = r.body;
         });
       },
       query: async function () {
