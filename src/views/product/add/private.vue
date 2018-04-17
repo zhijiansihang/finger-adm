@@ -199,15 +199,7 @@
             }
           ],
           adaptationDeadline: [
-            {required: true, message: '不能为空', trigger: 'blur'},
-            {
-              type: 'number',
-              message: '类型错误',
-              trigger: 'blur',
-              transform(value) {
-                return Number(value);
-              }
-            }
+            {required: true, message: '不能为空', trigger: 'blur'}
           ],
           capitalType: [
             {required: true, message: '不能为空', trigger: 'blur'}
@@ -270,7 +262,7 @@
         selection.forEach(item => {
           userIds.push(item.userId);
         });
-        this.loan.userId = userIds;
+        this.loan.userIds = userIds;
       },
       handleSubmit(name) {
         this.$refs[name].validate(async (valid) => {
