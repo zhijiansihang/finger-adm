@@ -538,7 +538,7 @@
         selection.forEach(item => {
           userIds.push(item.userId);
         });
-        this.loan.userId = userIds;
+        this.loan.userIds = userIds;
       },
       handleSuccess (res) {
         if (res.header.code === '0') {
@@ -569,9 +569,12 @@
         this.$refs[name].validate(async (valid) => {
           if (valid) {
             await loanPublicAdd(this.loan).then(r => {
-              this.$Message.success('添加成功!');
-              portalTab('add', '待审核产品', '/review');
-              portalTab('close', '发布公募产品');
+              console.log(r);
+              if (r.header.code === '0') {
+                this.$Message.success('添加成功!');
+                portalTab('add', '待审核产品', '/review');
+                portalTab('close', '发布公募产品');
+              }
             });
           } else {
             this.$Message.error('验证异常，添加失败!');
@@ -588,7 +591,7 @@
         self.loan.beginAmount = 0;
         this.earningDesc.forEach((item, index) => {
           item.startAmount = document.getElementById('start-amount-' + index).getElementsByTagName('input')[0].value;
-          if (self.loan.beginAmount === 0) {
+          if (self.loan.beginAmount === 0 && item.startAmount) {
             self.loan.beginAmount = item.startAmount;
           }
           if (item.startAmount && (self.loan.beginAmount - item.startAmount > 0)) {
