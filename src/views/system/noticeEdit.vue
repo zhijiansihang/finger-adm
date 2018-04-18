@@ -34,7 +34,7 @@
     data() {
       return {
         notice: {
-          typeCode: '2',
+          typeCode: '200',
           typeName: 'notice',
           title: '',
           content: '',

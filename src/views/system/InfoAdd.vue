@@ -50,7 +50,7 @@
     data() {
       return {
         information: {
-          typeCode: '3',
+          typeCode: '300',
           typeName: 'information',
           title: '',
           hrefLink: '',

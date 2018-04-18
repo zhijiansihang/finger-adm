@@ -253,22 +253,28 @@
                       }
                     }
                   }
-                }, '详情'),
-//                h('Button', {
-//                  props: {
-//                    type: 'success',
-//                    size: 'small',
-//                    icon: 'edit'
-//                  },
-//                  style: {
-//                    marginRight: '5px'
-//                  },
-//                  on: {
-//                    click: () => {
-//                      this.$router.push({path: 'reviewEdit'});
-//                    }
-//                  }
-//                }, '编辑'),
+                }, '审核'),
+                h('Button', {
+                  props: {
+                    type: 'success',
+                    size: 'small',
+                    icon: 'edit'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      if (this.data[params.index].loanType === 1) {
+                        portalTab('add', '编辑产品', '/product/edit/public?loanId=' + this.data[params.index].loanId);
+//                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId, 'type': 'review'}});
+                      } else {
+                        portalTab('add', '编辑产品', '/product/edit/private?loanId=' + this.data[params.index].loanId);
+//                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId, 'type': 'review'}});
+                      }
+                    }
+                  }
+                }, '编辑'),
                 h('Button', {
                   props: {
                     type: 'warning',

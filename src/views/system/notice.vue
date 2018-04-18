@@ -140,7 +140,7 @@
     },
     methods: {
       init: async function () {
-        await cmsPage({'currentPage': this.pageNumber, 'pageSize': this.pageSize, 'typeCode': '2'}).then(r => {
+        await cmsPage({'currentPage': this.pageNumber, 'pageSize': this.pageSize, 'typeCode': '200'}).then(r => {
           this.data = r.body.results;
           this.totalCount = r.body.recordCount;
         });

@@ -53,7 +53,7 @@
     data() {
       return {
         banner: {
-          typeCode: '1',
+          typeCode: '100',
           typeName: 'banner',
           title: '',
           hrefLink: '',

@@ -121,6 +121,14 @@ export const loanPrivateAdd = (body) => fetch(FINGER + '/loan/private/add', {
   reqBody: body
 }, 'POST');
 
+export const loanPublicEdit = (body) => fetch(FINGER + '/loan/public/edit', {
+  reqBody: body
+}, 'POST');
+
+export const loanPrivateEdit = (body) => fetch(FINGER + '/loan/private/eidt', {
+  reqBody: body
+}, 'POST');
+
 export const loanDelete = (body) => fetch(FINGER + '/loan/delete', {
   reqBody: body
 }, 'POST');
