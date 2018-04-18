@@ -189,11 +189,13 @@
         <Button type="primary" @click="handleSubmit('formValidate')">提交</Button>
       </FormItem>
     </Form>
-
+    <Modal title="预览" v-model="visible">
+      <img :src="this.preImgSrc" v-if="visible" style="width: 100%">
+    </Modal>
   </Card>
 </template>
 <script>
-  import {loanPublicAdd, fbList, loanPublicGet, fbGetByUserIds} from '../../../util/interface';
+  import {loanPublicEdit, fbList, loanPublicGet, fbGetByUserIds} from '../../../util/interface';
   import {commonDataStr} from '../../../util/fetch';
   import {baseUrl} from '../../../util/env';
   import {portalTab} from '../../../util/utils';
@@ -344,7 +346,7 @@
                   },
                   on: {
                     click: () => {
-                      this.handleView(this.productDescFiles[params.index].src);
+                      this.handleView(JSON.parse(this.loan.productDescFiles)[params.index].src);
                     }
                   }
                 }, '预览'),
@@ -360,7 +362,7 @@
                   },
                   on: {
                     click: () => {
-                      this.productDescFiles.splice(params.index, 1);
+                      JSON.parse(this.loan.productDescFiles).splice(params.index, 1);
                     }
                   }
                 }, '删除')
@@ -410,7 +412,6 @@
             {required: true, message: '不能为空', trigger: 'blur'}
           ],
           amount: [
-            {required: true, message: '不能为空', trigger: 'blur'},
             {
               type: 'number',
               message: '类型错误',
@@ -424,7 +425,6 @@
             {required: true, message: '认购金额及年化收益', trigger: 'alert'}
           ],
           investmentDeadline: [
-            {required: true, message: '不能为空', trigger: 'blur'},
             {
               type: 'number',
               message: '类型错误',
@@ -470,12 +470,12 @@
         await loanPublicGet({'loanId': this.$route.query.loanId}).then(r => {
           this.loan = r.body;
         });
-        await fbGetByUserIds({'userIds': this.loan.userIds}).then(r => {
-          this.data3 = r.body;
-        });
         // 获取理财师列表
         await fbList().then(r => {
           self.data3 = r.body;
+        });
+        await fbGetByUserIds({'userIds': this.loan.userIds}).then(r => {
+          this.data3 = r.body;
         });
       },
       onSelect: function (selection, row) {
@@ -520,12 +520,12 @@
         this.mergeProductDescFiles();
         this.$refs[name].validate(async (valid) => {
           if (valid) {
-            await loanPublicAdd(this.loan).then(r => {
+            await loanPublicEdit(this.loan).then(r => {
               console.log(r);
               if (r.header.code === '0') {
-                this.$Message.success('添加成功!');
+                this.$Message.success('修改成功!');
                 portalTab('add', '待审核产品', '/review');
-                portalTab('close', '发布公募产品');
+                portalTab('close', '编辑产品');
               }
             });
           } else {
