@@ -207,7 +207,6 @@
           this.loan.beginAmount = this.loan.beginAmount / 10000;
         });
         await fbGetByUserIds({'userIds': this.loan.userIds}).then(r => {
-          debugger;
           this.data3 = r.body;
         });
       },
