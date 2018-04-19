@@ -203,6 +203,8 @@
         this.type = this.$route.query.type;
         await loanPublicGet({'loanId': this.$route.query.loanId}).then(r => {
           this.loan = r.body;
+          this.loan.amount = this.loan.amount / 10000;
+          this.loan.beginAmount = this.loan.beginAmount / 10000;
         });
         await fbGetByUserIds({'userIds': this.loan.userIds}).then(r => {
           debugger;

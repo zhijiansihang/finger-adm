@@ -216,7 +216,7 @@
                 h('i-input', {
                   attrs: {
                     id: 'start-amount-' + params.index,
-                    value: params.row.startAmount
+                    value: params.row.startAmount / 10000
                   }
                 })
               ]);
@@ -230,7 +230,7 @@
                 h('i-input', {
                   attrs: {
                     id: 'end-amount-' + params.index,
-                    value: params.row.endAmount
+                    value: params.row.endAmount / 10000
                   }
                 })
               ]);
@@ -469,6 +469,17 @@
         this.type = this.$route.query.type;
         await loanPublicGet({'loanId': this.$route.query.loanId}).then(r => {
           this.loan = r.body;
+          this.loan.amount = this.loan.amount / 10000;
+          let earningDesc = this.loan.earningDesc ? JSON.parse(this.loan.earningDesc) : [];
+          let self = this;
+          earningDesc.forEach(item => {
+            self.earningDesc.push({
+              startAmount: '',
+              endAmount: '',
+              basisInterest: '',
+              isFloating: false
+            });
+          });
         });
         // 获取理财师列表
         await fbList().then(r => {
@@ -521,7 +532,6 @@
         this.$refs[name].validate(async (valid) => {
           if (valid) {
             await loanPublicEdit(this.loan).then(r => {
-              console.log(r);
               if (r.header.code === '0') {
                 this.$Message.success('修改成功!');
                 portalTab('add', '待审核产品', '/review');
@@ -543,6 +553,10 @@
         self.loan.beginAmount = 0;
         this.earningDesc.forEach((item, index) => {
           item.startAmount = document.getElementById('start-amount-' + index).getElementsByTagName('input')[0].value;
+          if (item.startAmount) {
+            item.startAmount = item.startAmount * 10000;
+          }
+
           if (self.loan.beginAmount === 0 && item.startAmount) {
             self.loan.beginAmount = item.startAmount;
           }
@@ -550,9 +564,10 @@
             self.loan.beginAmount = item.startAmount;
           }
           item.endAmount = document.getElementById('end-amount-' + index).getElementsByTagName('input')[0].value;
-//          if (startAmount){
-//            金额起点和终点至少输入一项
-//          }
+          if (item.endAmount) {
+            item.endAmount = item.endAmount * 10000;
+          }
+
           item.basisInterest = document.getElementById('basis-interest-' + index).getElementsByTagName('input')[0].value;
           if (item.basisInterest - self.loan.interestRate > 0) { // 利率最大值
             self.loan.interestRate = item.basisInterest;

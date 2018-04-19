@@ -571,6 +571,10 @@
         self.loan.beginAmount = 0;
         this.earningDesc.forEach((item, index) => {
           item.startAmount = document.getElementById('start-amount-' + index).getElementsByTagName('input')[0].value;
+          if (item.startAmount) {
+            item.startAmount = item.startAmount * 10000;
+          }
+
           if (self.loan.beginAmount === 0 && item.startAmount) {
             self.loan.beginAmount = item.startAmount;
           }
@@ -578,9 +582,10 @@
             self.loan.beginAmount = item.startAmount;
           }
           item.endAmount = document.getElementById('end-amount-' + index).getElementsByTagName('input')[0].value;
-//          if (startAmount){
-//            金额起点和终点至少输入一项
-//          }
+          if (item.endAmount) {
+            item.endAmount = item.endAmount * 10000;
+          }
+
           item.basisInterest = document.getElementById('basis-interest-' + index).getElementsByTagName('input')[0].value;
           if (item.basisInterest - self.loan.interestRate > 0) { // 利率最大值
             self.loan.interestRate = item.basisInterest;

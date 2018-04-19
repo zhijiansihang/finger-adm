@@ -230,11 +230,17 @@
         columns4: [
           {
             title: '投资金额（起）',
-            key: 'startAmount'
+            key: 'startAmount',
+            render: (h, params) => {
+              return params.row.startAmount / 10000;
+            }
           },
           {
             title: '投资金额（终）',
-            key: 'endAmount'
+            key: 'endAmount',
+            render: (h, params) => {
+              return params.row.endAmount / 10000;
+            }
           },
           {
             title: '预期年化收益（%）',
@@ -399,6 +405,8 @@
         this.type = this.$route.query.type;
         await loanPublicGet({'loanId': this.$route.query.loanId}).then(r => {
           this.loan = r.body;
+          this.loan.amount = this.loan.amount / 10000;
+          this.loan.beginAmount = this.loan.beginAmount / 10000;
         });
         await fbGetByUserIds({'userIds': this.loan.userIds}).then(r => {
           this.data3 = r.body;
