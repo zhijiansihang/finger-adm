@@ -43,6 +43,10 @@ export const getUser = (body) => fetch(FINGER + '/user/get', {
   reqBody: body
 }, 'POST');
 
+export const getUserDemand = (data) => fetch(FINGER + '/demand/list', {
+  reqParams: data
+}, 'GET');
+
 export const getUserByMobile = (body) => fetch(FINGER + '/user/get/mobile', {
   reqBody: body
 }, 'POST');

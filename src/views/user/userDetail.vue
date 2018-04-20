@@ -31,65 +31,74 @@
       <span>用户需求信息</span>
     </div>
     <Row className="text-row">
-      <Table border ref="selection" :columns="columns4" :data="data1"></Table>
+      <Table border ref="selection" :columns="columns4" :data="userDemand"></Table>
     </Row>
   </Card>
 </template>
 <script>
-  import {getUser} from '../../util/interface';
+  import {getUser, getUserDemand} from '../../util/interface';
   export default {
     data() {
       return {
         user: {},
+        userDemand: [],
         columns4: [
           {
             title: '需求编号',
-            key: 'name'
+            key: 'id'
           },
           {
             title: '创建日期',
-            key: 'age'
+            key: 'createTime'
           },
           {
             title: '期望期限',
             width: 145,
-            key: 'address'
+            key: 'expectedDeadline'
           },
           {
             title: '我的资金',
-            key: 'age'
+            key: 'moneySituation'
           },
           {
             title: '期望类型',
-            key: 'age'
+            key: 'earningType',
+            render: (h, params) => {
+              let isClosed = this.userDemand[params.index].isClosed;
+              if (isClosed === 1) {
+                return '固定收益';
+              } else if (isClosed === 2) {
+                return '浮动+保底';
+              } else {
+                return '浮动收益';
+              }
+            }
+//            1:固定收益 2:浮动+保底 3:浮动收益
           },
           {
-            title: '资金闲置时间',
-            key: 'age'
+            title: '风险偏好',
+            key: 'isClosed',
+            render: (h, params) => {
+              return '平衡性';
+            }
           },
           {
             title: '需求状态',
-            key: 'age'
+            key: 'isClosed',
+            render: (h, params) => {
+              let isClosed = this.userDemand[params.index].isClosed;
+              if (isClosed === 1) {
+                return '关闭';
+              } else {
+                return '开启';
+              }
+            }
           },
           {
             title: '补充说明',
-            key: 'age'
+            key: 'additionalRemarks'
           }
 
-        ],
-        data1: [
-          {
-            name: 'John Brown',
-            age: 18,
-            address: 'New York',
-            date: '2016-10-03'
-          },
-          {
-            name: 'Jim Green',
-            age: 24,
-            address: 'London ',
-            date: '2016-10-01'
-          }
         ]
       };
     },
@@ -97,6 +106,9 @@
       init: async function() {
         await getUser({'userId': this.$route.query.userId}).then(r => {
           this.user = r.body;
+        });
+        await getUserDemand({'userId': this.$route.query.userId}).then(r => {
+          this.userDemand = r.body;
         });
       },
       handleSubmit(name) {

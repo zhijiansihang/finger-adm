@@ -185,7 +185,7 @@
             key: 'roles',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].appointment;
+              return this.data[params.index].investTime;
             }
           },
           {
@@ -193,7 +193,12 @@
             key: 'roles',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].amount;
+              if (this.data[params.index].totalAmount) {
+                return this.data[params.index].totalAmount;
+              } else {
+                return '0';
+              }
+//              return this.data[params.index].totalAmount;
             }
           },
           {

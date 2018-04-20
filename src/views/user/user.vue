@@ -112,18 +112,20 @@
           {
             title: '预约次数',
             width: 85,
-            key: 'roles',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].appointment;
+              return this.data[params.index].investTime;
             }
           },
           {
             title: '预约总金额（万元)',
-            key: 'roles',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].amount;
+              if (this.data[params.index].totalAmount) {
+                return this.data[params.index].totalAmount;
+              } else {
+                return '0';
+              }
             }
           },
           {
