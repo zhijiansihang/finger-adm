@@ -65,7 +65,7 @@
             key: 'phone',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].imagePath;
+              return this.data[params.index].imageAccessPath;
             }
           },
           {

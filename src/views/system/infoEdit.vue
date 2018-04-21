@@ -21,12 +21,12 @@
         </Row>
       </FormItem>
 
-      <FormItem label="上传海报" prop="imagePath">
+      <FormItem label="上传海报" prop="imageAccessPath">
         <Row>
           <iCol span="12">
-            <template v-if="information.imagePath !== ''">
+            <template v-if="information.imageAccessPath !== ''">
               <div class="demo-upload-list">
-                <img :src="information.imagePath" style="height: 200px;">
+                <img :src="information.imageAccessPath" style="height: 200px;">
               </div>
             </template>
             <Upload :on-success="handleSuccess" :max-size="1024" :on-exceeded-size="handleMaxSize"
@@ -57,7 +57,7 @@
           typeName: 'information',
           title: '',
           hrefLink: '',
-          imagePath: '',
+          imageAccessPath: '',
           isFrontDisplay: '1'
         },
         uploadUrl: baseUrl + '/cms/information/upload?' + commonDataStr(),
@@ -68,7 +68,7 @@
           hrefLink: [
             {required: true, message: '链接不能为空', trigger: 'blur'}
           ],
-          imagePath: [
+          imageAccessPath: [
             {required: true, message: '海报不能为空', trigger: 'blur'}
           ]
         }
@@ -101,7 +101,7 @@
       },
       handleSuccess(res) {
         if (res.header.code === '0') {
-          this.information.imagePath = res.body;
+          this.information.imageAccessPath = res.body;
         } else {
           this.$Message.error('图片上传失败！');
         }

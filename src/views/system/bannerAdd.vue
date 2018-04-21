@@ -21,12 +21,12 @@
         </Row>
       </FormItem>
 
-      <FormItem label="上传海报" prop="imagePath">
+      <FormItem label="上传海报" prop="imageAccessPath">
         <Row>
           <iCol span="12">
-              <template v-if="banner.imagePath !== ''">
+              <template v-if="banner.imageAccessPath !== ''">
                 <div class="demo-upload-list"  >
-                  <img :src="banner.imagePath" style="height: 200px;">
+                  <img :src="banner.imageAccessPath" style="height: 200px;">
                 </div>
               </template>
               <Upload :on-success="handleSuccess" :max-size="1024" :on-exceeded-size="handleMaxSize" :on-format-error="handleFormatError" :format="['jpg','jpeg','gif','png']" :show-upload-list="false" :action="uploadUrl">
@@ -54,7 +54,7 @@
           typeName: 'banner',
           title: '',
           hrefLink: '',
-          imagePath: '',
+          imageAccessPath: '',
           isFrontDisplay: '1'
         },
         uploadUrl: baseUrl + '/cms/banner/upload?' + commonDataStr(),
@@ -65,7 +65,7 @@
           hrefLink: [
             {required: true, message: '链接不能为空', trigger: 'blur'}
           ],
-          imagePath: [
+          imageAccessPath: [
             {required: true, message: '海报不能为空', trigger: 'blur'}
           ]
         }
@@ -91,7 +91,7 @@
       },
       handleSuccess (res) {
         if (res.header.code === '0') {
-          this.banner.imagePath = res.body;
+          this.banner.imageAccessPath = res.body;
         } else {
           this.$Message.error('Banner图片上传失败！');
         }
