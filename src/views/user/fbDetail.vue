@@ -10,23 +10,23 @@
     <Row className="text-row">
       <iCol span="6">用户ID：{{user.user.userId}}</iCol>
       <iCol span="6">昵称：{{user.user.nickName}}</iCol>
-      <iCol span="6">职位：{{user.user.userId}}</iCol>
-      <iCol span="6">服务方向：{{user.user.userId}}</iCol>
+      <iCol span="6">职位：{{user.fb.position}}</iCol>
+      <iCol span="6">服务方向：{{user.fb.serviceDirection}}</iCol>
     </Row>
     <Row  className="text-row">
-      <iCol span="6">毕业院校：{{user.user.userId}}</iCol>
-      <iCol span="6">文化程度：{{user.user.userId}}</iCol>
-      <iCol span="6">从业年限：{{user.user.userId}}</iCol>
-      <iCol span="6">关注度：{{user.user.userId}}</iCol>
+      <iCol span="6">毕业院校：{{user.fb.schoolName}}</iCol>
+      <iCol span="6">文化程度：{{user.fb.educationLevel}}</iCol>
+      <iCol span="6">从业年限：{{user.fb.workAge}}</iCol>
+      <iCol span="6">总采纳数：{{user.fb.adoptCount}}</iCol>
     </Row>
     <Row  className="text-row">
-      <iCol span="6">粉丝数：{{user.user.userId}}</iCol>
+      <iCol span="6">粉丝数：{{user.userFriend}}</iCol>
     </Row>
     <Row  className="text-row">
-      <iCol span="24">从业经历：{{user.user.userId}}</iCol>
+      <iCol span="24">从业经历：{{user.fb.workingExperience}}</iCol>
     </Row>
     <Row  className="text-row">
-      <iCol span="24">个人简介：{{user.user.userId}}</iCol>
+      <iCol span="24">个人简介：{{user.fb.personalProfile}}</iCol>
     </Row>
 
     <div class="example-header">
@@ -34,10 +34,10 @@
     </div>
 
     <Row  className="text-row" style="padding-bottom: 30px;">
-      <iCol span="6">当前销售产品数：{{user.user.userId}}</iCol>
-      <iCol span="6">销售过的产品数：{{user.user.userId}}</iCol>
-      <iCol span="6">已服务过客户数：{{user.user.userId}}</iCol>
-      <iCol span="6">预约单数：{{user.user.userId}}</iCol>
+      <iCol span="6">当前销售产品数：{{user.fbSelling}}</iCol>
+      <iCol span="6">销售过的产品数：{{user.fbSelled}}</iCol>
+      <iCol span="6">已服务过客户数：{{user.fbService}}</iCol>
+      <iCol span="6">预约单数：{{user.appointment}}</iCol>
     </Row>
   </Card>
 </template>
