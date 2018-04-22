@@ -223,7 +223,7 @@
             key: 'issuer',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].issuer;
+              return this.data[params.index].institutionName;
             }
           },
           {
@@ -268,7 +268,7 @@
                         portalTab('add', '发布产品', '/product/detail/public?loanId=' + this.data[params.index].loanId + '&type=publish');
 //                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId, 'type': 'publish'}});
                       } else {
-                        portalTab('add', '发布产品', '/product/detail/public?loanId=' + this.data[params.index].loanId + '&type=publish');
+                        portalTab('add', '发布产品', '/product/detail/private?loanId=' + this.data[params.index].loanId + '&type=publish');
 //                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId, 'type': 'publish'}});
                       }
                     }

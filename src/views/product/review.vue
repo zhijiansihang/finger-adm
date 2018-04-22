@@ -225,7 +225,7 @@
             key: 'issuer',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].issuer;
+              return this.data[params.index].institutionName;
             }
           },
           {
