@@ -194,7 +194,7 @@
             align: 'center',
             render: (h, params) => {
               if (this.data[params.index].totalAmount) {
-                return this.data[params.index].totalAmount;
+                return (this.data[params.index].totalAmount / 10000).toFixed(2);
               } else {
                 return '0';
               }

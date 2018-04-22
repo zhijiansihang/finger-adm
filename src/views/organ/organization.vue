@@ -232,7 +232,7 @@
             key: 'fps',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].fps;
+              return this.data[params.index].investTime;
             }
           },
           {
@@ -241,7 +241,7 @@
             key: 'roles',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].appointment;
+              return this.data[params.index].totalAmount;
             }
           },
           {
