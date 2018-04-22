@@ -37,6 +37,10 @@ export const delCms = (body) => fetch(FINGER + '/cms/delete', {
 /* *************用户模块-start*********** */
 export const getLoginUser = () => fetch(FINGER + '/user/loginuser', {}, 'GET');
 
+export const resetPass = (body) => fetch(FINGER + '/user/reset', {
+  reqBody: body
+}, 'POST');
+
 export const userPage = (body) => fetch(FINGER + '/user/page', {
   reqBody: body
 }, 'POST');

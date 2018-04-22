@@ -106,7 +106,7 @@
       </Form>
 
       <div slot="footer">
-        <Button type="info" size="large" @click="handleSubmit">添加为理财师</Button>
+        <Button type="info" size="large" @click="handleSubmit" v-if="fb.userId">添加为理财师</Button>
         <Button type="info" size="large" v-on:click="hideModal">关闭</Button>
       </div>
 

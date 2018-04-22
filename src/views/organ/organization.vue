@@ -129,8 +129,9 @@
         </Row>
         <Row :gutter="60">
           <i-col span="18">
-            <Form-item label="密码" prop="authPass">
-              <Input v-model="institution.authPass" @on-enter="handleSubmit('institutionEdit')" placeholder="请输入"></Input>
+            <Form-item label="重置密码" prop="authPass">
+              <Button type="info" size="small" @click="resetPass(institution.userId)">密码重置</Button>
+              <span>*联系人手机号后四位+111111</span>
             </Form-item>
           </i-col>
         </Row>
@@ -162,7 +163,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {institutionPage, institutionGet, addAuth, deleteAuth} from '../../util/interface';
+  import {institutionPage, institutionGet, addAuth, deleteAuth, resetPass} from '../../util/interface';
 
   export default {
     data() {
@@ -335,6 +336,18 @@
           this.hideModal();
         });
         this.init();
+      },
+      resetPass: async function (userId) {
+//        console.log(userId);
+        await resetPass({'userId': userId}).then(r => {
+          if (r.header.code === '0') {
+            this.$Message.success('重置成功!');
+          } else {
+            this.$Message.error('重置失败!');
+          }
+          this.hideModal();
+        });
+//        this.init();
       },
       handleSubmit(name) {
         let self = this;
