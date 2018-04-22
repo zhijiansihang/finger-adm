@@ -156,7 +156,26 @@
             key: 'productDirection',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].productDirection;
+              let productDirection = this.data[params.index].productDirection;
+              if (productDirection === '1') {
+                productDirection = '工商企业';
+              }
+              if (productDirection === '2') {
+                productDirection = '金融市场';
+              }
+              if (productDirection === '3') {
+                productDirection = '基础设施';
+              }
+              if (productDirection === '4') {
+                productDirection = '房地产';
+              }
+              if (productDirection === '5') {
+                productDirection = '资金池';
+              }
+              if (productDirection === '6') {
+                productDirection = '其他';
+              }
+              return productDirection;
             }
           },
           {
@@ -197,7 +216,7 @@
             key: 'beginAmount',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].beginAmount;
+              return this.data[params.index].beginAmount / 10000;
             }
           },
           {
