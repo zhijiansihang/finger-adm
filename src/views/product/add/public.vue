@@ -24,7 +24,7 @@
               <Option :value=1>信托</Option>
               <Option :value=2>资管</Option>
               <Option :value=3>其他资产</Option>
-              <Option :value=4>私募</Option>
+              <!--<Option :value=4>私募</Option>-->
             </Select>
           </iCol>
         </Row>
