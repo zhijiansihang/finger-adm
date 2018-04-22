@@ -56,7 +56,7 @@
       <Card>
         <p slot="title">
           <Icon type="ios-film-outline"></Icon>
-          待审核列表
+          已发布列表
         </p>
         <a href="#" slot="extra">
           <!--<Button type="success" shape="circle" v-on:click="modalAdd = true;" icon="plus">添加</Button>-->
@@ -248,7 +248,7 @@
                         portalTab('add', '已发布产品详情', '/product/detail/public?loanId=' + this.data[params.index].loanId);
 //                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId}});
                       } else {
-                        portalTab('add', '已发布产品详情', '/product/detail/public?loanId=' + this.data[params.index].loanId);
+                        portalTab('add', '已发布产品详情', '/product/detail/private?loanId=' + this.data[params.index].loanId);
 //                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId}});
                       }
                     }

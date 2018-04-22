@@ -56,7 +56,7 @@
       <Card>
         <p slot="title">
           <Icon type="ios-film-outline"></Icon>
-          待审核列表
+          产品列表
         </p>
         <a href="#" slot="extra">
           <!--<Button type="success" shape="circle" v-on:click="modalAdd = true;" icon="plus">添加</Button>-->
