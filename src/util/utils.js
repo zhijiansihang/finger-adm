@@ -1,3 +1,6 @@
+import * as mainConst from './const';
+import Cookies from 'js-cookie';
+
 export const domain = () => {
   return encodeURIComponent(window.location.href.split('#')[0]);
 };
@@ -10,4 +13,13 @@ export const portalTab = (type, name, url) => {
       'src': window.location.href.split('#')[0] + '#' + url
     }
   })}, '*');
+};
+export const isAdmin = () => {
+  let userInfo = Cookies.get(mainConst.ADM_USER_INFO);
+  let user = JSON.parse(userInfo);
+  if (user && (user.authId === 'admin')) {
+    return true;
+  } else {
+    false;
+  }
 };

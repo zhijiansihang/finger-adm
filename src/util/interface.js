@@ -35,6 +35,8 @@ export const delCms = (body) => fetch(FINGER + '/cms/delete', {
 /* *************系统管理模块-end*********** */
 
 /* *************用户模块-start*********** */
+export const getLoginUser = () => fetch(FINGER + '/user/loginuser', {}, 'GET');
+
 export const userPage = (body) => fetch(FINGER + '/user/page', {
   reqBody: body
 }, 'POST');

@@ -255,7 +255,8 @@
                 h('Checkbox', {
                   attrs: {
                     id: 'is-floating-' + params.index,
-                    value: params.row.isFloating
+                    value: params.row.isFloating,
+                    disabled: true
                   }
                 }, [h('span', '加浮动收益')])
               ]);

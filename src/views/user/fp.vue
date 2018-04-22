@@ -115,8 +115,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {fbPage, getUserByMobile, fbAdd, institutionList} from '../../util/interface';
-
+  import {getLoginUser, fbPage, getUserByMobile, fbAdd, institutionList} from '../../util/interface';
+  import {isAdmin} from '../../util/utils';
   export default {
     data() {
       return {
@@ -246,12 +246,18 @@
           this.data = r.body.results;
           this.totalCount = r.body.recordCount;
         });
-
-        await institutionList().then(r => {
-          this.institutions = r.body;
-        });
+        if (isAdmin()) {
+          await institutionList().then(r => {
+            this.institutions = r.body;
+          });
+        } else {
+          await getLoginUser().then(r => {
+            this.institutions[0] = r.body;
+          });
+        }
       },
       getByMobile: async function () {
+//        console.log();
         this.fb.mobile = this.mobile;
         let self = this;
         await getUserByMobile(this.fb).then(r => {
@@ -261,9 +267,6 @@
             self.fb = r.body;
           }
         });
-      },
-      modalAdd: function () {
-
       },
       query: async function () {
         this.init();

@@ -35,7 +35,7 @@
                 </Select>
               </Form-item>
             </i-col>
-            <i-col span="12">
+            <i-col span="12" v-if="isAdmin">
               <Form-item label="所属机构">
                 <Select v-model="loan.institutionUserId" placeholder="请选择机构">
                   <Option v-for="item in institutions" :value="`${item.userId}`" :key="item.userId">{{ item.nickName }}</Option>
@@ -87,7 +87,7 @@
 
 <script type="text/ecmascript-6">
   import {loanPage, loanDelete, institutionList} from '../../util/interface';
-  import {portalTab} from '../../util/utils';
+  import {portalTab, isAdmin} from '../../util/utils';
   export default {
     data() {
       return {
@@ -100,6 +100,7 @@
           pageSize: 10,
           currentPage: 1
         },
+        isAdmin: isAdmin(),
         loanId: '',
         modal_loading: false,
         modalDel: false,

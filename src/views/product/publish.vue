@@ -36,12 +36,9 @@
               </Form-item>
             </i-col>
             <i-col span="12">
-              <Form-item label="所属机构">
-                <Select v-model="loan.institutionUserId" placeholder="请选择">
-                  <Option value="">全部</Option>
-                  <Option value="0">国民信托</Option>
-                  <Option value="1">中融</Option>
-                  <Option value="1">光大</Option>
+              <Form-item label="所属机构" v-if="isAdmin">
+                <Select v-model="loan.institutionUserId" placeholder="请选择机构">
+                  <Option v-for="item in institutions" :value="`${item.userId}`" :key="item.userId">{{ item.nickName }}</Option>
                 </Select>
               </Form-item>
             </i-col>
@@ -89,8 +86,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {loanPage, loanDelete} from '../../util/interface';
-  import {portalTab} from '../../util/utils';
+  import {loanPage, loanDelete, institutionList} from '../../util/interface';
+  import {portalTab, isAdmin} from '../../util/utils';
   export default {
     data() {
       return {
@@ -103,9 +100,11 @@
           pageSize: 10,
           currentPage: 1
         },
+        isAdmin: isAdmin(),
         modal_loading: false,
         modalDel: false,
         data: [],
+        institutions: [],
         columns7: [
           {
             title: '产品ID',
@@ -290,6 +289,9 @@
         await loanPage(this.loan).then(r => {
           this.data = r.body.results;
           this.totalCount = r.body.recordCount;
+        });
+        await institutionList().then(r => {
+          this.institutions = r.body;
         });
       },
       query: async function () {
