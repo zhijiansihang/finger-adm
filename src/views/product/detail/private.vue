@@ -32,6 +32,16 @@
           </iCol>
         </Row>
       </FormItem>
+      <FormItem label="发行机构" prop="institutionUserId">
+        <Row>
+          <iCol span="11">
+            <!--<Input v-model="loan.issuer" placeholder="请输入发行机构"></Input>-->
+            <Select v-model="loan.institutionUserId" placeholder="请选择发行机构" disabled>
+              <Option v-for="item in institutions" :value="item.userId" :key="item.userId">{{ item.nickName }}</Option>
+            </Select>
+          </iCol>
+        </Row>
+      </FormItem>
       <FormItem label="基金类型" prop="fundType">
         <Row>
           <iCol span="11">
@@ -160,8 +170,10 @@
   </Card>
 </template>
 <script>
-  import {loanPublicGet, loanReview, fbGetByUserIds} from '../../../util/interface';
+  import {loanPublicGet, loanReview,
+    fbGetByUserIds, fbList} from '../../../util/interface';
   import {portalTab} from '../../../util/utils';
+  import {getStore} from '../../../util/storage';
   //  import {baseUrl} from '../../util/env';
   export default {
     data() {
@@ -171,6 +183,7 @@
         preImgSrc: '',
         modalReview: false,
         modalStr: '',
+        institutions: [],
         visible: false,
 //        uploadUrl: baseUrl + '/cms/banner/upload?' + commonDataStr(),
         columns6: [
@@ -180,7 +193,7 @@
           },
           {
             title: '名称',
-            key: 'realName'
+            key: 'nickName'
           },
           {
             title: '手机号',
@@ -189,7 +202,12 @@
           },
           {
             title: '当前产品数量',
-            key: 'count'
+            key: 'investTime'
+          },
+          {
+            type: 'selection',
+            width: 60,
+            align: 'center'
           }
         ],
         data1: [],
@@ -198,16 +216,46 @@
         ruleValidate: {}
       };
     },
+    beforeCreate() {
+      this.$nextTick(function () {
+        this.institutions = JSON.parse(getStore('institutions'));
+        console.log(this.institutions);
+      });
+    },
     methods: {
       init: async function () {
+        let self = this;
         this.type = this.$route.query.type;
+//        if (isAdmin()) {
+//          await institutionList().then(r => {
+//            self.institutions = r.body;
+//          });
+//        } else {
+//          await getLoginUser().then(r => {
+//            self.institutions[0] = r.body;
+//          });
+//        }
         await loanPublicGet({'loanId': this.$route.query.loanId}).then(r => {
           this.loan = r.body;
           this.loan.amount = this.loan.amount / 10000;
           this.loan.beginAmount = this.loan.beginAmount / 10000;
+          console.log('aaa');
+          console.log(this.loan.institutionUserId);
         });
+        let fbSelects;
         await fbGetByUserIds({'userIds': this.loan.userIds}).then(r => {
-          this.data3 = r.body;
+          fbSelects = r.body;
+        });
+        await fbList().then(r => {
+          self.data3 = r.body;
+          self.data3.forEach(fb => {
+            fb._disabled = true;
+            fbSelects.forEach(fbSelect => {
+              if (fb.userId === fbSelect.userId) {
+                fb._checked = true;
+              }
+            });
+          });
         });
       },
       handleView(name) {

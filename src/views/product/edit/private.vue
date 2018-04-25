@@ -32,6 +32,16 @@
           </iCol>
         </Row>
       </FormItem>
+      <FormItem label="发行机构" prop="institutionUserId">
+        <Row>
+          <iCol span="11">
+            <!--<Input v-model="loan.issuer" placeholder="请输入发行机构"></Input>-->
+            <Select v-model="loan.institutionUserId" placeholder="请选择发行机构">
+              <Option v-for="item in institutions" :value="item.userId" :key="item.userId">{{ item.nickName }}</Option>
+            </Select>
+          </iCol>
+        </Row>
+      </FormItem>
       <FormItem label="基金类型" prop="fundType">
         <Row>
           <iCol span="11">
@@ -124,7 +134,8 @@
       <FormItem label="基金经理" prop="desc">
         <Row>
           <iCol span="14">
-            <Table border ref="selection" :columns="columns6" :data="data3"></Table>
+            <!---->
+            <Table border ref="selection" @on-selection-change="onSelectChange" :columns="columns6" :data="data3"></Table>
           </iCol>
         </Row>
       </FormItem>
@@ -134,27 +145,28 @@
       </FormItem>
     </Form>
 
-    <Modal v-model="modalReview" width="360">
-      <div style="text-align:center">
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>{{modalStr}}</p>
-        <p>&nbsp;</p>
-      </div>
-      <div slot="footer">
-        <Button type="info" size="large" @click="modalReview = false">取消</Button>
-        <Button type="error" size="large" @click="handleReview">确定</Button>
-      </div>
-    </Modal>
+    <!--<Modal v-model="modalReview" width="360">-->
+      <!--<div style="text-align:center">-->
+        <!--<p>&nbsp;</p>-->
+        <!--<p>&nbsp;</p>-->
+        <!--<p>{{modalStr}}</p>-->
+        <!--<p>&nbsp;</p>-->
+      <!--</div>-->
+      <!--<div slot="footer">-->
+        <!--<Button type="info" size="large" @click="modalReview = false">取消</Button>-->
+        <!--<Button type="error" size="large" @click="handleReview">确定</Button>-->
+      <!--</div>-->
+    <!--</Modal>-->
 
-    <Modal title="预览" v-model="visible">
-      <img :src="this.preImgSrc" v-if="visible" style="width: 100%">
-    </Modal>
+    <!--<Modal title="预览" v-model="visible">-->
+      <!--<img :src="this.preImgSrc" v-if="visible" style="width: 100%">-->
+    <!--</Modal>-->
   </Card>
 </template>
 <script>
-  import {loanPrivateGet, fbGetByUserIds, loanPrivateEdit} from '../../../util/interface';
+  import {loanPrivateGet, fbGetByUserIds, loanPrivateEdit, fbList} from '../../../util/interface';
   import {portalTab} from '../../../util/utils';
+  import {getStore} from '../../../util/storage';
   export default {
     data() {
       return {
@@ -164,6 +176,7 @@
         modalReview: false,
         modalStr: '',
         visible: false,
+        institutions: [],
         columns6: [
           {
             title: '用户Id',
@@ -171,7 +184,7 @@
           },
           {
             title: '名称',
-            key: 'realName'
+            key: 'nickName'
           },
           {
             title: '手机号',
@@ -180,7 +193,7 @@
           },
           {
             title: '当前产品数量',
-            key: 'count'
+            key: 'investTime'
           },
           {
             type: 'selection',
@@ -191,20 +204,60 @@
         data1: [],
         data2: [],
         data3: [],
+        userIds: [],
         ruleValidate: {}
       };
     },
+    beforeCreate() {
+      this.$nextTick(function () {
+        this.institutions = JSON.parse(getStore('institutions'));
+        console.log(this.institutions);
+      });
+    },
     methods: {
       init: async function () {
+        let self = this;
+//        if (isAdmin()) {
+//          await institutionList().then(r => {
+//            self.institutions = r.body;
+//          });
+//        } else {
+//          await getLoginUser().then(r => {
+//            self.institutions[0] = r.body;
+//          });
+//        }
+//        setTimeout(100);
         this.type = this.$route.query.type;
         await loanPrivateGet({'loanId': this.$route.query.loanId}).then(r => {
           this.loan = r.body;
           this.loan.amount = this.loan.amount / 10000;
           this.loan.beginAmount = this.loan.beginAmount / 10000;
         });
+        let fbSelects;
         await fbGetByUserIds({'userIds': this.loan.userIds}).then(r => {
-          this.data3 = r.body;
+          fbSelects = r.body;
         });
+        await fbList().then(r => {
+          self.data3 = r.body;
+          self.data3.forEach(fb => {
+            fbSelects.forEach(fbSelect => {
+              if (fb.userId === fbSelect.userId) {
+                fb._checked = true;
+                self.userIds.push(fb.userId);
+              }
+            });
+          });
+        });
+      },
+      onSelectChange: function (selection) {
+        let self = this;
+        this.userIds = [];
+        selection.forEach(item => {
+          self.userIds.push(item.userId);
+        });
+      },
+      getSelectedUserIds() {
+        this.loan.userIds = this.userIds;
       },
       handleView(name) {
         this.preImgSrc = name;
@@ -213,6 +266,7 @@
       handleSubmit: function (name) {
         this.$refs[name].validate(async (valid) => {
           if (valid) {
+            this.getSelectedUserIds();
             await loanPrivateEdit(this.loan).then(r => {
               if (r.header.code === '0') {
                 this.$Message.success('修改成功!');

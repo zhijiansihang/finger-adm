@@ -43,10 +43,13 @@
           </iCol>
         </Row>
       </FormItem>
-      <FormItem label="发行机构" prop="issuer">
+      <FormItem label="发行机构" prop="institutionUserId">
         <Row>
           <iCol span="11">
-            <Input v-model="loan.issuer" placeholder="请输入发行机构"></Input>
+            <!--<Input v-model="loan.issuer" placeholder="请输入发行机构"></Input>-->
+            <Select v-model="loan.institutionUserId" placeholder="请选择发行机构">
+              <Option v-for="item in institutions" :value="item.userId" :key="item.userId">{{ item.nickName }}</Option>
+            </Select>
           </iCol>
         </Row>
       </FormItem>
@@ -181,7 +184,7 @@
       <FormItem label="理财师" prop="desc">
         <Row>
           <iCol span="14">
-            <Table border ref="selection" :columns="columns6" :data="data3"></Table>
+            <Table border ref="selection" @on-selection-change="onSelectChange" :columns="columns6" :data="data3"></Table>
           </iCol>
         </Row>
       </FormItem>
@@ -195,9 +198,10 @@
   </Card>
 </template>
 <script>
-  import {loanPublicEdit, fbList, loanPublicGet, fbGetByUserIds} from '../../../util/interface';
+  import {loanPublicEdit, loanPublicGet, fbGetByUserIds, fbList} from '../../../util/interface';
   import {commonDataStr} from '../../../util/fetch';
   import {baseUrl} from '../../../util/env';
+  import {getStore} from '../../../util/storage';
   import {portalTab} from '../../../util/utils';
   export default {
     data() {
@@ -207,6 +211,8 @@
         uploadUrl: baseUrl + '/loan/file/upload?' + commonDataStr(),
         modalReview: false,
         visible: false,
+        institutions: [],
+        userIds: [],
         columns4: [
           {
             title: '投资金额（起）',
@@ -464,8 +470,24 @@
         }
       };
     },
+    beforeCreate() {
+      this.$nextTick(function () {
+        this.institutions = JSON.parse(getStore('institutions'));
+        console.log(this.institutions);
+      });
+    },
     methods: {
       init: async function () {
+        let self = this;
+//        if (isAdmin()) {
+//          await institutionList().then(r => {
+//            self.institutions = r.body;
+//          });
+//        } else {
+//          await getLoginUser().then(r => {
+//            self.institutions[0] = r.body;
+//          });
+//        }
         this.type = this.$route.query.type;
         await loanPublicGet({'loanId': this.$route.query.loanId}).then(r => {
           this.loan = r.body;
@@ -482,26 +504,31 @@
           });
         });
         // 获取理财师列表
+        let fbSelects;
+        await fbGetByUserIds({'userIds': this.loan.userIds}).then(r => {
+          fbSelects = r.body;
+        });
         await fbList().then(r => {
           self.data3 = r.body;
-        });
-        await fbGetByUserIds({'userIds': this.loan.userIds}).then(r => {
-          this.data3 = r.body;
+          self.data3.forEach(fb => {
+            fbSelects.forEach(fbSelect => {
+              if (fb.userId === fbSelect.userId) {
+                fb._checked = true;
+                self.userIds.push(fb.userId);
+              }
+            });
+          });
         });
       },
-      onSelect: function (selection, row) {
-        let userIds = [];
+      onSelectChange: function (selection) {
+        let self = this;
+        this.userIds = [];
         selection.forEach(item => {
-          userIds.push(item.userId);
+          self.userIds.push(item.userId);
         });
-        this.loan.userIds = userIds;
       },
-      onSelectAll: function (selection) {
-        let userIds = [];
-        selection.forEach(item => {
-          userIds.push(item.userId);
-        });
-        this.loan.userIds = userIds;
+      getSelectedUserIds() {
+        this.loan.userIds = this.userIds;
       },
       handleSuccess (res) {
         if (res.header.code === '0') {
@@ -527,6 +554,7 @@
         this.visible = true;
       },
       handleSubmit: function (name) {
+        this.getSelectedUserIds();
         this.mergeEarningDesc();
         this.mergeProductDescFiles();
         this.$refs[name].validate(async (valid) => {

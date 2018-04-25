@@ -46,7 +46,10 @@
       <FormItem label="发行机构" prop="issuer">
         <Row>
           <iCol span="11">
-            <Input v-model="loan.issuer" placeholder="请输入发行机构"></Input>
+            <!--<Input v-model="loan.issuer" placeholder="请输入发行机构"></Input>-->
+            <Select v-model="loan.institutionUserId" placeholder="请选择发行机构">
+              <Option v-for="item in institutions" :value="`${item.userId}`" :key="item.userId">{{ item.nickName }}</Option>
+            </Select>
           </iCol>
         </Row>
       </FormItem>
@@ -226,10 +229,10 @@
   </Card>
 </template>
 <script>
-  import {loanPublicAdd, fbList} from '../../../util/interface';
+  import {loanPublicAdd, fbList, institutionList, getLoginUser} from '../../../util/interface';
   import {commonDataStr} from '../../../util/fetch';
   import {baseUrl} from '../../../util/env';
-  import {portalTab} from '../../../util/utils';
+  import {portalTab, isAdmin} from '../../../util/utils';
 
   export default {
     data() {
@@ -239,6 +242,7 @@
         uploadUrl: baseUrl + '/loan/file/upload?' + commonDataStr(),
         modalReview: false,
         visible: false,
+        institutions: [],
         columns4: [
           {
             title: '投资金额（起）',
@@ -318,7 +322,7 @@
                   },
                   on: {
                     click: () => {
-                      this.mergeEarningDesc();
+                      this.mergeEarningDesc('edit');
                       self.earningDesc.push({
                         startAmount: '',
                         endAmount: '',
@@ -344,7 +348,7 @@
                   },
                   on: {
                     click: () => {
-                      this.mergeEarningDesc();
+                      this.mergeEarningDesc('edit');
                       this.earningDesc.splice(params.index, 1);
                     }
                   }
@@ -409,7 +413,7 @@
           },
           {
             title: '名称',
-            key: 'realName'
+            key: 'nickName'
           },
           {
             title: '手机号',
@@ -418,7 +422,7 @@
           },
           {
             title: '当前产品数量',
-            key: 'count'
+            key: 'investTime'
           },
           {
             type: 'selection',
@@ -440,7 +444,7 @@
           productType: [
             {type: 'number', required: true, message: '不能为空', trigger: 'blur'}
           ],
-          issuer: [
+          institutionUserId: [
             {required: true, message: '不能为空', trigger: 'blur'}
           ],
           amount: [
@@ -505,6 +509,15 @@
         await fbList().then(r => {
           self.data3 = r.body;
         });
+        if (isAdmin()) {
+          await institutionList().then(r => {
+            this.institutions = r.body;
+          });
+        } else {
+          await getLoginUser().then(r => {
+            this.institutions[0] = r.body;
+          });
+        }
       },
       onSelect: function (selection, row) {
         let userIds = [];
@@ -561,7 +574,7 @@
           }
         });
       },
-      mergeEarningDesc: function () {
+      mergeEarningDesc: function (type) {
         let self = this;
         if (this.earningDesc.length < 1) {
           return;
@@ -571,7 +584,7 @@
         self.loan.beginAmount = 0;
         this.earningDesc.forEach((item, index) => {
           item.startAmount = document.getElementById('start-amount-' + index).getElementsByTagName('input')[0].value;
-          if (item.startAmount) {
+          if (item.startAmount && type !== 'edit') {
             item.startAmount = item.startAmount * 10000;
           }
 
@@ -582,7 +595,7 @@
             self.loan.beginAmount = item.startAmount;
           }
           item.endAmount = document.getElementById('end-amount-' + index).getElementsByTagName('input')[0].value;
-          if (item.endAmount) {
+          if (item.endAmount && type !== 'edit') {
             item.endAmount = item.endAmount * 10000;
           }
 

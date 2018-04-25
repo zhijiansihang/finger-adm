@@ -86,8 +86,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {loanPage, loanDelete, institutionList} from '../../util/interface';
+  import {loanPage, loanDelete, institutionList, getLoginUser} from '../../util/interface';
   import {portalTab, isAdmin} from '../../util/utils';
+  import {setStore} from '../../util/storage';
   export default {
     data() {
       return {
@@ -290,9 +291,16 @@
           this.data = r.body.results;
           this.totalCount = r.body.recordCount;
         });
-        await institutionList().then(r => {
-          this.institutions = r.body;
-        });
+        if (isAdmin()) {
+          await institutionList().then(r => {
+            this.institutions = r.body;
+          });
+        } else {
+          await getLoginUser().then(r => {
+            this.institutions[0] = r.body;
+          });
+        }
+        setStore('institutions', this.institutions);
       },
       query: async function () {
         this.init();

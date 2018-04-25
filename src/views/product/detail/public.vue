@@ -43,10 +43,13 @@
           </iCol>
         </Row>
       </FormItem>
-      <FormItem label="发行机构" prop="issuer">
+      <FormItem label="发行机构" prop="institutionUserId">
         <Row>
           <iCol span="11">
-            <Input v-model="loan.issuer" disabled placeholder="请输入发行机构"></Input>
+            <!--<Input v-model="loan.issuer" placeholder="请输入发行机构"></Input>-->
+            <Select v-model="loan.institutionUserId" placeholder="请选择发行机构" disabled>
+              <Option v-for="item in institutions" :value="item.userId" :key="item.userId">{{ item.nickName }}</Option>
+            </Select>
           </iCol>
         </Row>
       </FormItem>
@@ -216,8 +219,9 @@
   </Card>
 </template>
 <script>
-  import {loanPublicGet, loanReview, fbGetByUserIds} from '../../../util/interface';
+  import {loanPublicGet, loanReview, fbGetByUserIds, fbList} from '../../../util/interface';
   import {portalTab} from '../../../util/utils';
+  import {getStore} from '../../../util/storage';
   export default {
     data() {
       return {
@@ -227,6 +231,7 @@
         modalReview: false,
         modalStr: '',
         visible: false,
+        institutions: [],
         columns4: [
           {
             title: '投资金额（起）',
@@ -262,58 +267,6 @@
               ]);
             }
           }
-//          {
-//            title: '添加',
-//            key: 'action',
-//            width: 60,
-//            align: 'center',
-//            fixed: 'right',
-//            renderHeader: (h, params) => {
-//              return h('div', [
-//                h('Button', {
-//                  props: {
-//                    type: 'ghost',
-//                    shape: 'circle',
-//                    size: 'small',
-//                    icon: 'plus'
-//                  },
-//                  style: {
-//      //                    marginRight: '5px'
-//                  },
-//                  on: {
-//                    click: () => {
-//                      this.data1.push({
-//                        name: 'Jim Green',
-//                        age: 24,
-//                        address: 'London ',
-//                        date: '2016-10-01'
-//                      });
-//                    }
-//                  }
-//                })
-//              ]);
-//            },
-//            render: (h, params) => {
-//              return h('div', [
-//                h('Button', {
-//                  props: {
-//                    type: 'ghost',
-//                    shape: 'circle',
-//                    size: 'small',
-//                    icon: 'minus-round'
-//                  },
-//                  style: {
-//                    marginRight: '5px'
-//                  },
-//                  on: {
-//                    click: () => {
-//                      this.data1.splice(params.index, 1);
-//                    }
-//                  }
-//                })
-//              ]);
-//            }
-//          }
         ],
         columns5: [
           {
@@ -355,7 +308,7 @@
           },
           {
             title: '名称',
-            key: 'realName'
+            key: 'nickName'
           },
           {
             title: '手机号',
@@ -364,7 +317,12 @@
           },
           {
             title: '当前产品数量',
-            key: 'count'
+            key: 'investTime'
+          },
+          {
+            type: 'selection',
+            width: 60,
+            align: 'center'
           }
         ],
         data1: [],
@@ -401,16 +359,44 @@
         }
       };
     },
+    beforeCreate() {
+      this.$nextTick(function () {
+        this.institutions = JSON.parse(getStore('institutions'));
+        console.log(this.institutions);
+      });
+    },
     methods: {
       init: async function () {
+        let self = this;
+//        if (isAdmin()) {
+//          await institutionList().then(r => {
+//            self.institutions = r.body;
+//          });
+//        } else {
+//          await getLoginUser().then(r => {
+//            self.institutions[0] = r.body;
+//          });
+//        }
         this.type = this.$route.query.type;
         await loanPublicGet({'loanId': this.$route.query.loanId}).then(r => {
           this.loan = r.body;
           this.loan.amount = this.loan.amount / 10000;
           this.loan.beginAmount = this.loan.beginAmount / 10000;
         });
+        let fbSelects;
         await fbGetByUserIds({'userIds': this.loan.userIds}).then(r => {
-          this.data3 = r.body;
+          fbSelects = r.body;
+        });
+        await fbList().then(r => {
+          self.data3 = r.body;
+          self.data3.forEach(fb => {
+            fb._disabled = true;
+            fbSelects.forEach(fbSelect => {
+              if (fb.userId === fbSelect.userId) {
+                fb._checked = true;
+              }
+            });
+          });
         });
       },
       handleView(name) {

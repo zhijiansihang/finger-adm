@@ -32,6 +32,16 @@
           </iCol>
         </Row>
       </FormItem>
+      <FormItem label="发行机构" prop="institutionUserId">
+        <Row>
+          <iCol span="11">
+            <!--<Input v-model="loan.issuer" placeholder="请输入发行机构"></Input>-->
+            <Select v-model="loan.institutionUserId" placeholder="请选择发行机构">
+              <Option v-for="item in institutions" :value="`${item.userId}`" :key="item.userId">{{ item.nickName }}</Option>
+            </Select>
+          </iCol>
+        </Row>
+      </FormItem>
       <FormItem label="基金类型" prop="fundType">
         <Row>
           <iCol span="11">
@@ -134,13 +144,14 @@
   </Card>
 </template>
 <script>
-  import {loanPrivateAdd, fbList} from '../../../util/interface';
-  import {portalTab} from '../../../util/utils';
+  import {loanPrivateAdd, fbList, institutionList, getLoginUser} from '../../../util/interface';
+  import {portalTab, isAdmin} from '../../../util/utils';
 
   export default {
     data() {
       return {
         loan: {},
+        institutions: [],
         columns6: [
           {
             title: '用户Id',
@@ -182,6 +193,9 @@
             }
           ],
           productDirection: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          institutionUserId: [
             {required: true, message: '不能为空', trigger: 'blur'}
           ],
           fundType: [
@@ -249,6 +263,15 @@
         await fbList().then(r => {
           self.data3 = r.body;
         });
+        if (isAdmin()) {
+          await institutionList().then(r => {
+            this.institutions = r.body;
+          });
+        } else {
+          await getLoginUser().then(r => {
+            this.institutions[0] = r.body;
+          });
+        }
       },
       onSelect: function (selection, row) {
         let userIds = [];
