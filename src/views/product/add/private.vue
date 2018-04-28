@@ -159,7 +159,7 @@
           },
           {
             title: '名称',
-            key: 'realName'
+            key: 'nickName'
           },
           {
             title: '手机号',
@@ -168,7 +168,7 @@
           },
           {
             title: '当前产品数量',
-            key: 'count'
+            key: 'investTime'
           },
           {
             type: 'selection',
