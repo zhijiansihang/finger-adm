@@ -28,7 +28,7 @@
   </Card>
 </template>
 <script>
-  import {saveCms} from '../../util/interface';
+  import {saveCms} from '../../utils/interface';
   export default {
     data() {
       return {

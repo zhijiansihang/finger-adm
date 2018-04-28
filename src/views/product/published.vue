@@ -86,9 +86,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {loanPage, loanEnd, institutionList, getLoginUser} from '../../util/interface';
-  import {portalTab, isAdmin} from '../../util/utils';
-  import {setStore} from '../../util/storage';
+  import {loanPage, loanEnd, institutionList, getLoginUser} from '../../utils/interface';
+  import {isAdmin} from '../../utils/utils';
+  import {setStore} from '../../utils/storage';
   export default {
     data() {
       return {
@@ -264,10 +264,12 @@
                   on: {
                     click: () => {
                       if (this.data[params.index].loanType === 1) {
-                        portalTab('add', '已发布产品详情', '/product/detail/public?loanId=' + this.data[params.index].loanId);
+                        this.$router.push({path: '/product/detail/public?loanId=' + this.data[params.index].loanId});
+//                        portalTab('add', '已发布产品详情', '/product/detail/public?loanId=' + this.data[params.index].loanId);
 //                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId}});
                       } else {
-                        portalTab('add', '已发布产品详情', '/product/detail/private?loanId=' + this.data[params.index].loanId);
+                        this.$router.push({path: '/product/detail/private?loanId=' + this.data[params.index].loanId});
+//                        portalTab('add', '已发布产品详情', '/product/detail/private?loanId=' + this.data[params.index].loanId);
 //                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId}});
                       }
                     }

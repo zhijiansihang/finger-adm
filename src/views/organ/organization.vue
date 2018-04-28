@@ -163,7 +163,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {institutionPage, institutionGet, addAuth, deleteAuth, resetPass} from '../../util/interface';
+  import {institutionPage, institutionGet, addAuth, deleteAuth, resetPass} from '../../utils/interface';
 
   export default {
     data() {

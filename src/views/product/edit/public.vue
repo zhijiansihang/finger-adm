@@ -198,11 +198,11 @@
   </Card>
 </template>
 <script>
-  import {loanPublicEdit, loanPublicGet, fbGetByUserIds, fbList} from '../../../util/interface';
-  import {commonDataStr} from '../../../util/fetch';
-  import {baseUrl} from '../../../util/env';
-  import {getStore} from '../../../util/storage';
-  import {portalTab} from '../../../util/utils';
+  import {loanPublicEdit, loanPublicGet, fbGetByUserIds, fbList} from '../../../utils/interface';
+  import {commonDataStr} from '../../../utils/fetch';
+  import {baseUrl} from '../../../utils/env';
+  import {getStore} from '../../../utils/storage';
+//  import {portalTab} from '../../../utils/utils';
   export default {
     data() {
       return {
@@ -562,8 +562,9 @@
             await loanPublicEdit(this.loan).then(r => {
               if (r.header.code === '0') {
                 this.$Message.success('修改成功!');
-                portalTab('add', '待审核产品', '/review');
-                portalTab('close', '编辑产品');
+                this.$router.push({path: '/review'});
+//                portalTab('add', '待审核产品', '/review');
+//                portalTab('close', '编辑产品');
               }
             });
           } else {

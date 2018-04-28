@@ -29,7 +29,7 @@
   </Card>
 </template>
 <script>
-  import {updateCms, getCms} from '../../util/interface';
+  import {updateCms, getCms} from '../../utils/interface';
   export default {
     data() {
       return {

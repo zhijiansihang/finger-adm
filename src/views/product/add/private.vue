@@ -144,8 +144,8 @@
   </Card>
 </template>
 <script>
-  import {loanPrivateAdd, fbList, institutionList, getLoginUser} from '../../../util/interface';
-  import {portalTab, isAdmin} from '../../../util/utils';
+  import {loanPrivateAdd, fbList, institutionList, getLoginUser} from '../../../utils/interface';
+  import {isAdmin} from '../../../utils/utils';
 
   export default {
     data() {
@@ -292,9 +292,9 @@
           if (valid) {
             await loanPrivateAdd(this.loan).then(r => {
               this.$Message.success('添加成功!');
-//              this.$router.push({path: 'review'});
-              portalTab('add', '待审核产品', '/review');
-              portalTab('close', '发布私募产品');
+              this.$router.push({path: 'review'});
+//              portalTab('add', '待审核产品', '/review');
+//              portalTab('close', '发布私募产品');
             });
           } else {
             this.$Message.error('添加失败!');

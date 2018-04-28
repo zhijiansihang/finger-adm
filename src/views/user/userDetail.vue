@@ -36,7 +36,7 @@
   </Card>
 </template>
 <script>
-  import {getUser, getUserDemand} from '../../util/interface';
+  import {getUser, getUserDemand} from '../../utils/interface';
   export default {
     data() {
       return {

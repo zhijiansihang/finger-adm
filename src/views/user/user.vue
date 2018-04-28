@@ -60,7 +60,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {userPage} from '../../util/interface';
+  import {userPage} from '../../utils/interface';
 
   export default {
     data() {

@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import myapp from './app';
 import {app} from 'adm-portal';
-import {baseUrl, loginUrl} from '../util/env';
+import {baseUrl, loginUrl} from '../utils/env';
 
 Vue.use(Vuex);
 

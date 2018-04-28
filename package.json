@@ -24,8 +24,7 @@
     "vue": "^2.3.3",
     "vue-i18n": "^5.0.3",
     "vue-router": "^2.6.0",
-    "vuex": "^2.3.1",
-    "adm-portal": "1.4.192"
+    "vuex": "^2.3.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

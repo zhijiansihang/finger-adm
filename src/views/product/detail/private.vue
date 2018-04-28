@@ -171,9 +171,9 @@
 </template>
 <script>
   import {loanPublicGet, loanReview,
-    fbGetByUserIds, fbList} from '../../../util/interface';
-  import {portalTab} from '../../../util/utils';
-  import {getStore} from '../../../util/storage';
+    fbGetByUserIds, fbList} from '../../../utils/interface';
+//  import {portalTab} from '../../../utils/utils';
+  import {getStore} from '../../../utils/storage';
   //  import {baseUrl} from '../../util/env';
   export default {
     data() {
@@ -278,10 +278,10 @@
             'loanStatus': '150'
           }).then(r => {
             this.$Message.success('审核成功!');
-//            this.$router.push({path: '/review'});
-            portalTab('close', '待审核产品');
-            portalTab('close', '审核产品');
-            portalTab('add', '待审核产品', '/review');
+            this.$router.push({path: '/review'});
+//            portalTab('close', '待审核产品');
+//            portalTab('close', '审核产品');
+//            portalTab('add', '待审核产品', '/review');
           });
         }
         if (this.type === 'publish') {
@@ -291,10 +291,10 @@
             'isDisplay': '1'
           }).then(r => {
             this.$Message.success('发标成功!');
-//            this.$router.push({path: '/published'});
-            portalTab('close', '发布产品');
-            portalTab('close', '产品发布');
-            portalTab('add', '产品发布', '/publish');
+            this.$router.push({path: '/publish'});
+//            portalTab('close', '发布产品');
+//            portalTab('close', '产品发布');
+//            portalTab('add', '产品发布', '/publish');
           });
         }
       }

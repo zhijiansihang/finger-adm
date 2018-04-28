@@ -45,9 +45,9 @@
   </Card>
 </template>
 <script>
-  import {updateCms, getCms} from '../../util/interface';
-  import {commonDataStr} from '../../util/fetch';
-  import {baseUrl} from '../../util/env';
+  import {updateCms, getCms} from '../../utils/interface';
+  import {commonDataStr} from '../../utils/fetch';
+  import {baseUrl} from '../../utils/env';
 
   export default {
     data() {

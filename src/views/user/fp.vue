@@ -115,8 +115,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {getLoginUser, fbPage, getUserByMobile, fbAdd, institutionList} from '../../util/interface';
-  import {isAdmin} from '../../util/utils';
+  import {getLoginUser, fbPage, getUserByMobile, fbAdd, institutionList} from '../../utils/interface';
+  import {isAdmin} from '../../utils/utils';
   export default {
     data() {
       return {

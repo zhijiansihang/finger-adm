@@ -164,9 +164,9 @@
   </Card>
 </template>
 <script>
-  import {loanPrivateGet, fbGetByUserIds, loanPrivateEdit, fbList} from '../../../util/interface';
-  import {portalTab} from '../../../util/utils';
-  import {getStore} from '../../../util/storage';
+  import {loanPrivateGet, fbGetByUserIds, loanPrivateEdit, fbList} from '../../../utils/interface';
+//  import {portalTab} from '../../../utils/utils';
+  import {getStore} from '../../../utils/storage';
   export default {
     data() {
       return {
@@ -270,8 +270,9 @@
             await loanPrivateEdit(this.loan).then(r => {
               if (r.header.code === '0') {
                 this.$Message.success('修改成功!');
-                portalTab('add', '待审核产品', '/review');
-                portalTab('close', '编辑产品');
+                this.$router.push({path: '/review'});
+//                portalTab('add', '待审核产品', '/review');
+//                portalTab('close', '编辑产品');
               }
             });
           } else {

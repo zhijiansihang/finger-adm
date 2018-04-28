@@ -42,7 +42,7 @@
   </Card>
 </template>
 <script>
-  import {fbGet} from '../../util/interface';
+  import {fbGet} from '../../utils/interface';
   export default {
     data() {
       return {

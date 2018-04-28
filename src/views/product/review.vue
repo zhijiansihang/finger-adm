@@ -86,9 +86,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {loanPage, loanDelete, institutionList, getLoginUser} from '../../util/interface';
-  import {portalTab, isAdmin} from '../../util/utils';
-  import {setStore} from '../../util/storage';
+  import {loanPage, loanDelete, institutionList, getLoginUser} from '../../utils/interface';
+  import {isAdmin} from '../../utils/utils';
+  import {setStore} from '../../utils/storage';
   export default {
     data() {
       return {
@@ -266,10 +266,12 @@
                   on: {
                     click: () => {
                       if (this.data[params.index].loanType === 1) {
-                        portalTab('add', '审核产品', '/product/detail/public?loanId=' + this.data[params.index].loanId + '&type=review');
+                        this.$router.push({path: '/product/detail/public?loanId=' + this.data[params.index].loanId + '&type=review'});
+//                        portalTab('add', '审核产品', '/product/detail/public?loanId=' + this.data[params.index].loanId + '&type=review');
 //                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId, 'type': 'review'}});
                       } else {
-                        portalTab('add', '审核产品', '/product/detail/private?loanId=' + this.data[params.index].loanId + '&type=review');
+                        this.$router.push({path: '/product/detail/private?loanId=' + this.data[params.index].loanId + '&type=review'});
+//                        portalTab('add', '审核产品', '/product/detail/private?loanId=' + this.data[params.index].loanId + '&type=review');
 //                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId, 'type': 'review'}});
                       }
                     }
@@ -287,10 +289,12 @@
                   on: {
                     click: () => {
                       if (this.data[params.index].loanType === 1) {
-                        portalTab('add', '编辑产品', '/product/edit/public?loanId=' + this.data[params.index].loanId);
+                        this.$router.push({path: '/product/edit/public?loanId=' + this.data[params.index].loanId});
+//                        portalTab('add', '编辑产品', '/product/edit/public?loanId=' + this.data[params.index].loanId);
 //                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId, 'type': 'review'}});
                       } else {
-                        portalTab('add', '编辑产品', '/product/edit/private?loanId=' + this.data[params.index].loanId);
+                        this.$router.push({path: '/product/edit/private?loanId=' + this.data[params.index].loanId});
+//                        portalTab('add', '编辑产品', '/product/edit/private?loanId=' + this.data[params.index].loanId);
 //                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId, 'type': 'review'}});
                       }
                     }

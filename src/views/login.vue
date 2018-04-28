@@ -46,9 +46,9 @@
   </div>
 </template>
 <script>
-  import {login} from '../util/interface';
+  import {login} from '../utils/interface';
   import Cookies from 'js-cookie';
-  import * as mainConst from '../util/const';
+  import * as mainConst from '../utils/const';
   import {canvas} from '../../static/canvas/star.js';
   export default {
     name: 'login',
@@ -122,7 +122,7 @@
                 if (refer && refer !== '/') {
                   this.$router.push(Cookies.get(mainConst.ADM_REFER));
                 } else {
-                  this.$router.push(mainConst.ADM_INDEX);
+                  this.$router.push('/');
                 }
               }
             }

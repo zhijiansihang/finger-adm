@@ -229,10 +229,10 @@
   </Card>
 </template>
 <script>
-  import {loanPublicAdd, fbList, institutionList, getLoginUser} from '../../../util/interface';
-  import {commonDataStr} from '../../../util/fetch';
-  import {baseUrl} from '../../../util/env';
-  import {portalTab, isAdmin} from '../../../util/utils';
+  import {loanPublicAdd, fbList, institutionList, getLoginUser} from '../../../utils/interface';
+  import {commonDataStr} from '../../../utils/fetch';
+  import {baseUrl} from '../../../utils/env';
+  import {isAdmin} from '../../../utils/utils';
 
   export default {
     data() {
@@ -565,8 +565,7 @@
               console.log(r);
               if (r.header.code === '0') {
                 this.$Message.success('添加成功!');
-                portalTab('add', '待审核产品', '/review');
-                portalTab('close', '发布公募产品');
+                this.$router.push({path: '/review'});
               }
             });
           } else {

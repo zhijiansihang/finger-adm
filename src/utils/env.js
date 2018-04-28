@@ -8,7 +8,7 @@
 let baseUrl = 'http://localhost:7031';
 let loginUrl = 'http://localhost:8080#/login';
 if (process.env.NODE_ENV === 'dev') { // 开发环境
-  baseUrl = 'http://47.94.241.207:7031';
+  // baseUrl = 'http://47.94.241.207:7022';
   // loginUrl = 'http://10.133.255.201:5001/pc/portal/index.html#/login';
 } else if (process.env.NODE_ENV === 'test') { // 测试环境
   baseUrl = 'http://47.94.241.207:7031';

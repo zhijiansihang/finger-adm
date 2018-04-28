@@ -23,7 +23,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {cmsPage, updateCms, delCms} from '../../util/interface';
+  import {cmsPage, updateCms, delCms} from '../../utils/interface';
   export default {
     data() {
       return {
