@@ -49,7 +49,7 @@
             key: 'createTime',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].createTime;
+              return h('span', this.data[params.index].createTime);
             }
           },
           {
@@ -58,7 +58,7 @@
             key: 'roles',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].isFrontDisplay === 1 ? '显示' : '不显示';
+              return h('span', this.data[params.index].isFrontDisplay === 1 ? '显示' : '不显示');
             }
           },
           {

@@ -122,7 +122,7 @@
             key: 'title',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].title;
+              return h('span', this.data[params.index].title);
             }
           },
           {
@@ -130,7 +130,7 @@
             key: 'loanId',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].countFinanceUser;
+              return h('span', this.data[params.index].countFinanceUser);
             }
           },
           {
@@ -140,13 +140,13 @@
             render: (h, params) => {
               let productType = this.data[params.index].productType;
               if (productType === 1) {
-                return '信托';
+                return h('span', '信托');
               } else if (productType === 2) {
-                return '资管';
+                return h('span', '资管');
               } else if (productType === 4) {
-                return '私募';
+                return h('span', '私募');
               } else {
-                return '其他资产';
+                return h('span', '其他资产');
               }
             }
           },
@@ -175,7 +175,7 @@
               if (productDirection === '6') {
                 productDirection = '其他';
               }
-              return productDirection;
+              return h('span', productDirection);
             }
           },
           {
@@ -184,9 +184,9 @@
             render: (h, params) => {
               let loanType = this.data[params.index].loanType;
               if (loanType === 2) {
-                return this.data[params.index].adaptationDeadline + '年';
+                return h('span', this.data[params.index].adaptationDeadline + '年');
               } else {
-                return this.data[params.index].investmentDeadline + '个月';
+                return h('span', this.data[params.index].investmentDeadline + '个月');
               }
             }
           },
@@ -197,17 +197,17 @@
             render: (h, params) => {
               let servicingWay = this.data[params.index].servicingWay;
               if (servicingWay === 1) {
-                return '按月付息';
+                return h('span', '按月付息');
               } else if (servicingWay === 2) {
-                return '按季付息';
+                return h('span', '按季付息');
               } else if (servicingWay === 3) {
-                return '半年付息';
+                return h('span', '半年付息');
               } else if (servicingWay === 4) {
-                return '按年付息';
+                return h('span', '按年付息');
               } else if (servicingWay === 5) {
-                return '到期付息';
+                return h('span', '到期付息');
               } else {
-                return '其他';
+                return h('span', '其他');
               }
             }
           },
@@ -216,7 +216,7 @@
             key: 'beginAmount',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].beginAmount / 10000;
+              return h('span', this.data[params.index].beginAmount / 10000);
             }
           },
           {
@@ -224,7 +224,7 @@
             key: 'issuer',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].institutionName;
+              return h('span', this.data[params.index].institutionName);
             }
           },
           {
@@ -234,13 +234,13 @@
             render: (h, params) => {
               let loanStatus = this.data[params.index].loanStatus;
               if (loanStatus === 100) {
-                return '审核中';
+                return h('span', '审核中');
               } else if (loanStatus === 200) {
-                return '募集中';
+                return h('span', '募集中');
               } else if (loanStatus === 300) {
-                return '结束';
+                return h('span', '结束');
               } else if (loanStatus === 400) {
-                return '已删除';
+                return h('span', '已删除');
               }
             }
           },
@@ -249,7 +249,7 @@
             key: 'releaseTime',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].releaseTime;
+              return h('span', this.data[params.index].releaseTime);
             }
           },
           {

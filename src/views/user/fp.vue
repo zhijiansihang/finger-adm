@@ -159,7 +159,7 @@
             key: 'nickName',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].nickName;
+              return h('span', this.data[params.index].nickName);
             }
           },
           {
@@ -167,7 +167,7 @@
             key: 'gender',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].mobile;
+              return h('span', this.data[params.index].mobile);
             }
           },
           {
@@ -176,7 +176,7 @@
             key: 'createTime',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].createTime;
+              return h('span', this.data[params.index].createTime);
             }
           },
           {
@@ -185,7 +185,7 @@
             key: 'roles',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].investTime;
+              return h('span', this.data[params.index].investTime);
             }
           },
           {
@@ -194,9 +194,9 @@
             align: 'center',
             render: (h, params) => {
               if (this.data[params.index].totalAmount) {
-                return (this.data[params.index].totalAmount / 10000).toFixed(2);
+                return h('span', (this.data[params.index].totalAmount / 10000).toFixed(2));
               } else {
-                return '0';
+                return h('span', '0');
               }
 //              return this.data[params.index].totalAmount;
             }
@@ -206,7 +206,7 @@
             key: 'roles',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].institutionName;
+              return h('span', this.data[params.index].institutionName);
             }
           },
           {

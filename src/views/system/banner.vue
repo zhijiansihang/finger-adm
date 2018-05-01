@@ -46,10 +46,10 @@
           },
           {
             title: '上传时间',
-            key: 'name',
+            key: 'createTime',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].createTime;
+              return h('span', this.data[params.index].createTime);
             }
           },
           {
@@ -57,7 +57,7 @@
             key: 'gender',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].hrefLink;
+              return h('span', this.data[params.index].hrefLink);
             }
           },
           {
@@ -65,7 +65,7 @@
             key: 'phone',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].imageAccessPath;
+              return h('span', this.data[params.index].imageAccessPath);
             }
           },
           {
@@ -74,7 +74,7 @@
             key: 'roles',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].isFrontDisplay === 1 ? '显示' : '不显示';
+              return h('span', this.data[params.index].isFrontDisplay === 1 ? '显示' : '不显示');
             }
           },
           {

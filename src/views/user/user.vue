@@ -90,7 +90,7 @@
             key: 'nickName',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].nickName;
+              return h('span', this.data[params.index].nickName);
             }
           },
           {
@@ -98,7 +98,7 @@
             key: 'mobile',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].mobile;
+              return h('span', this.data[params.index].mobile);
             }
           },
           {
@@ -106,7 +106,7 @@
             key: 'createTime',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].createTime;
+              return h('span', this.data[params.index].createTime);
             }
           },
           {
@@ -114,7 +114,7 @@
             width: 85,
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].investTime;
+              return h('span', this.data[params.index].investTime);
             }
           },
           {
@@ -122,7 +122,7 @@
             align: 'center',
             render: (h, params) => {
               if (this.data[params.index].totalAmount) {
-                return (this.data[params.index].totalAmount / 10000).toFixed(2);
+                return h('span', (this.data[params.index].totalAmount / 10000).toFixed(2));
               } else {
                 return '0';
               }
@@ -150,7 +150,7 @@
               if (roles === 5) {
                 roleName = '机构理财师';
               }
-              return roleName;
+              return h('span', roleName);
             }
           },
           {
@@ -158,7 +158,7 @@
             key: 'institutionUserId',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].institutionName;
+              return h('span', this.data[params.index].institutionName);
             }
           },
           {
@@ -171,7 +171,7 @@
 //              for (var i = 0; i < length; i++) {
 //                roles += this.data6[params.index].roles[i].name + ',';
 //              };
-              return this.data[params.index].isNameAuth === 1 ? '已认证' : '未认证';
+              return h('span', this.data[params.index].isNameAuth === 1 ? '已认证' : '未认证');
             }
           },
           {

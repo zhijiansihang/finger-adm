@@ -225,7 +225,7 @@
             key: 'nickName',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].nickName;
+              return h('span', this.data[params.index].nickName);
             }
           },
           {
@@ -233,7 +233,7 @@
             key: 'fps',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].investTime;
+              return h('span', this.data[params.index].investTime);
             }
           },
           {
@@ -242,7 +242,7 @@
             key: 'roles',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].totalAmount;
+              return h('span', this.data[params.index].totalAmount);
             }
           },
           {
@@ -250,7 +250,7 @@
             key: 'realName',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].realName;
+              return h('span', this.data[params.index].realName);
             }
           },
           {
@@ -258,7 +258,7 @@
             key: 'mobile',
             align: 'center',
             render: (h, params) => {
-              return this.data[params.index].mobile;
+              return h('span', this.data[params.index].mobile);
             }
           },
           {

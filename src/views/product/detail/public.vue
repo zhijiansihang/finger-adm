@@ -237,14 +237,14 @@
             title: '投资金额（起）',
             key: 'startAmount',
             render: (h, params) => {
-              return params.row.startAmount / 10000;
+              return h('span', params.row.startAmount / 10000);
             }
           },
           {
             title: '投资金额（终）',
             key: 'endAmount',
             render: (h, params) => {
-              return params.row.endAmount / 10000;
+              return h('span', params.row.endAmount / 10000);
             }
           },
           {

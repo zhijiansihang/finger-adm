@@ -66,11 +66,11 @@
             render: (h, params) => {
               let isClosed = this.userDemand[params.index].isClosed;
               if (isClosed === 1) {
-                return '固定收益';
+                return h('span', '固定收益');
               } else if (isClosed === 2) {
-                return '浮动+保底';
+                return h('span', '浮动+保底');
               } else {
-                return '浮动收益';
+                return h('span', '浮动收益');
               }
             }
 //            1:固定收益 2:浮动+保底 3:浮动收益
@@ -79,7 +79,7 @@
             title: '风险偏好',
             key: 'isClosed',
             render: (h, params) => {
-              return '平衡性';
+              return h('span', '平衡性');
             }
           },
           {
@@ -88,9 +88,9 @@
             render: (h, params) => {
               let isClosed = this.userDemand[params.index].isClosed;
               if (isClosed === 1) {
-                return '关闭';
+                return h('span', '关闭');
               } else {
-                return '开启';
+                return h('span', '开启');
               }
             }
           },
