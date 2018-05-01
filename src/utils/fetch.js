@@ -1,5 +1,5 @@
 import {baseUrl} from './env';
-import {utils} from 'adm-portal';
+import { joint } from './utils';
 import axios from 'axios';
 import {Message} from 'iview';
 import router from '../router';
@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
  *  公共数据请求参数(全部放在url params 中)
  */
 let commonDataStr = () => {
-  return utils.joint({
+  return joint({
     'xApplication': 'mmt-finance-ios',
     'xVersion': '2.4.1',
     'xChannel': '',
@@ -63,7 +63,6 @@ const codeEvents = (respose, codeEvents) => {
  * @param url
  * @param options
  * @param type
- * @param method
  * @returns {Promise.<*>}
  */
 export const fetch = async (url = '', options = {}, type = 'GET') => {
@@ -116,6 +115,6 @@ export const fetch = async (url = '', options = {}, type = 'GET') => {
  * @returns {Promise.<void>}
  */
 export const download = async (url = '', options = {}, type = 'GET') => {
-  url = baseUrl + '/' + url + '?' + commonDataStr() + '&' + utils.joint(options.reqParams);// 公共数据 请求参数
+  url = baseUrl + '/' + url + '?' + commonDataStr() + '&' + joint(options.reqParams);// 公共数据 请求参数
   window.open(url);
 };
