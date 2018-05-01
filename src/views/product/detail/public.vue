@@ -199,6 +199,10 @@
           <iCol span="14">
             <Table border ref="selection" :columns="columns7" :data="data4"></Table>
           </iCol>
+          <iCol span="14">
+            预约总金额：{{totalAmount}}万 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            预约进度：{{progress}}%
+          </iCol>
         </Row>
       </FormItem>
     </Form>
@@ -238,6 +242,8 @@
         modalReview: false,
         modalStr: '',
         visible: false,
+        totalAmount: 0,
+        progress: 0,
         institutions: [],
         columns4: [
           {
