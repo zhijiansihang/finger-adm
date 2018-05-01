@@ -170,7 +170,7 @@
   </Card>
 </template>
 <script>
-  import {loanPublicGet, loanReview,
+  import {loanPublicGet, loanReview, loanPublish,
     fbGetByUserIds, fbList} from '../../../utils/interface';
 //  import {portalTab} from '../../../utils/utils';
   import {getStore} from '../../../utils/storage';
@@ -246,7 +246,7 @@
         await fbGetByUserIds({'userIds': this.loan.userIds}).then(r => {
           fbSelects = r.body;
         });
-        await fbList().then(r => {
+        await fbList({institutionUserId: this.loan.institutionUserId}).then(r => {
           self.data3 = r.body;
           self.data3.forEach(fb => {
             fb._disabled = true;
@@ -285,7 +285,7 @@
           });
         }
         if (this.type === 'publish') {
-          await loanReview({
+          await loanPublish({
             'loanId': this.$route.query.loanId,
             'loanStatus': '200',
             'isDisplay': '1'

@@ -508,7 +508,7 @@
         await fbGetByUserIds({'userIds': this.loan.userIds}).then(r => {
           fbSelects = r.body;
         });
-        await fbList().then(r => {
+        await fbList({institutionUserId: this.loan.institutionUserId}).then(r => {
           self.data3 = r.body;
           self.data3.forEach(fb => {
             fbSelects.forEach(fbSelect => {
@@ -617,6 +617,14 @@
     },
     mounted() {
       this.init();
+    },
+    watch: {
+      'loan.institutionUserId': function (newValue, oldValue) {
+        console.log(newValue, oldValue);
+        fbList({institutionUserId: newValue}).then(r => {
+          this.data3 = r.body;
+        });
+      }
     }
   };
 </script>

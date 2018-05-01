@@ -258,11 +258,11 @@
     },
     methods: {
       init: async function () {
-        let self = this;
+//        let self = this;
         // 获取理财师列表
-        await fbList().then(r => {
-          self.data3 = r.body;
-        });
+//        await fbList().then(r => {
+//          self.data3 = r.body;
+//        });
         if (isAdmin()) {
           await institutionList().then(r => {
             this.institutions = r.body;
@@ -307,6 +307,14 @@
     },
     mounted() {
       this.init();
+    },
+    watch: {
+      'loan.institutionUserId': function (newValue, oldValue) {
+        console.log(newValue, oldValue);
+        fbList({institutionUserId: newValue}).then(r => {
+          this.data3 = r.body;
+        });
+      }
     }
   };
 </script>

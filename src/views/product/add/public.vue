@@ -504,11 +504,11 @@
     },
     methods: {
       init: async function () {
-        let self = this;
-        // 获取理财师列表
-        await fbList().then(r => {
-          self.data3 = r.body;
-        });
+//        let self = this;
+//        // 获取理财师列表
+//        await fbList().then(r => {
+//          self.data3 = r.body;
+//        });
         if (isAdmin()) {
           await institutionList().then(r => {
             this.institutions = r.body;
@@ -621,17 +621,15 @@
     },
     mounted() {
       this.init();
+    },
+    watch: {
+      'loan.institutionUserId': function (newValue, oldValue) {
+        console.log(newValue, oldValue);
+        fbList({institutionUserId: newValue}).then(r => {
+          this.data3 = r.body;
+        });
+      }
     }
-//    watch: {
-//      earningDesc: {
-//        handler: function (val, oldval) {
-//          debugger;
-//          this.loan.earningDesc = JSON.stringify(val);
-//          console.log(this.loan.earningDesc);
-//        }
-//        deep: true // 对象内部的属性监听，也叫深度监听
-//      }
-//    }
   };
 </script>
 
