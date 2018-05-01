@@ -245,9 +245,17 @@
             }
           },
           {
+            title: '发布时间',
+            key: 'releaseTime',
+            align: 'center',
+            render: (h, params) => {
+              return this.data[params.index].releaseTime;
+            }
+          },
+          {
             title: '操作',
             key: 'action',
-            width: 295,
+            width: 180,
             align: 'center',
             fixed: 'right',
             render: (h, params) => {
@@ -255,8 +263,8 @@
                 h('Button', {
                   props: {
                     type: 'info',
-                    size: 'small',
-                    icon: 'eye'
+                    size: 'small'
+//                    icon: 'eye'
                   },
                   style: {
                     marginRight: '5px'
@@ -278,8 +286,8 @@
                   h('Button', {
                   props: {
                     type: 'success',
-                    size: 'small',
-                    icon: 'edit'
+                    size: 'small'
+//                    icon: 'edit'
                   },
                   style: {
                     marginRight: '5px',

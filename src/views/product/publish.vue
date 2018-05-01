@@ -228,6 +228,14 @@
             }
           },
           {
+            title: '审核时间',
+            key: 'updateTime',
+            align: 'center',
+            render: (h, params) => {
+              return this.data[params.index].updateTime;
+            }
+          },
+          {
             title: '状态',
             key: 'loanStatus',
             align: 'center',

@@ -109,7 +109,8 @@
         institutions: [],
         columns7: [
           {
-            title: '产品ID',
+            title: 'ID',
+            width: 65,
             key: 'index',
             align: 'center',
             render: (h, params) => {
@@ -128,6 +129,7 @@
           },
           {
             title: '理财师（人）',
+            width: 70,
             key: 'loanId',
             align: 'center',
             render: (h, params) => {
@@ -232,6 +234,7 @@
           {
             title: '状态',
             key: 'loanStatus',
+            width: 75,
             align: 'center',
             render: (h, params) => {
               let loanStatus = this.data[params.index].loanStatus;
@@ -247,9 +250,17 @@
             }
           },
           {
+            title: '创建时间',
+            key: 'createTime',
+            align: 'center',
+            render: (h, params) => {
+              return this.data[params.index].createTime;
+            }
+          },
+          {
             title: '操作',
             key: 'action',
-            width: 295,
+            width: 240,
             align: 'center',
             fixed: 'right',
             render: (h, params) => {
@@ -257,8 +268,8 @@
                 h('Button', {
                   props: {
                     type: 'info',
-                    size: 'small',
-                    icon: 'eye'
+                    size: 'small'
+//                    icon: 'eye'
                   },
                   style: {
                     marginRight: '5px'
@@ -280,8 +291,8 @@
                 h('Button', {
                   props: {
                     type: 'success',
-                    size: 'small',
-                    icon: 'edit'
+                    size: 'small'
+//                    icon: 'edit'
                   },
                   style: {
                     marginRight: '5px'
@@ -303,8 +314,8 @@
                 h('Button', {
                   props: {
                     type: 'warning',
-                    size: 'small',
-                    icon: 'trash-a'
+                    size: 'small'
+//                    icon: 'trash-a'
                   },
                   style: {
                     marginRight: '5px'
