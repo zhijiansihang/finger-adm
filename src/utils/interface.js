@@ -246,3 +246,7 @@ export const loanDelete = (body) => fetch(FINGER + '/loan/delete', {
   reqBody: body
 }, 'POST');
 /* *************标的管理模块-end*********** */
+
+export const loanInvestorList = (body) => fetch(FINGER + '/loan/investor/list', {
+  reqParams: body
+}, 'POST');

@@ -194,6 +194,13 @@
       <FormItem v-if="type === 'publish'">
         <Button type="primary" @click="modalShow()">发标</Button>
       </FormItem>
+      <FormItem label="预约详情" v-if="type === 'published'">
+        <Row>
+          <iCol span="14">
+            <Table border ref="selection" :columns="columns7" :data="data4"></Table>
+          </iCol>
+        </Row>
+      </FormItem>
     </Form>
 
     <Modal v-model="modalReview" width="360">
@@ -219,7 +226,7 @@
   </Card>
 </template>
 <script>
-  import {loanPublicGet, loanReview, loanPublish, fbGetByUserIds, fbList} from '../../../utils/interface';
+  import {loanPublicGet, loanReview, loanPublish, fbGetByUserIds, fbList, loanInvestorList} from '../../../utils/interface';
 //  import {portalTab} from '../../../utils/utils';
   import {getStore} from '../../../utils/storage';
   export default {
@@ -325,9 +332,33 @@
             align: 'center'
           }
         ],
+        columns7: [
+          {
+            title: '姓名',
+            key: 'realName'
+          },
+          {
+            title: '手机号',
+            key: 'mobile'
+          },
+          {
+            title: '预约金额',
+            width: 145,
+            key: 'amount'
+          },
+          {
+            title: '理财师',
+            key: 'financeUserName'
+          },
+          {
+            title: '预约时间',
+            align: 'createTime'
+          }
+        ],
         data1: [],
         data2: [],
         data3: [],
+        data4: [],
         ruleValidate: {
 //          name: [
 //            {required: true, message: 'The name cannot be empty', trigger: 'blur'}
@@ -398,6 +429,12 @@
             });
           });
         });
+        // loanInvestorList 获取预约详情
+        if (this.type === 'published') {
+          await loanInvestorList({'loanId': this.$route.query.loanId}).then(r => {
+            this.data4 = r.body;
+          });
+        }
       },
       handleView(name) {
         this.preImgSrc = name;

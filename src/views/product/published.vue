@@ -272,11 +272,11 @@
                   on: {
                     click: () => {
                       if (this.data[params.index].loanType === 1) {
-                        this.$router.push({path: '/product/detail/public?loanId=' + this.data[params.index].loanId});
+                        this.$router.push({path: '/product/detail/public?loanId=' + this.data[params.index].loanId + '&type=published'});
 //                        portalTab('add', '已发布产品详情', '/product/detail/public?loanId=' + this.data[params.index].loanId);
 //                        this.$router.push({path: 'product/detail/public', query: {'loanId': this.data[params.index].loanId}});
                       } else {
-                        this.$router.push({path: '/product/detail/private?loanId=' + this.data[params.index].loanId});
+                        this.$router.push({path: '/product/detail/private?loanId=' + this.data[params.index].loanId + '&type=published'});
 //                        portalTab('add', '已发布产品详情', '/product/detail/private?loanId=' + this.data[params.index].loanId);
 //                        this.$router.push({path: 'product/detail/private', query: {'loanId': this.data[params.index].loanId}});
                       }
