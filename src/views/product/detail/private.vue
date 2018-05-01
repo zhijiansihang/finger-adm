@@ -150,6 +150,10 @@
           <iCol span="14">
             <Table border ref="selection" :columns="columns7" :data="data4"></Table>
           </iCol>
+          <iCol span="14">
+            预约总金额：{{totalAmount}}万 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            预约进度：{{progress}}%
+          </iCol>
         </Row>
       </FormItem>
     </Form>
@@ -187,6 +191,8 @@
         loan: {},
         type: '',
         preImgSrc: '',
+        totalAmount: '',
+        progress: '',
         modalReview: false,
         modalStr: '',
         institutions: [],
@@ -291,6 +297,10 @@
         if (this.type === 'published') {
           await loanInvestorList({'loanId': this.$route.query.loanId}).then(r => {
             this.data4 = r.body;
+            this.data4.forEach(item => {
+              self.totalAmount = self.totalAmount + item.amount;
+              self.progress = (self.totalAmount / self.loan.amount).toFixed(2);
+            });
           });
         }
       },
