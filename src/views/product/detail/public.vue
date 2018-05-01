@@ -342,9 +342,11 @@
             key: 'mobile'
           },
           {
-            title: '预约金额',
-            width: 145,
-            key: 'amount'
+            title: '预约金额(万)',
+            key: 'amount',
+            render: (h, params) => {
+              return h('span', params.row.amount / 10000);
+            }
           },
           {
             title: '理财师',
@@ -433,6 +435,10 @@
         if (this.type === 'published') {
           await loanInvestorList({'loanId': this.$route.query.loanId}).then(r => {
             this.data4 = r.body;
+            this.data4.forEach(item => {
+              self.totalAmount = self.totalAmount + (item.amount / 10000);
+              self.progress = (self.totalAmount / self.loan.amount).toFixed(2);
+            });
           });
         }
       },
