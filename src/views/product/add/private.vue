@@ -291,6 +291,10 @@
       handleSubmit(name) {
         this.$refs[name].validate(async (valid) => {
           if (valid) {
+            if (!this.loan.userIds || this.loan.userIds.length < 1) {
+              this.$Message.error('请至少选择一名理财师!');
+              return;
+            }
             await loanPrivateAdd(this.loan).then(r => {
               this.$Message.success('添加成功!');
               this.$router.push({path: 'review'});

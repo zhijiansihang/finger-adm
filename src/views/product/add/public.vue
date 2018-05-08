@@ -557,10 +557,14 @@
         this.visible = true;
       },
       handleSubmit: function (name) {
-        this.mergeEarningDesc();
-        this.mergeProductDescFiles();
         this.$refs[name].validate(async (valid) => {
           if (valid) {
+            if (!this.loan.userIds || this.loan.userIds.length < 1) {
+              this.$Message.error('请至少选择一名理财师!');
+              return;
+            }
+            this.mergeEarningDesc();
+            this.mergeProductDescFiles();
             await loanPublicAdd(this.loan).then(r => {
               console.log(r);
               if (r.header.code === '0') {
