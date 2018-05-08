@@ -112,10 +112,11 @@
         </Row>
       </FormItem>
 
-      <FormItem label="产品亮点" prop="brightSpot">
+      <FormItem label="产品亮点" prop="safeguardWay">
         <Row>
           <iCol span="11">
-            <Input v-model="loan.brightSpot" placeholder="请输入产品卖点"></Input>
+            <!--把私募发标时录得  产品亮点 归到发布公募的 保障方式-->
+            <Input v-model="loan.safeguardWay" placeholder="请输入产品卖点"></Input>
           </iCol>
         </Row>
       </FormItem>
@@ -238,7 +239,7 @@
           distributionRegion: [
             {required: true, message: '不能为空', trigger: 'blur'}
           ],
-          brightSpot: [
+          safeguardWay: [
             {required: true, message: '不能为空', trigger: 'blur'}
           ],
           financeIntroduce: [
