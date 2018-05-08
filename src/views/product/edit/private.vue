@@ -121,10 +121,10 @@
         </Row>
       </FormItem>
 
-      <FormItem label="产品卖点" prop="brightSpot">
+      <FormItem label="产品卖点" prop="safeguardWay">
         <Row>
           <iCol span="11">
-            <Input v-model="loan.brightSpot" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+            <Input v-model="loan.safeguardWay" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
                    placeholder="请输入产品卖点"></Input>
           </iCol>
         </Row>
