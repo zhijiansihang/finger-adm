@@ -121,10 +121,10 @@
         </Row>
       </FormItem>
 
-      <FormItem label="产品优势" prop="productDesc">
+      <FormItem label="产品优势" prop="brightSpot">
         <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="loan.productDesc" placeholder="请输入产品优势" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
+            <Input v-model="loan.brightSpot" placeholder="请输入产品优势" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
           </iCol>
           <iCol span="8">优势简介，建议不超过20个字</iCol>
         </Row>
@@ -200,6 +200,9 @@
             {required: true, message: '不能为空', trigger: 'blur'}
           ],
           fundType: [
+            {required: true, message: '不能为空', trigger: 'blur'}
+          ],
+          brightSpot: [
             {required: true, message: '不能为空', trigger: 'blur'}
           ],
           amount: [
