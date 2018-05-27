@@ -515,7 +515,7 @@
           });
         } else {
           await getLoginUser().then(r => {
-            this.institutions[0] = r.body;
+            this.institutions.push(r.body);
           });
         }
       },
