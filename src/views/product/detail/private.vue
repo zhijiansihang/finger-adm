@@ -115,7 +115,7 @@
       <FormItem label="产品亮点" prop="safeguardWay">
         <Row :gutter="30">
           <iCol span="11">
-            <Input v-model="loan.safeguardWay" disabled placeholder="请输入产品优势"></Input>
+            <Input v-model="loan.safeguardWay" disabled placeholder="请输入产品亮点"></Input>
           </iCol>
           <iCol span="8">优势简介，建议不超过20个字</iCol>
         </Row>

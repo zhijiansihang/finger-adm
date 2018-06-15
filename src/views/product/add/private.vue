@@ -116,7 +116,7 @@
         <Row>
           <iCol span="11">
             <!--把私募发标时录得  产品亮点 归到发布公募的 保障方式-->
-            <Input v-model="loan.safeguardWay" placeholder="请输入产品卖点"></Input>
+            <Input v-model="loan.safeguardWay" placeholder="请输入产品亮点"></Input>
           </iCol>
         </Row>
       </FormItem>
